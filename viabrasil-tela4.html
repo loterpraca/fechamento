@@ -314,7 +314,7 @@
   }
 </style>
 </head>
->
+<body>
 
 <header class="topbar">
   <div class="topbar-brand">
@@ -536,7 +536,6 @@
 </main>
 
 <script src="config-loterias.js"></script>
-<script src="sheets-integracao.js"></script>
 
 <script>
 // ── Relógio ──
@@ -549,6 +548,7 @@ function updateClock() {
 updateClock(); setInterval(updateClock, 1000);
 
 const fmt  = v => 'R$ ' + Math.abs(v).toFixed(2).replace('.', ',');
+const API_URL = 'https://script.google.com/macros/s/AKfycbxBL-kC69hhStr6k80B0_YaDjy7fO8kmsRA_RJqkWuafb2-wTzXSrotuA1OI9OE1BX1Qw/exec';
 const fmtS = v => v.toFixed(2).replace('.', ',');
 
 // ══════════════════════════════════════════
@@ -774,22 +774,6 @@ function setProgresso(label, feito, total) {
   document.getElementById('modal-barra').style.width = `${Math.round((feito/total)*100)}%`;
 }
 
-// ── Auth Google (necessário para gravação) ──
-let tokenGravacao = null;
-function gapiLoaded() { gapi.load('client', () => gapi.client.init({ discoveryDocs: [] })); }
-function gisLoaded() {
-  window._tokenClientGravacao = google.accounts.oauth2.initTokenClient({
-    client_id: GOOGLE_CLIENT_ID,
-    scope: 'https://www.googleapis.com/auth/spreadsheets',
-    callback: (r) => {
-      if (r.error) { alert('Erro de autenticação: ' + r.error); return; }
-      tokenGravacao = r.access_token;
-      gapi.client.setToken({ access_token: tokenGravacao });
-      executarGravacao();
-    },
-  });
-}
-
 // ══════════════════════════════════════
 // FINALIZAR
 // ══════════════════════════════════════
@@ -799,105 +783,123 @@ async function finalizar() {
     return;
   }
 
+  const token = localStorage.getItem('sislot_token');
+  if (!token) {
+    window.location.href = 'login.html';
+    return;
+  }
+
   const t1 = JSON.parse(sessionStorage.getItem('tela1') || '{}');
   const t2 = JSON.parse(sessionStorage.getItem('tela2') || '{}');
   const t3 = JSON.parse(sessionStorage.getItem('tela3') || '{}');
   const justificativa = document.getElementById('justificativa').value.trim();
 
-  // Formato de data para gravação: DD/MM/YYYY
   let dataStr = t1.data || '';
   if (dataStr.includes('-')) {
-    const [y,m,d] = dataStr.split('-');
+    const [y, m, d] = dataStr.split('-');
     dataStr = `${d}/${m}/${y}`;
   }
 
-  // Salva no sessionStorage
   sessionStorage.setItem('fechamento-final', JSON.stringify({
-    funcionario: t1.funcionario, data: dataStr,
-    quebra: dadosQuebra, justificativa: justificativa || null,
-    tela1: t1, tela2: t2, tela3: t3,
+    funcionario: t1.funcionario,
+    data: dataStr,
+    quebra: dadosQuebra,
+    justificativa: justificativa || null,
+    tela1: t1,
+    tela2: t2,
+    tela3: t3,
   }));
-
-  // Se não tem token, pede auth (que chamará executarGravacao depois)
-  if (!tokenGravacao) {
-  window._pendingDados = { t1, t2, t3, dataStr, justificativa };
-
-  if (!window._tokenClientGravacao) {
-    alert('Autenticação Google ainda não carregou. Aguarde 2 segundos e tente novamente.');
-    return;
-  }
-
-  window._tokenClientGravacao.requestAccessToken({ prompt: 'consent' });
-  return;
-} if (!tokenGravacao) {
-  window._pendingDados = { t1, t2, t3, dataStr, justificativa };
-
-  if (!window._tokenClientGravacao) {
-    alert('Autenticação Google ainda não carregou. Aguarde 2 segundos e tente novamente.');
-    return;
-  }
-
-  window._tokenClientGravacao.requestAccessToken({ prompt: 'consent' });
-  return;
-}
-
-  window._pendingDados = { t1, t2, t3, dataStr, justificativa };
-  await executarGravacao();
-}
-
-async function executarGravacao() {
-  const { t1, t2, t3, dataStr, justificativa } = window._pendingDados;
-  const funcionario = t1.funcionario;
-  const sheetId     = loteiraAtiva.sheetId;
 
   const btn = document.getElementById('btn-finalizar');
   btn.disabled = true;
 
   try {
-    // Verifica se já existe fechamento na data
-    const jaExiste = await verificarFechamentoExistente(sheetId, funcionario, dataStr);
+    const jaExiste = await verificarFechamentoExistenteBackend(token, t1.funcionario, dataStr);
     let sobrescrever = false;
 
     if (jaExiste) {
-      sobrescrever = await perguntarSobrescrever(funcionario, dataStr);
+      sobrescrever = await perguntarSobrescrever(t1.funcionario, dataStr);
       if (!sobrescrever) {
         btn.disabled = false;
         return;
       }
     }
 
-    // Abre modal de progresso
     document.getElementById('modal-gravando').style.display = 'flex';
-    document.getElementById('modal-titulo').textContent = `Gravando fechamento de ${funcionario}...`;
+    document.getElementById('modal-titulo').textContent = `Gravando fechamento de ${t1.funcionario}...`;
+    setProgresso('Enviando dados ao servidor', 1, 1);
 
-    const dados = { tela1: t1, tela2: t2, tela3: t3, data: dataStr };
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'salvarFechamento',
+        token,
+        payload: {
+          funcionario: t1.funcionario,
+          data: dataStr,
+          quebra: dadosQuebra,
+          justificativa,
+          sobrescrever,
+          tela1: t1,
+          tela2: t2,
+          tela3: t3
+        }
+      })
+    });
 
-    await gravarFechamento(
-      sheetId, funcionario, dados, dadosQuebra, justificativa, sobrescrever,
-      (label, feito, total) => setProgresso(label, feito, total)
-    );
+    const data = await response.json();
 
-    // Sucesso
     document.getElementById('modal-gravando').style.display = 'none';
+
+    if (!data.ok) {
+      btn.disabled = false;
+      alert(data.error || 'Erro ao gravar fechamento.');
+      return;
+    }
+
     btn.innerHTML = '✓ Fechamento Gravado!';
     btn.style.background = '#00e8ad';
 
     setTimeout(() => {
       alert(
         `✅ Fechamento gravado com sucesso!\n\n` +
-        `Funcionário: ${funcionario}\n` +
+        `Funcionário: ${t1.funcionario}\n` +
         `Loteria: ${loteiraAtiva.nome}\n` +
         `Data: ${dataStr}\n` +
         `Quebra: R$ ${dadosQuebra.toFixed(2).replace('.', ',')}\n` +
         (justificativa ? `\nJustificativa registrada.` : '')
       );
-    }, 400);
+    }, 300);
 
-  } catch(e) {
+  } catch (e) {
     document.getElementById('modal-gravando').style.display = 'none';
-    console.error(e);
     btn.disabled = false;
-    alert(`❌ Erro ao gravar:\n\n${e.result?.error?.message || e.message || 'Erro desconhecido'}`);
+    console.error(e);
+    alert(`❌ Erro ao gravar:\n\n${e.message || 'Erro desconhecido'}`);
+  }
+}
+async function verificarFechamentoExistenteBackend(token, funcionario, dataStr) {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'verificarFechamentoExistente',
+        token,
+        payload: {
+          funcionario,
+          data: dataStr
+        }
+      })
+    });
+
+    const data = await response.json();
+    if (!data.ok) return false;
+    return !!data.existe;
+  } catch (e) {
+    console.error('Erro ao verificar fechamento existente:', e);
+    return false;
   }
 }
 
