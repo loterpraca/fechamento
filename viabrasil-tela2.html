@@ -540,15 +540,13 @@
 
 <script>
 // CLIENT_ID vem do config-loterias.js
-const SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwh5WAyT602V-7GVxDARtDY5iI52ZB-i8H54vMNn-th5gyiLfwUvZdhK9ArOMaQ--pz2g/exec';
 const ABA_FEDERAL = 'Federal';
 const MAX_FEDERAIS = 24;
-
+ 
 // Preços iniciais raspadinha
 const PRECOS_RASP = [2.50, 5.00, 10.00, 20.00];
 
-let tokenClient = null;
-let accessToken = null;
 let federais    = [];
 let dateFech    = null;
 let datePrimeiro= null;
@@ -663,71 +661,66 @@ function updGeral(){
 }
 
 // ── Google Auth ──
-function gapiLoaded(){ gapi.load('client',()=>gapi.client.init({discoveryDocs:[]})); }
-function gisLoaded(){
-  tokenClient=google.accounts.oauth2.initTokenClient({
-    client_id:GOOGLE_CLIENT_ID, scope:SCOPES, callback:handleToken,
-  });
-}
-function iniciarAuth(){
-  if(!tokenClient){alert('Aguarde...'); return;}
-  tokenClient.requestAccessToken({prompt:'consent'});
-}
-function handleToken(r){
-  if(r.error){ document.getElementById('fs-erro-msg').textContent='Erro: '+r.error; setFS('erro'); return; }
-  accessToken=r.access_token;
-  gapi.client.setToken({access_token:accessToken});
-  // Auth OK
-  const b=document.getElementById('auth-banner');
-  b.classList.add('connected');
-  document.getElementById('auth-title').innerHTML=`<span style="display:flex;align-items:center;gap:8px;"><span class="dot-connected"></span> Conta Google conectada</span>`;
-  document.getElementById('auth-sub').textContent='Pronto para buscar os bilhetes federais';
-  document.getElementById('btn-auth').outerHTML=`<button class="btn-auth-connected" onclick="desconectar()">Desconectar</button>`;
-  document.getElementById('btn-buscar').disabled=false;
-  document.getElementById('fs-inicial').querySelector('.state-title').textContent='Pronto — clique em Buscar Federais';
-  document.getElementById('fs-inicial').querySelector('.state-sub').textContent='Clique em Buscar Federais para carregar os bilhetes.';
-}
-function desconectar(){ google.accounts.oauth2.revoke(accessToken,()=>location.reload()); }
-
 // ── Buscar Federais ──
 function fmtBR(d){ return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
 
-async function buscarFederais(){
-  if(!dateFech){alert('Data de fechamento não encontrada. Volte para a Tela 1.'); return;}
-  const sid=document.getElementById('sheet-id').value.trim();
-  if(!sid){ alert('Planilha não configurada. Verifique o config-loterias.js.'); return; }
+async function buscarFederais() {
+  if (!dateFech) {
+    alert('Data de fechamento não encontrada. Volte para a Tela 1.');
+    return;
+  }
+
+  const token = localStorage.getItem('sislot_token');
+  if (!token) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  const sid = document.getElementById('sheet-id').value.trim();
+  if (!sid) {
+    alert('Planilha não configurada. Verifique o config-loterias.js.');
+    return;
+  }
 
   setFS('loading');
+
   const dtIni = datePrimeiro;
-  const dtFim = new Date(dateFech.getTime()+80*86400000);
-  document.getElementById('fs-loading-sub').textContent=`Período: ${fmtBR(dtIni)} até ${fmtBR(dtFim)}`;
+  const dtFim = new Date(dateFech.getTime() + 80 * 86400000);
+  document.getElementById('fs-loading-sub').textContent =
+    `Período: ${fmtBR(dtIni)} até ${fmtBR(dtFim)}`;
 
   try {
-    const resp = await gapi.client.request({
-      path:`https://sheets.googleapis.com/v4/spreadsheets/${sid}/values/${encodeURIComponent(ABA_FEDERAL+'!A2:E')}`,
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'buscarFederais',
+        token,
+        payload: {
+          sheetId: sid,
+          aba: ABA_FEDERAL,
+          dataInicial: fmtBR(dtIni),
+          dataFinal: fmtBR(dtFim),
+          max: MAX_FEDERAIS
+        }
+      })
     });
-    const rows = resp.result.values||[];
 
-    federais = rows
-      .filter(r=>{ const dt=parseDS(r[2]); return dt && dt>=dtIni && dt<=dtFim; })
-      .sort((a,b)=>{ const na=parseInt(String(a[1]).replace(/\D/g,''))||0,nb=parseInt(String(b[1]).replace(/\D/g,''))||0; return na-nb; })
-      .slice(0,MAX_FEDERAIS)
-      .map(r=>({
-        modalidade: r[0]||'',
-        concurso:   r[1]||'',
-        dtSorteio:  r[2]||'',
-        valorUnit:  parseFloat(String(r[3]||'0').replace(',','.'))||0,
-        qtdFracoes: r[4]||'',
-      }));
+    const data = await response.json();
 
-    document.getElementById('data-badge').style.display='inline-flex';
-    document.getElementById('periodo-label').textContent=`${fmtBR(dtIni)} → ${fmtBR(dtFim)}`;
+    if (!data.ok) {
+      throw new Error(data.error || 'Erro ao buscar federais');
+    }
 
+    federais = data.federais || [];
 
-    federais.length===0 ? setFS('vazio') : (renderFed(), setFS('lista'));
-  } catch(e){
+    document.getElementById('data-badge').style.display = 'inline-flex';
+    document.getElementById('periodo-label').textContent = `${fmtBR(dtIni)} → ${fmtBR(dtFim)}`;
+
+    federais.length === 0 ? setFS('vazio') : (renderFed(), setFS('lista'));
+  } catch (e) {
     console.error(e);
-    document.getElementById('fs-erro-msg').textContent=e.result?.error?.message||e.message||'Erro desconhecido';
+    document.getElementById('fs-erro-msg').textContent = e.message || 'Erro desconhecido';
     setFS('erro');
   }
 }
@@ -828,7 +821,7 @@ function avancarTela3(){
 <script src="config-loterias.js"></script>
 <script src="sheets-integracao.js"></script>
 <script>
-(function(){
+window.addEventListener('DOMContentLoaded', () => {
   const lot = getLoteria();
   if (!lot) {
     alert('Loteria não identificada. Verifique o nome do arquivo HTML.');
@@ -836,14 +829,26 @@ function avancarTela3(){
   }
 
   const si = document.getElementById('sheet-id');
-  if (si) {
-    si.value = lot.sheetId || '';
-    console.log('[config] sheetId:', si.value);
+  if (si) si.value = lot.sheetId || '';
+
+  const token = localStorage.getItem('sislot_token');
+  if (!token) {
+    window.location.href = 'login.html';
+    return;
   }
-})();
+
+  // Esconde a autenticação antiga
+  const authBanner = document.getElementById('auth-banner');
+  if (authBanner) authBanner.style.display = 'none';
+
+  const btnBuscar = document.getElementById('btn-buscar');
+  if (btnBuscar) btnBuscar.style.display = 'none';
+
+  // Carrega automático
+  buscarFederais();
+});
 </script>
-<script src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
-<script src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+
  <!-- Registrar Service Worker -->
 <script>
 if ('serviceWorker' in navigator) {
