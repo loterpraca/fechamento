@@ -1,0 +1,36 @@
+# Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Arquivos temporários
+*.tmp
+*.temp
+~$*
+
+# Configuração local (não commitar)
+config.local.js
+.env
+.env.local
+
+# Backup
+*.bak
+*.backup
+
+# Node (caso use no futuro)
+node_modules/
+package-lock.json
+
+# Arquivos de teste pessoais
+test-*.html
+teste-*.js
