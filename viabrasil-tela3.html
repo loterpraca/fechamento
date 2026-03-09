@@ -512,22 +512,32 @@
 <script src="config-loterias.js"></script>
 <script>
 // CLIENT_ID vem do config-loterias.js
-const SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
-
+const API_URL = 'https://script.google.com/macros/s/AKfycbxBL-kC69hhStr6k80B0_YaDjy7fO8kmsRA_RJqkWuafb2-wTzXSrotuA1OI9OE1BX1Qw/exec';
 const lot = getLoteria();
 const ABA_MESTRA = 'Boloes';
-const ABA_CONTROLE = (lot && lot.abaExternos) ? lot.abaExternos : 'Externos';
+const ABA_CONTROLE = (lot && lot.abaExternos) ? lot.abaExternos : 'D.Centro';
 // ESPECIAIS_REGEX vem do config-loterias.js
 // ESPECIAIS_REGEX vem do config-loterias.js
-
-let tokenClient = null;
-let accessToken = null;
 let dateFech    = null;
 
 window.addEventListener('DOMContentLoaded', () => {
+
   if (!lot) {
     alert('Loteria não identificada. Verifique o nome do arquivo HTML.');
     return;
+  }
+
+  // carrega data da Tela 1 antes da busca
+  const raw = sessionStorage.getItem('tela1');
+  if (raw) {
+    const d = JSON.parse(raw);
+    if (d.data) {
+      const [y, m, dd] = d.data.split('-').map(Number);
+      dateFech = new Date(y, m - 1, dd);
+      document.getElementById('data-ref').textContent =
+        `${String(dd).padStart(2, '0')}/${String(m).padStart(2, '0')}/${y}`;
+      document.getElementById('data-badge').style.display = 'inline-flex';
+    }
   }
 
   const idMestra = document.getElementById('id-mestra');
@@ -535,6 +545,22 @@ window.addEventListener('DOMContentLoaded', () => {
 
   if (idMestra) idMestra.value = lot.sheetId || '';
   if (idControle) idControle.value = lot.controleId || '';
+
+  const token = localStorage.getItem('sislot_token');
+  if (!token) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  const authBanner = document.getElementById('auth-banner');
+  if (authBanner) authBanner.style.display = 'none';
+
+  const btnBuscar = document.getElementById('btn-buscar');
+  if (btnBuscar) btnBuscar.style.display = 'none';
+
+  buscarTodos();
+});
+
 });
 
 
@@ -555,40 +581,6 @@ function updateClock() {
 updateClock(); setInterval(updateClock, 1000);
 
 // ── Data da Tela 1 ──
-(function(){
-  const raw = sessionStorage.getItem('tela1');
-  if (!raw) return;
-  const d = JSON.parse(raw);
-  if (d.data) {
-    const [y,m,dd] = d.data.split('-').map(Number);
-    dateFech = new Date(y, m-1, dd);
-    document.getElementById('data-ref').textContent = `${String(dd).padStart(2,'0')}/${String(m).padStart(2,'0')}/${y}`;
-    document.getElementById('data-badge').style.display = 'inline-flex';
-  }
-})();
-
-// ── Auth ──
-function gapiLoaded() { gapi.load('client', () => gapi.client.init({ discoveryDocs: [] })); }
-function gisLoaded() {
-  tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: GOOGLE_CLIENT_ID, scope: SCOPES, callback: handleToken,
-  });
-}
-function iniciarAuth() { if (!tokenClient) { alert('Aguarde...'); return; } tokenClient.requestAccessToken({ prompt: 'consent' }); }
-function handleToken(r) {
-  if (r.error) { showErro('Erro de autenticação: ' + r.error); return; }
-  accessToken = r.access_token;
-  gapi.client.setToken({ access_token: accessToken });
-  document.getElementById('auth-banner').classList.add('connected');
-  document.getElementById('auth-title').innerHTML = `<span style="display:flex;align-items:center;gap:8px;"><span class="dot-ok"></span> Conta Google conectada</span>`;
-  document.getElementById('auth-sub').textContent = 'Confirme os IDs e clique em Buscar';
-  document.getElementById('btn-auth').outerHTML = `<button class="btn-auth-connected" onclick="desconectar()">Desconectar</button>`;
-  document.getElementById('btn-buscar').disabled = false;
-  setEstado('inicial');
-  document.getElementById('st-inicial').querySelector('.state-title').textContent = 'Pronto — clique em Buscar Todos os Bolões';
-  document.getElementById('st-inicial').querySelector('.state-sub').textContent = 'A Planilha Controle já está preenchida. Informe o ID da Mestra.';
-}
-function desconectar() { google.accounts.oauth2.revoke(accessToken, () => location.reload()); }
 
 // ── Helpers ──
 function dtTs(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime(); }
@@ -601,75 +593,77 @@ function parseData(v) {
   if (/^\d+(\.\d+)?$/.test(s)) return new Date(Date.UTC(1899,11,30)+parseFloat(s)*86400000);
   return null;
 }
-async function lerAba(sid, aba, range) {
-  const resp = await gapi.client.request({
-    path: `https://sheets.googleapis.com/v4/spreadsheets/${sid}/values/${encodeURIComponent(aba+'!'+range)}`,
-  });
-  return resp.result.values || [];
-}
 const fmt = v => 'R$ ' + v.toFixed(2).replace('.', ',');
 
 // ── Buscar ──
 async function buscarTodos() {
+  const token = localStorage.getItem('sislot_token');
+  if (!token) {
+    window.location.href = 'login.html';
+    return;
+  }
+
   const idM = document.getElementById('id-mestra').value.trim();
   const idC = document.getElementById('id-controle').value.trim();
-  if (!idM) { alert('Planilha Mestra não configurada. Verifique o config-loterias.js.'); return; }
-  if (!dateFech) { alert('Volte para a Tela 1 e informe a data.'); return; }
+
+  if (!idM) {
+    alert('Planilha Mestra não configurada.');
+    return;
+  }
+
+  if (!idC) {
+    alert('Planilha Controle não configurada.');
+    return;
+  }
+
+  if (!dateFech) {
+    alert('Volte para a Tela 1 e informe a data.');
+    return;
+  }
 
   setEstado('loading');
-  const refTs = dtTs(dateFech);
 
   try {
-    // ── MESTRA: Internos Comuns + Internos Especiais ──
-    // Colunas A-I: Carimbo | KEY | Dt Inicial | Dt Concurso | Modalidade | Concurso | Qtd Jogos | Qtd Dezenas | Valor Cota
-    document.getElementById('st-loading-sub').textContent = 'Buscando na Planilha Mestra...';
-    const rowsM = await lerAba(idM, ABA_MESTRA, 'A2:I');
-
-    const vigM = rowsM.filter(r => {
-      const ini = parseData(r[2]), fim = parseData(r[3]);
-      return ini && fim && dtTs(ini) <= refTs && refTs <= dtTs(fim);
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'buscarBoloes',
+        token,
+        payload: {
+          mestraId: idM,
+          controleId: idC,
+          abaMestra: ABA_MESTRA,
+          abaControle: ABA_CONTROLE,
+          dataRef: document.getElementById('data-ref').textContent
+        }
+      })
     });
 
-    // Separa comuns vs especiais pela Modalidade (col5 = índice 4)
-    lstIC = vigM
-      .filter(r => !ESPECIAIS_REGEX.test(r[4]||''))
-      .sort((a,b) => (a[4]||'').localeCompare(b[4]||'') || (a[0]||'').localeCompare(b[0]||''))
-      .map(r => mapMestra(r, 'ic'));
+    const data = await response.json();
 
-    lstIE = vigM
-      .filter(r => ESPECIAIS_REGEX.test(r[4]||''))
-      .sort((a,b) => (a[4]||'').localeCompare(b[4]||'') || (a[0]||'').localeCompare(b[0]||''))
-      .map(r => mapMestra(r, 'ie'));
+    if (!data.ok) {
+      throw new Error(data.error || 'Erro ao buscar bolões');
+    }
 
-    // ── CONTROLE: Externos Comuns + Externos Especiais ──
-    // Colunas A-N: ID | Carimbo | KEY | Dt Inicial | Dt Concurso | Modalidade | Concurso | Qtd Jogos | Qtd Dezenas | Valor Cota | Qtd Cotas | Origem | Destino | KEY_ORIGEM
-    document.getElementById('st-loading-sub').textContent = 'Buscando na Planilha Controle...';
-    const rowsC = await lerAba(idC, ABA_CONTROLE, 'A2:N');
-
-    const vigC = rowsC.filter(r => {
-      const ini = parseData(r[3]), fim = parseData(r[4]); // Col4=Dt Inicial, Col5=Dt Concurso
-      return ini && fim && dtTs(ini) <= refTs && refTs <= dtTs(fim);
-    }).sort((a,b) => (a[1]||'').localeCompare(b[1]||'') || (a[0]||'').localeCompare(b[0]||'')); // order by Col2, Col1
-
-    // Separa Externos Comuns vs Externos Especiais pela Modalidade (Col6 = índice 5)
-    lstEC = vigC
-      .filter(r => !ESPECIAIS_REGEX.test(r[5]||''))
-      .map(r => mapExterno(r, 'ec'));
-
-    lstEE = vigC
-      .filter(r => ESPECIAIS_REGEX.test(r[5]||''))
-      .map(r => mapExterno(r, 'ee'));
+    lstIC = data.internosComuns || [];
+    lstIE = data.internosEspeciais || [];
+    lstEC = data.externosComuns || [];
+    lstEE = data.externosEspeciais || [];
 
     const total = lstIC.length + lstIE.length + lstEC.length + lstEE.length;
-    if (total === 0) { setEstado('vazio'); return; }
+    if (total === 0) {
+      setEstado('vazio');
+      return;
+    }
 
     renderBoloes();
     setEstado('lista');
     document.getElementById('config-wrap').style.display = 'none';
 
-  } catch(e) {
+  } catch (e) {
     console.error(e);
-    showErro(e.result?.error?.message || e.message || 'Erro desconhecido');
+    showErro(e.message || 'Erro ao buscar bolões');
   }
 }
 
@@ -886,9 +880,6 @@ function avancarTela4() {
   }, 600);
 }
 </script>
-
-<script src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
-<script src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
  <!-- Registrar Service Worker -->
 <script>
 if ('serviceWorker' in navigator) {
