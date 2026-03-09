@@ -889,5 +889,19 @@ function avancarTela4() {
 
 <script src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
 <script src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+ <!-- Registrar Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then((registration) => {
+        console.log('✅ Service Worker registrado:', registration.scope);
+      })
+      .catch((error) => {
+        console.log('❌ Falha ao registrar Service Worker:', error);
+      });
+  });
+}
+</script>
 </body>
 </html>
