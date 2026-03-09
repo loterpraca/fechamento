@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SISLOT — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue-deep: #0a1628;
+    --blue-mid: #0f2244;
+    --blue-panel: #132952;
+    --blue-border: #1e3a6e;
+    --accent: #00c896;
+    --accent-dim: #007a5a;
+    --text-bright: #e8eef8;
+    --text-mid: #8fa3c8;
+    --text-dim: #4a6491;
+    --input-bg: #0d1e3a;
+    --input-border: #1e3a6e;
+    --input-focus: #00c896;
+    --error: #ff5252;
+  }
+
+  body {
+    background: var(--blue-deep);
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--text-bright);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image:
+      radial-gradient(ellipse 80% 40% at 50% 50%, rgba(0,200,150,0.12) 0%, transparent 70%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(30,58,110,0.3) 39px, rgba(30,58,110,0.3) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(30,58,110,0.15) 39px, rgba(30,58,110,0.15) 40px);
+  }
+
+  .login-container {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+  }
+
+  .login-card {
+    background: rgba(19, 41, 82, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--blue-border);
+    border-radius: 16px;
+    padding: 48px 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .brand-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--accent);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--blue-deep);
+    margin: 0 auto 20px;
+  }
+
+  .login-title {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+  }
+
+  .login-subtitle {
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-mid);
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .form-input {
+    width: 100%;
+    height: 48px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    padding: 0 16px;
+    font-size: 15px;
+    color: var(--text-bright);
+    font-family: 'IBM Plex Sans', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 3px rgba(0, 200, 150, 0.1);
+  }
+
+  .form-input.error {
+    border-color: var(--error);
+  }
+
+  .error-message {
+    display: none;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--error);
+    font-weight: 500;
+  }
+
+  .error-message.visible {
+    display: block;
+  }
+
+  .btn-login {
+    width: 100%;
+    height: 52px;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue-deep);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'IBM Plex Sans', sans-serif;
+    margin-top: 32px;
+  }
+
+  .btn-login:hover:not(:disabled) {
+    background: #00e8ad;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 200, 150, 0.3);
+  }
+
+  .btn-login:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  .btn-login:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .loading-spinner {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 3px solid var(--blue-deep);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .alert {
+    margin-top: 24px;
+    padding: 16px;
+    background: rgba(255, 82, 82, 0.1);
+    border: 1px solid var(--error);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--error);
+    text-align: center;
+    display: none;
+  }
+
+  .alert.visible {
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="brand-icon">SL</div>
+      <div class="login-title">SISLOT</div>
+      <div class="login-subtitle">Sistema de Lotéricas</div>
+    </div>
+
+    <form id="form-login">
+      <div class="form-group">
+        <label class="form-label" for="login">Usuário</label>
+        <input type="text" id="login" class="form-input" autocomplete="username" autofocus>
+        <div class="error-message" id="error-login">Informe seu usuário</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="senha">Senha</label>
+        <input type="password" id="senha" class="form-input" autocomplete="current-password">
+        <div class="error-message" id="error-senha">Informe sua senha</div>
+      </div>
+
+      <button type="submit" class="btn-login" id="btn-login">
+        <span id="btn-text">Entrar</span>
+        <div class="loading-spinner" id="spinner"></div>
+      </button>
+
+      <div class="alert" id="alert-error"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+// Configuração do backend
+const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwh5WAyT602V-7GVxDARtDY5iI52ZB-i8H54vMNn-th5gyiLfwUvZdhK9ArOMaQ--pz2g/exec';
+
+// Elementos
+const form = document.getElementById('form-login');
+const loginInput = document.getElementById('login');
+const senhaInput = document.getElementById('senha');
+const btnLogin = document.getElementById('btn-login');
+const btnText = document.getElementById('btn-text');
+const spinner = document.getElementById('spinner');
+const alertError = document.getElementById('alert-error');
+
+// Limpar erros ao digitar
+[loginInput, senhaInput].forEach(input => {
+  input.addEventListener('input', () => {
+    input.classList.remove('error');
+    document.getElementById(`error-${input.id}`).classList.remove('visible');
+    alertError.classList.remove('visible');
+  });
+});
+
+// Submit do formulário
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  // Limpar erros
+  document.querySelectorAll('.error-message').forEach(el => el.classList.remove('visible'));
+  document.querySelectorAll('.form-input').forEach(el => el.classList.remove('error'));
+  alertError.classList.remove('visible');
+
+  // Validar campos
+  let valid = true;
+
+  if (!loginInput.value.trim()) {
+    loginInput.classList.add('error');
+    document.getElementById('error-login').classList.add('visible');
+    valid = false;
+  }
+
+  if (!senhaInput.value.trim()) {
+    senhaInput.classList.add('error');
+    document.getElementById('error-senha').classList.add('visible');
+    valid = false;
+  }
+
+  if (!valid) return;
+
+  // Mostrar loading
+  btnLogin.disabled = true;
+  btnText.style.display = 'none';
+  spinner.style.display = 'block';
+
+  try {
+    const response = await fetch(BACKEND_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'login',
+        login: loginInput.value.trim(),
+        senha: senhaInput.value.trim(),
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.ok) {
+      // Salvar sessão no localStorage
+      localStorage.setItem('sislot_token', data.token);
+      localStorage.setItem('sislot_user', JSON.stringify(data.user));
+
+      // Feedback visual
+      btnText.textContent = '✓ Login realizado!';
+      btnText.style.display = 'block';
+      spinner.style.display = 'none';
+      btnLogin.style.background = '#00e8ad';
+
+      // Redirecionar para a tela 1
+      setTimeout(() => {
+        window.location.href = 'viabrasil-tela1.html';
+      }, 800);
+    } else {
+      throw new Error(data.error || 'Erro ao fazer login');
+    }
+  } catch (error) {
+    console.error('Erro:', error);
+    alertError.textContent = error.message || 'Erro ao conectar com o servidor';
+    alertError.classList.add('visible');
+    
+    btnLogin.disabled = false;
+    btnText.style.display = 'block';
+    spinner.style.display = 'none';
+  }
+});
+
+// Verificar se já está logado
+window.addEventListener('load', () => {
+  const token = localStorage.getItem('sislot_token');
+  if (token) {
+    // Validar sessão
+    fetch(BACKEND_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'validarSessao',
+        token: token,
+      }),
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.ok) {
+        window.location.href = 'viabrasil-tela1.html';
+      }
+    })
+    .catch(() => {});
+  }
+});
+</script>
+
+</body>
+</html>

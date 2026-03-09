@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fechamento de Caixa — Lotérica</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue-deep: #0a1628;
+    --blue-mid: #0f2244;
+    --blue-panel: #132952;
+    --blue-border: #1e3a6e;
+    --accent: #00c896;
+    --accent-dim: #007a5a;
+    --amber: #f5a623;
+    --text-bright: #e8eef8;
+    --text-mid: #8fa3c8;
+    --text-dim: #4a6491;
+    --input-bg: #0d1e3a;
+    --input-border: #1e3a6e;
+    --input-focus: #00c896;
+    --error: #ff5252;
+  }
+
+  body {
+    background: var(--blue-deep);
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--text-bright);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-image:
+      radial-gradient(ellipse 80% 40% at 50% -10%, rgba(0,200,150,0.07) 0%, transparent 70%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(30,58,110,0.3) 39px, rgba(30,58,110,0.3) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(30,58,110,0.15) 39px, rgba(30,58,110,0.15) 40px);
+  }
+
+  /* TOP BAR */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: 56px;
+    background: rgba(15, 34, 68, 0.95);
+    border-bottom: 1px solid var(--blue-border);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--blue-deep);
+  }
+
+  .brand-name {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-bright);
+  }
+
+  .brand-sub {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .topbar-right {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-mid);
+    letter-spacing: 0.05em;
+  }
+
+  /* STEP INDICATOR */
+  .steps-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 24px 32px 0;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+  }
+
+  .step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .step.active .step-circle {
+    background: var(--accent);
+    color: var(--blue-deep);
+    box-shadow: 0 0 0 4px rgba(0,200,150,0.15);
+  }
+
+  .step.inactive .step-circle {
+    background: var(--blue-panel);
+    color: var(--text-dim);
+    border: 1px solid var(--blue-border);
+  }
+
+  .step-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .step.active .step-label { color: var(--accent); }
+  .step.inactive .step-label { color: var(--text-dim); }
+
+  .step-connector {
+    width: 64px;
+    height: 1px;
+    background: var(--blue-border);
+    margin: 0 4px;
+  }
+
+  /* MAIN CONTENT */
+  .main {
+    flex: 1;
+    padding: 32px;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--blue-border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .page-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-bright);
+    letter-spacing: -0.01em;
+  }
+
+  .page-subtitle {
+    font-size: 13px;
+    color: var(--text-mid);
+    margin-top: 4px;
+    font-weight: 300;
+  }
+
+  .step-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(0,200,150,0.08);
+    border: 1px solid rgba(0,200,150,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* FORM SECTIONS */
+  .section {
+    margin-bottom: 28px;
+  }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--blue-border);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .grid-full { display: grid; grid-template-columns: 1fr; gap: 16px; }
+
+  /* FIELD */
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+  }
+
+  .field-required::after {
+    content: ' *';
+    color: var(--accent);
+  }
+
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-prefix {
+    position: absolute;
+    left: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--text-dim);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  select.field-select {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    padding: 11px 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    color: var(--text-bright);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    -webkit-appearance: none;
+  }
+
+  select.field-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234a6491' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+  select.field-select:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 3px rgba(0,200,150,0.1);
+    background-color: #0e2040;
+  }
+  select.field-select option {
+    background: var(--blue-mid);
+    color: var(--text-bright);
+  }
+  select.field-select.filled { border-color: rgba(0,200,150,0.4); }
+
+  input[type="text"].has-prefix,
+  input[type="number"].has-prefix {
+    padding-left: 38px;
+  }
+
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  input[type="date"]:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 3px rgba(0,200,150,0.1);
+    background: #0e2040;
+  }
+
+  input[type="text"]::placeholder,
+  input[type="number"]::placeholder {
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.5) sepia(1) saturate(0.5) hue-rotate(120deg);
+    cursor: pointer;
+  }
+
+  input.filled {
+    border-color: rgba(0,200,150,0.35);
+  }
+
+  /* SUBMIT AREA */
+  .form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 24px;
+    border-top: 1px solid var(--blue-border);
+    margin-top: 12px;
+  }
+
+  .required-note {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+
+  .required-note span {
+    color: var(--accent);
+  }
+
+  .btn-next {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent);
+    color: var(--blue-deep);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 28px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+  }
+
+  .btn-next:hover {
+    background: #00e8ad;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(0,200,150,0.25);
+  }
+
+  .btn-next:active {
+    transform: translateY(0);
+  }
+
+  .btn-next svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* VALIDATION */
+  .field-error {
+    font-size: 11px;
+    color: var(--error);
+    margin-top: 2px;
+    display: none;
+  }
+
+  .field.has-error input { border-color: var(--error); }
+  .field.has-error .field-error { display: block; }
+
+  /* SUMMARY PREVIEW */
+  .summary-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,200,150,0.06);
+    border: 1px solid rgba(0,200,150,0.15);
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-mid);
+    margin-top: 8px;
+    transition: all 0.3s;
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  .summary-chip.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .summary-chip strong { color: var(--accent); }
+
+  /* DÍVIDAS */
+  .divida-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+    background: var(--blue-panel);
+    border: 1px solid var(--blue-border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    animation: slideIn 0.25s ease both;
+  }
+
+  .divida-row:hover {
+    border-color: rgba(0,200,150,0.25);
+  }
+
+  .divida-row .divida-fields {
+    display: grid;
+    grid-template-columns: 1fr 160px;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .divida-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    margin-bottom: 4px;
+  }
+
+  .btn-remove-divida {
+    background: transparent;
+    border: 1px solid rgba(255,82,82,0.25);
+    border-radius: 6px;
+    color: rgba(255,82,82,0.5);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .btn-remove-divida:hover {
+    background: rgba(255,82,82,0.1);
+    border-color: var(--error);
+    color: var(--error);
+  }
+
+  .btn-remove-divida svg { width: 14px; height: 14px; }
+
+  .btn-add-divida {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px dashed var(--blue-border);
+    border-radius: 8px;
+    color: var(--accent);
+    padding: 10px 16px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .btn-add-divida:hover {
+    border-color: var(--accent);
+    background: rgba(0,200,150,0.05);
+  }
+
+  .btn-add-divida:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    border-color: var(--blue-border);
+    color: var(--text-dim);
+  }
+
+  .btn-add-divida svg { width: 16px; height: 16px; }
+
+  .dividas-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .dividas-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+  }
+
+  .divida-counter {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .divida-total-chip {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--amber);
+    background: rgba(245,166,35,0.08);
+    border: 1px solid rgba(245,166,35,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    transition: all 0.3s;
+    opacity: 0;
+  }
+
+  .divida-total-chip.visible { opacity: 1; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ANIMATION */
+  .section { animation: fadeIn 0.4s ease both; }
+  .section:nth-child(1) { animation-delay: 0.05s; }
+  .section:nth-child(2) { animation-delay: 0.10s; }
+  .section:nth-child(3) { animation-delay: 0.15s; }
+  .section:nth-child(4) { animation-delay: 0.20s; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .steps-bar { gap: 0; }
+    .step-label { display: none; }
+    .step-connector { width: 32px; }
+    .main { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="topbar-brand">
+    <div class="brand-icon">LC</div>
+    <div>
+      <div class="brand-name">SisLot</div>
+      <div class="brand-sub">Fechamento de Caixa</div>
+    </div>
+  </div>
+  <div class="topbar-right" id="relogio">--:--:--</div>
+</header>
+
+<!-- STEPS -->
+<div class="steps-bar">
+  <div class="step active">
+    <div class="step-circle">1</div>
+    <div class="step-label">Dados Externos</div>
+  </div>
+  <div class="step-connector"></div>
+  <div class="step inactive">
+    <div class="step-circle">2</div>
+    <div class="step-label">Operações</div>
+  </div>
+  <div class="step-connector"></div>
+  <div class="step inactive">
+    <div class="step-circle">3</div>
+    <div class="step-label">Conferência</div>
+  </div>
+  <div class="step-connector"></div>
+  <div class="step inactive">
+    <div class="step-circle">4</div>
+    <div class="step-label">Resumo Final</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Entrada de Dados Externos</div>
+      <div class="page-subtitle">Preencha os valores conforme os relatórios físicos do dia</div>
+    </div>
+    <div class="step-badge">Tela 1 de 4</div>
+  </div>
+
+  <form id="form1" novalidate>
+
+    <!-- IDENTIFICAÇÃO -->
+    <div class="section">
+      <div class="section-label">Identificação</div>
+
+      <!-- Chip da loteria ativa -->
+      <div id="chip-loteria" style="
+        display:none; align-items:center; gap:8px; margin-bottom:14px;
+        background:rgba(0,200,150,0.07); border:1px solid rgba(0,200,150,0.2);
+        border-radius:7px; padding:8px 14px;
+        font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--accent);
+      ">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+        Loteria: <strong id="chip-loteria-nome">—</strong>
+      </div>
+      <div id="chip-loteria-erro" style="
+        display:none; align-items:center; gap:8px; margin-bottom:14px;
+        background:rgba(255,82,82,0.07); border:1px solid rgba(255,82,82,0.2);
+        border-radius:7px; padding:8px 14px;
+        font-size:12px; color:#ff9090;
+      ">
+        ⚠️ Loteria não identificada — verifique o nome do arquivo HTML
+      </div>
+
+      <div class="grid-2">
+        <div class="field" id="field-funcionario">
+          <label class="field-label field-required">Funcionário</label>
+          <select id="funcionario" name="funcionario" class="field-select" onchange="onSelectFunc()">
+            <option value="">Selecione o funcionário...</option>
+          </select>
+          <div class="field-error">Selecione o funcionário</div>
+        </div>
+        <div class="field" id="field-data">
+          <label class="field-label field-required">Data do Fechamento</label>
+          <input type="date" id="data" name="data">
+          <div class="field-error">Campo obrigatório</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RELATÓRIO E DEPÓSITO -->
+    <div class="section">
+      <div class="section-label">Relatório e Movimentação Bancária</div>
+      <div class="grid-2">
+        <div class="field" id="field-relatorio">
+          <label class="field-label field-required">Valor do Relatório</label>
+          <div class="input-wrapper">
+            <span class="input-prefix">R$</span>
+            <input type="number" id="relatorio" name="relatorio" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+          </div>
+          <div class="field-error">Informe um valor válido</div>
+        </div>
+        <div class="field" id="field-deposito">
+          <label class="field-label field-required">Depósito Bancário</label>
+          <div class="input-wrapper">
+            <span class="input-prefix">R$</span>
+            <input type="number" id="deposito" name="deposito" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+          </div>
+          <div class="field-error">Informe um valor válido</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TROCO -->
+    <div class="section">
+      <div class="section-label">Controle de Troco</div>
+      <div class="grid-2">
+        <div class="field" id="field-troco-inicial">
+          <label class="field-label field-required">Troco Inicial (Fundo de Caixa)</label>
+          <div class="input-wrapper">
+            <span class="input-prefix">R$</span>
+            <input type="number" id="troco-inicial" name="troco-inicial" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+          </div>
+          <div class="field-error">Informe um valor válido</div>
+        </div>
+        <div class="field" id="field-troco-sobra">
+          <label class="field-label field-required">Troco Sobra (Final do Dia)</label>
+          <div class="input-wrapper">
+            <span class="input-prefix">R$</span>
+            <input type="number" id="troco-sobra" name="troco-sobra" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+          </div>
+          <div class="field-error">Informe um valor válido</div>
+        </div>
+      </div>
+      <div id="chip-troco" class="summary-chip">
+        Diferença de troco: <strong id="chip-troco-val">—</strong>
+      </div>
+    </div>
+
+    <!-- PIX / PRÊMIOS -->
+    <div class="section">
+      <div class="section-label">PIX e Prêmios</div>
+      <div class="grid-3">
+        <div class="field" id="field-pix">
+          <label class="field-label field-required">PIX CNPJ Recebido</label>
+          <div class="input-wrapper">
+            <span class="input-prefix">R$</span>
+            <input type="number" id="pix" name="pix" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+          </div>
+          <div class="field-error">Informe um valor válido</div>
+        </div>
+        <div class="field" id="field-pix-sistema">
+          <label class="field-label field-required">Diferença de PIX</label>
+          <div class="input-wrapper">
+            <span class="input-prefix">R$</span>
+            <input type="number" id="pix-sistema" name="pix-sistema" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+          </div>
+          <div class="field-error">Informe um valor válido</div>
+        </div>
+        <div class="field" id="field-raspadinha">
+          <label class="field-label field-required">Prêmio Raspadinha</label>
+          <div class="input-wrapper">
+            <span class="input-prefix">R$</span>
+            <input type="number" id="raspadinha" name="raspadinha" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+          </div>
+          <div class="field-error">Informe um valor válido</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;">
+        <div class="field" id="field-telesena" style="max-width:300px;">
+          <label class="field-label field-required">Resgate Telesena</label>
+          <div class="input-wrapper">
+            <span class="input-prefix">R$</span>
+            <input type="number" id="telesena" name="telesena" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+          </div>
+          <div class="field-error">Informe um valor válido</div>
+        </div>
+      </div>
+      <div id="chip-pix" class="summary-chip" style="margin-top:12px;">
+        Diferença PIX (Recebido − Diferença): <strong id="chip-pix-val">—</strong>
+      </div>
+    </div>
+
+    <!-- DÍVIDAS DE CLIENTES -->
+    <div class="section">
+      <div class="section-label">Dívidas de Clientes</div>
+
+      <div class="dividas-list" id="dividas-list">
+        <!-- linhas injetadas via JS -->
+      </div>
+
+      <div class="dividas-footer">
+        <div class="divida-counter" id="divida-counter">0 / 9 clientes</div>
+        <div class="divida-total-chip" id="divida-total-chip">Total: R$ 0,00</div>
+      </div>
+
+      <button type="button" class="btn-add-divida" id="btn-add-divida">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M8 3v10M3 8h10"/>
+        </svg>
+        Adicionar Cliente em Dívida
+      </button>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="form-footer">
+      <div class="required-note"><span>*</span> Campos obrigatórios</div>
+      <button type="submit" class="btn-next">
+        Avançar para Tela 2
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 8h10M9 4l4 4-4 4"/>
+        </svg>
+      </button>
+    </div>
+
+  </form>
+</main>
+
+<script>
+  // Relógio
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('relogio').textContent =
+      now.toLocaleTimeString('pt-BR') + ' — ' +
+      now.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Data padrão = hoje
+  document.getElementById('data').value = new Date().toISOString().split('T')[0];
+
+  // Indicar campo preenchido + limpar erro
+  document.addEventListener('input', function(e) {
+    if (e.target.matches('input')) {
+      e.target.classList.toggle('filled', e.target.value.trim() !== '');
+      const field = e.target.closest('.field');
+      if (field) field.classList.remove('has-error');
+    }
+  });
+
+  // Chip diferença de troco
+  function calcTroco() {
+    const ini = parseFloat(document.getElementById('troco-inicial').value) || 0;
+    const sob = parseFloat(document.getElementById('troco-sobra').value)   || 0;
+    const chip = document.getElementById('chip-troco');
+    const val  = document.getElementById('chip-troco-val');
+    if (ini > 0 || sob > 0) {
+      const diff = sob - ini;
+      val.textContent = 'R$ ' + diff.toFixed(2).replace('.', ',');
+      val.style.color = diff >= 0 ? 'var(--accent)' : 'var(--error)';
+      chip.classList.add('visible');
+    } else {
+      chip.classList.remove('visible');
+    }
+  }
+  document.getElementById('troco-inicial').addEventListener('input', calcTroco);
+  document.getElementById('troco-sobra').addEventListener('input', calcTroco);
+
+  // Chip diferença de PIX
+  function calcPix() {
+    const rec = parseFloat(document.getElementById('pix').value) || 0;
+    const sis = parseFloat(document.getElementById('pix-sistema').value) || 0;
+    const chip = document.getElementById('chip-pix');
+    const val  = document.getElementById('chip-pix-val');
+    if (rec > 0 || sis > 0) {
+      const diff = rec - sis;
+      val.textContent = 'R$ ' + diff.toFixed(2).replace('.', ',');
+      val.style.color = diff === 0 ? 'var(--accent)' : diff > 0 ? 'var(--amber)' : 'var(--error)';
+      chip.classList.add('visible');
+    } else {
+      chip.classList.remove('visible');
+    }
+  }
+  document.getElementById('pix').addEventListener('input', calcPix);
+  document.getElementById('pix-sistema').addEventListener('input', calcPix);
+
+  // Formatação monetária
+  document.addEventListener('blur', function(e) {
+    if (e.target.matches('input[type="number"]') && e.target.value !== '') {
+      e.target.value = parseFloat(e.target.value).toFixed(2);
+    }
+  }, true);
+
+  // ── DÍVIDAS ──────────────────────────────────────────
+  const MAX_DIVIDAS = 9;
+  let dividaCount = 0;
+
+  function renderDividaCounter() {
+    document.getElementById('divida-counter').textContent = `${dividaCount} / ${MAX_DIVIDAS} clientes`;
+    document.getElementById('btn-add-divida').disabled = dividaCount >= MAX_DIVIDAS;
+  }
+
+  function calcTotalDividas() {
+    let total = 0;
+    document.querySelectorAll('.divida-valor').forEach(inp => {
+      total += parseFloat(inp.value) || 0;
+    });
+    const chip = document.getElementById('divida-total-chip');
+    if (dividaCount > 0) {
+      chip.textContent = 'Total dívidas: R$ ' + total.toFixed(2).replace('.', ',');
+      chip.classList.add('visible');
+    } else {
+      chip.classList.remove('visible');
+    }
+  }
+
+  function removeDivida(btn) {
+    const row = btn.closest('.divida-row');
+    row.style.transition = 'opacity 0.2s, transform 0.2s';
+    row.style.opacity = '0';
+    row.style.transform = 'translateX(12px)';
+    setTimeout(() => {
+      row.remove();
+      dividaCount--;
+      // Renumerar
+      document.querySelectorAll('.divida-num').forEach((el, i) => {
+        el.textContent = `CLIENTE ${String(i + 1).padStart(2, '0')}`;
+      });
+      renderDividaCounter();
+      calcTotalDividas();
+    }, 200);
+  }
+
+  function addDivida() {
+    if (dividaCount >= MAX_DIVIDAS) return;
+    dividaCount++;
+
+    const list = document.getElementById('dividas-list');
+    const idx  = dividaCount;
+
+    const row = document.createElement('div');
+    row.className = 'divida-row';
+    row.innerHTML = `
+      <div>
+        <div class="divida-num">CLIENTE ${String(idx).padStart(2, '0')}</div>
+        <div class="divida-fields">
+          <div class="field">
+            <input type="text" class="divida-nome" placeholder="Nome do cliente" autocomplete="off">
+          </div>
+          <div class="field">
+            <div class="input-wrapper">
+              <span class="input-prefix">R$</span>
+              <input type="number" class="divida-valor has-prefix" placeholder="0,00" step="0.01" min="0">
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn-remove-divida" onclick="removeDivida(this)" title="Remover">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M3 3l10 10M13 3L3 13"/>
+        </svg>
+      </button>
+    `;
+
+    list.appendChild(row);
+
+    // Listener para recalcular total ao digitar valor
+    row.querySelector('.divida-valor').addEventListener('input', calcTotalDividas);
+
+    renderDividaCounter();
+    calcTotalDividas();
+
+    // Foco no nome do cliente
+    row.querySelector('.divida-nome').focus();
+  }
+
+  document.getElementById('btn-add-divida').addEventListener('click', addDivida);
+
+  // ── VALIDAÇÃO E SUBMIT ────────────────────────────────
+  const requiredFields = [
+    { id: 'funcionario',  msg: 'Informe o nome do funcionário' },
+    { id: 'data',         msg: 'Informe a data' },
+    { id: 'relatorio',    msg: 'Informe o valor do relatório' },
+    { id: 'deposito',     msg: 'Informe o valor do depósito' },
+    { id: 'troco-inicial',msg: 'Informe o troco inicial' },
+    { id: 'troco-sobra',  msg: 'Informe o troco sobra' },
+    { id: 'pix',          msg: 'Informe o PIX CNPJ recebido' },
+    { id: 'pix-sistema',  msg: 'Informe a diferença de PIX' },
+    { id: 'raspadinha',   msg: 'Informe o prêmio raspadinha' },
+    { id: 'telesena',     msg: 'Informe o resgate telesena' },
+  ];
+
+  document.getElementById('form1').addEventListener('submit', function(e) {
+    e.preventDefault();
+    let valid = true;
+
+    requiredFields.forEach(f => {
+      const inp   = document.getElementById(f.id);
+      const field = document.getElementById('field-' + f.id) || inp.closest('.field');
+      const errEl = field ? field.querySelector('.field-error') : null;
+      if (!inp.value.trim()) {
+        valid = false;
+        if (field) field.classList.add('has-error');
+        if (errEl) errEl.textContent = f.msg;
+      }
+    });
+
+    // Validar dívidas: se nome preenchido, valor obrigatório e vice-versa
+    document.querySelectorAll('.divida-row').forEach((row, i) => {
+      const nome = row.querySelector('.divida-nome');
+      const val  = row.querySelector('.divida-valor');
+      if (nome.value.trim() && !val.value.trim()) {
+        valid = false;
+        val.closest('.field').classList.add('has-error');
+      }
+      if (!nome.value.trim() && val.value.trim()) {
+        valid = false;
+        nome.closest('.field').classList.add('has-error');
+      }
+    });
+
+    if (valid) {
+      const dados = {};
+      requiredFields.forEach(f => { dados[f.id] = document.getElementById(f.id).value; });
+
+      // Coletar dívidas
+      dados.dividas = [];
+      document.querySelectorAll('.divida-row').forEach(row => {
+        const nome = row.querySelector('.divida-nome').value.trim();
+        const val  = row.querySelector('.divida-valor').value;
+        if (nome) dados.dividas.push({ nome, valor: parseFloat(val) || 0 });
+      });
+
+      sessionStorage.setItem('tela1', JSON.stringify(dados));
+
+      const btn = document.querySelector('.btn-next');
+      btn.innerHTML = '✓ Dados salvos! Carregando...';
+      btn.style.background = '#00e8ad';
+      setTimeout(() => {
+        window.location.href = 'viabrasil-tela2.html';
+      }, 800);
+    } else {
+      const firstError = document.querySelector('.field.has-error input, .field.has-error select');
+      if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+
+  // ── Validação do select de funcionário ──
+  function onSelectFunc() {
+    const sel = document.getElementById('funcionario');
+    const fld = document.getElementById('field-funcionario');
+    if (sel.value) {
+      sel.classList.add('filled');
+      fld.classList.remove('has-error');
+    } else {
+      sel.classList.remove('filled');
+    }
+  }
+</script>
+
+<script src="config-loterias.js"></script>
+<script>
+// ── Inicializar loteria e popular select de funcionários ──
+(function() {
+  const loteria = getLoteria();
+  if (loteria) {
+    // Mostra chip da loteria
+    document.getElementById('chip-loteria').style.display = 'flex';
+    document.getElementById('chip-loteria-nome').textContent = loteria.nome;
+
+    // Popula select com os funcionários
+    const sel = document.getElementById('funcionario');
+    (loteria.funcionarios || []).forEach(nome => {
+      const opt = document.createElement('option');
+      opt.value = nome;
+      opt.textContent = nome;
+      sel.appendChild(opt);
+    });
+
+    // Restaura seleção anterior se houver
+    const prev = JSON.parse(sessionStorage.getItem('tela1') || '{}');
+    if (prev.funcionario) {
+      sel.value = prev.funcionario;
+      if (sel.value) sel.classList.add('filled');
+    }
+  } else {
+    document.getElementById('chip-loteria-erro').style.display = 'flex';
+  }
+})();
+</script>
+</body>
+</html>
