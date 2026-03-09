@@ -290,14 +290,14 @@ form.addEventListener('submit', async (e) => {
 
   try {
     const response = await fetch(BACKEND_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        action: 'login',
-        login: loginInput.value.trim(),
-        senha: senhaInput.value.trim(),
-      }),
-    });
+  method: 'POST',
+  headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+  body: JSON.stringify({
+    action: 'login',
+    login: loginInput.value.trim(),
+    senha: senhaInput.value.trim(),
+  }),
+});
 
     const data = await response.json();
 
@@ -336,13 +336,13 @@ window.addEventListener('load', () => {
   if (token) {
     // Validar sessão
     fetch(BACKEND_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        action: 'validarSessao',
-        token: token,
-      }),
-    })
+  method: 'POST',
+  headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+  body: JSON.stringify({
+    action: 'validarSessao',
+    token: token,
+  }),
+})
     .then(r => r.json())
     .then(data => {
       if (data.ok) {
