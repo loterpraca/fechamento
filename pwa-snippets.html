@@ -1,0 +1,224 @@
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- PWA - Progressive Web App -->
+<!-- Adicione este código no <head> de TODAS as páginas HTML -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#00c896">
+
+<!-- Mobile Web App -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SISLOT">
+
+<!-- Ícones para iOS -->
+<link rel="apple-touch-icon" href="/icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72.png">
+<link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96.png">
+<link rel="apple-touch-icon" sizes="128x128" href="/icons/icon-128.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384.png">
+<link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512.png">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png">
+
+<!-- MS Application -->
+<meta name="msapplication-TileColor" content="#0a1628">
+<meta name="msapplication-TileImage" content="/icons/icon-144.png">
+
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- Service Worker Registration -->
+<!-- Adicione este código ANTES do </body> de TODAS as páginas HTML -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<script>
+// Registrar Service Worker para PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then((registration) => {
+        console.log('✅ Service Worker registrado com sucesso!');
+        console.log('   Scope:', registration.scope);
+        
+        // Verificar atualizações
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          console.log('🔄 Nova versão do Service Worker encontrada');
+          
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('✨ Nova versão disponível! Recarregue a página.');
+              // Opcional: mostrar notificação para o usuário recarregar
+            }
+          });
+        });
+      })
+      .catch((error) => {
+        console.log('❌ Falha ao registrar Service Worker:', error);
+      });
+  });
+  
+  // Detectar quando o app for instalado
+  window.addEventListener('appinstalled', () => {
+    console.log('✅ PWA instalado com sucesso!');
+    // Opcional: enviar analytics, esconder botão de instalação, etc.
+  });
+}
+</script>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- OPCIONAL: Prompt de Instalação -->
+<!-- Adicione este código em login.html e viabrasil-tela1.html -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<style>
+.install-prompt {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: var(--blue-deep);
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 200, 150, 0.3);
+  display: none;
+  align-items: center;
+  gap: 12px;
+  z-index: 1000;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.install-prompt button {
+  background: var(--blue-deep);
+  color: var(--accent);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+}
+
+.install-prompt button:hover {
+  background: var(--blue-mid);
+  transform: translateY(-2px);
+}
+
+.install-prompt .close-btn {
+  background: transparent;
+  color: var(--blue-deep);
+  padding: 4px 8px;
+  font-size: 16px;
+}
+
+.install-prompt .close-btn:hover {
+  background: rgba(10, 22, 40, 0.1);
+  transform: none;
+}
+</style>
+
+<div class="install-prompt" id="install-prompt">
+  <span>📱 Instalar SISLOT como aplicativo?</span>
+  <button id="install-btn">Instalar</button>
+  <button class="close-btn" id="close-install">✕</button>
+</div>
+
+<script>
+// Variável para armazenar o evento de instalação
+let deferredPrompt;
+
+// Capturar evento de prompt de instalação
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevenir que o navegador mostre o prompt automaticamente
+  e.preventDefault();
+  
+  // Armazenar o evento para usar depois
+  deferredPrompt = e;
+  
+  // Verificar se já foi instalado ou se o usuário já recusou
+  const hasDeclined = localStorage.getItem('pwa-install-declined');
+  
+  if (!hasDeclined) {
+    // Mostrar nosso próprio prompt de instalação
+    setTimeout(() => {
+      document.getElementById('install-prompt').style.display = 'flex';
+    }, 3000); // Aguarda 3 segundos antes de mostrar
+  }
+});
+
+// Botão de instalar
+document.getElementById('install-btn')?.addEventListener('click', async () => {
+  if (!deferredPrompt) {
+    console.log('Prompt de instalação não disponível');
+    return;
+  }
+  
+  // Mostrar o prompt nativo
+  deferredPrompt.prompt();
+  
+  // Aguardar a escolha do usuário
+  const { outcome } = await deferredPrompt.userChoice;
+  
+  console.log(`Usuário ${outcome === 'accepted' ? 'aceitou' : 'recusou'} instalar o PWA`);
+  
+  // Limpar o prompt
+  deferredPrompt = null;
+  
+  // Esconder nosso prompt
+  document.getElementById('install-prompt').style.display = 'none';
+});
+
+// Botão de fechar
+document.getElementById('close-install')?.addEventListener('click', () => {
+  document.getElementById('install-prompt').style.display = 'none';
+  
+  // Salvar que o usuário recusou (não mostrar novamente por 7 dias)
+  localStorage.setItem('pwa-install-declined', Date.now());
+  setTimeout(() => {
+    localStorage.removeItem('pwa-install-declined');
+  }, 7 * 24 * 60 * 60 * 1000); // 7 dias
+});
+
+// Detectar quando o PWA for instalado
+window.addEventListener('appinstalled', () => {
+  console.log('✅ SISLOT instalado como PWA!');
+  
+  // Esconder o prompt de instalação
+  document.getElementById('install-prompt').style.display = 'none';
+  
+  // Opcional: mostrar mensagem de sucesso
+  // alert('✅ SISLOT instalado com sucesso! Acesse pelo ícone na tela inicial.');
+});
+
+// Verificar se já está rodando como PWA instalado
+if (window.matchMedia('(display-mode: standalone)').matches) {
+  console.log('✅ SISLOT rodando como PWA instalado');
+  // Esconder prompt de instalação se estiver rodando como PWA
+  document.getElementById('install-prompt')?.remove();
+}
+</script>
