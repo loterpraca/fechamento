@@ -546,7 +546,7 @@ window.addEventListener('DOMContentLoaded', () => {
   if (idMestra) idMestra.value = lot.sheetId || '';
   if (idControle) idControle.value = lot.controleId || '';
 
-  const token = localStorage.getItem('sislot_token');
+  const token = sessionStorage.getItem('sislot_token');
   if (!token) {
     window.location.href = 'login.html';
     return;
@@ -621,7 +621,7 @@ const fmt = v => 'R$ ' + v.toFixed(2).replace('.', ',');
 
 // ── Buscar ──
 async function buscarTodos() {
-  const token = localStorage.getItem('sislot_token');
+  const token = sessionStorage.getItem('sislot_token');
   if (!token) {
     window.location.href = 'login.html';
     return;
