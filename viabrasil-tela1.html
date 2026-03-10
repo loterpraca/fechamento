@@ -285,39 +285,51 @@
   }
 
   input[type="text"],
-  input[type="number"],
-  input[type="date"],
-  select.field-select {
-    width: 100%;
-    background: var(--input-bg);
-    border: 1px solid var(--input-border);
-    border-radius: 6px;
-    padding: 11px 14px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
-    color: var(--text-bright);
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-    -webkit-appearance: none;
-  }
+input[type="number"],
+input[type="date"],
+select.field-select {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  padding: 11px 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  color: var(--text-bright);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  -webkit-appearance: none;
+}
 
-  select.field-select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234a6491' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-    cursor: pointer;
-  }
-  select.field-select:focus {
-    border-color: var(--input-focus);
-    box-shadow: 0 0 0 3px rgba(0,200,150,0.1);
-    background-color: #0e2040;
-  }
-  select.field-select option {
-    background: var(--blue-mid);
-    color: var(--text-bright);
-  }
-  select.field-select.filled { border-color: rgba(0,200,150,0.4); }
+select.field-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234a6491' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+select.field-select:disabled {
+  opacity: 0.9;
+  cursor: not-allowed;
+  background-color: #10213f;
+  color: var(--text-bright);
+}
+
+select.field-select:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 3px rgba(0,200,150,0.1);
+  background-color: #0e2040;
+}
+
+select.field-select option {
+  background: var(--blue-mid);
+  color: var(--text-bright);
+}
+
+select.field-select.filled {
+  border-color: rgba(0,200,150,0.4);
+}
 
   input[type="text"].has-prefix,
   input[type="number"].has-prefix {
@@ -993,27 +1005,32 @@
       }
     });
 
-    if (valid) {
-      const dados = {};
-      requiredFields.forEach(f => { dados[f.id] = document.getElementById(f.id).value; });
+if (valid) {
+  const user = getUsuarioLogado();
+  if (!isAdmin(user)) {
+    document.getElementById('funcionario').value = String(user?.nome || '').trim();
+  }
 
-      // Coletar dívidas
-      dados.dividas = [];
-      document.querySelectorAll('.divida-row').forEach(row => {
-        const nome = row.querySelector('.divida-nome').value.trim();
-        const val  = row.querySelector('.divida-valor').value;
-        if (nome) dados.dividas.push({ nome, valor: parseFloat(val) || 0 });
-      });
+  const dados = {};
+  requiredFields.forEach(f => { dados[f.id] = document.getElementById(f.id).value; });
 
-      sessionStorage.setItem('tela1', JSON.stringify(dados));
+  dados.dividas = [];
+  document.querySelectorAll('.divida-row').forEach(row => {
+    const nome = row.querySelector('.divida-nome').value.trim();
+    const val  = row.querySelector('.divida-valor').value;
+    if (nome) dados.dividas.push({ nome, valor: parseFloat(val) || 0 });
+  });
 
-      const btn = document.querySelector('.btn-next');
-      btn.innerHTML = '✓ Dados salvos! Carregando...';
-      btn.style.background = '#00e8ad';
-      setTimeout(() => {
-        window.location.href = 'viabrasil-tela2.html';
-      }, 800);
-    } else {
+  sessionStorage.setItem('tela1', JSON.stringify(dados));
+
+  const btn = document.querySelector('.btn-next');
+  btn.innerHTML = '✓ Dados salvos! Carregando...';
+  btn.style.background = '#00e8ad';
+  setTimeout(() => {
+    window.location.href = 'viabrasil-tela2.html';
+  }, 800);
+ 
+ } else {
       const firstError = document.querySelector('.field.has-error input, .field.has-error select');
       if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
@@ -1034,31 +1051,89 @@
 
 <script src="config-loterias.js"></script>
 <script>
-// ── Inicializar loteria e popular select de funcionários ──
-(function() {
-  const loteria = getLoteria();
-  if (loteria) {
-    // Mostra chip da loteria
-    document.getElementById('chip-loteria').style.display = 'flex';
-    document.getElementById('chip-loteria-nome').textContent = loteria.nome;
 
-    // Popula select com os funcionários
-    const sel = document.getElementById('funcionario');
-    (loteria.funcionarios || []).forEach(nome => {
+ function getUsuarioLogado() {
+  try {
+    return JSON.parse(sessionStorage.getItem('sislot_user') || '{}');
+  } catch {
+    return {};
+  }
+}
+
+function isAdmin(user) {
+  const perfil = String(user?.perfil || '').trim().toUpperCase();
+  return perfil === 'ADMIN' || perfil === 'ADM';
+}
+
+function aplicarFuncionarioPorPerfil(sel, funcionarios) {
+  const user = getUsuarioLogado();
+  const admin = isAdmin(user);
+  const nomeUsuario = String(user?.nome || '').trim();
+
+  // limpa opções mantendo a primeira
+  sel.innerHTML = '<option value="">Selecione o funcionário...</option>';
+
+  // admin pode escolher qualquer funcionário da loteria
+  if (admin) {
+    (funcionarios || []).forEach(nome => {
       const opt = document.createElement('option');
       opt.value = nome;
       opt.textContent = nome;
       sel.appendChild(opt);
     });
 
-    // Restaura seleção anterior se houver
-    const prev = JSON.parse(sessionStorage.getItem('tela1') || '{}');
-    if (prev.funcionario) {
-      sel.value = prev.funcionario;
-      if (sel.value) sel.classList.add('filled');
-    }
+    sel.disabled = false;
+    sel.removeAttribute('data-fixed-user');
+    return;
+  }
+
+  // usuário comum: fixa no próprio nome
+  const opt = document.createElement('option');
+  opt.value = nomeUsuario;
+  opt.textContent = nomeUsuario || 'Usuário logado';
+  sel.appendChild(opt);
+  sel.value = nomeUsuario;
+  sel.disabled = true;
+  sel.classList.add('filled');
+  sel.setAttribute('data-fixed-user', '1');
+
+  const fld = document.getElementById('field-funcionario');
+  if (fld) fld.classList.remove('has-error');
+}
+// ── Inicializar loteria e popular select de funcionários ──
+(function() {
+  const user = getUsuarioLogado();
+  const loteriaConfig = getLoteria();
+  const sel = document.getElementById('funcionario');
+  const prev = JSON.parse(sessionStorage.getItem('tela1') || '{}');
+
+  // Nome da loteria: prioriza sessão, depois config do arquivo
+  const nomeLoteriaSessao = String(user?.loteria || '').trim();
+  const nomeLoteriaConfig = String(loteriaConfig?.nome || '').trim();
+  const nomeLoteriaFinal = nomeLoteriaSessao || nomeLoteriaConfig;
+
+  if (nomeLoteriaFinal) {
+    document.getElementById('chip-loteria').style.display = 'flex';
+    document.getElementById('chip-loteria-nome').textContent = nomeLoteriaFinal;
   } else {
     document.getElementById('chip-loteria-erro').style.display = 'flex';
+  }
+
+  // Funcionários vindos da loteria configurada no HTML
+  const funcionarios = loteriaConfig?.funcionarios || [];
+
+  aplicarFuncionarioPorPerfil(sel, funcionarios);
+
+  // restaura seleção anterior só para admin
+  if (prev.funcionario && isAdmin(user)) {
+    sel.value = prev.funcionario;
+    if (sel.value) sel.classList.add('filled');
+  }
+
+  // usuário comum mantém o próprio nome mesmo que exista tela1 anterior
+  if (!isAdmin(user)) {
+    sel.value = String(user?.nome || '').trim();
+    sel.classList.add('filled');
   }
 })();
 </script>
