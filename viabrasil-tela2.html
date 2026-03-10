@@ -831,7 +831,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const si = document.getElementById('sheet-id');
   if (si) si.value = lot.sheetId || '';
 
-  const token = localStorage.getItem('sislot_token');
+  const token = sessionStorage.getItem('sislot_token');
   if (!token) {
     window.location.href = 'login.html';
     return;
