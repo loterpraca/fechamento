@@ -810,12 +810,11 @@ function avancarTela3(){
   const dados={raspadinha,telesena,federais:feds};
   sessionStorage.setItem('tela2',JSON.stringify(dados));
   const btn=document.getElementById('btn-next');
-  btn.innerHTML='✓ Salvando...'; btn.style.background='#00e8ad';
-  setTimeout(()=>{
-    alert('Tela 2 concluída!\n\n'+JSON.stringify(dados,null,2));
-    window.location.href='viabrasil-tela3.html';
-  },600);
-}
+  btn.innerHTML='✓ Salvando...';
+  btn.style.background='#00e8ad';
+  setTimeout(() => {
+  window.location.href='viabrasil-tela3.html';
+}, 600);
 </script>
 
 <script src="config-loterias.js"></script>
@@ -834,6 +833,12 @@ window.addEventListener('DOMContentLoaded', () => {
   const token = sessionStorage.getItem('sislot_token');
   if (!token) {
     window.location.href = 'login.html';
+    return;
+  }
+
+  const tela1 = JSON.parse(sessionStorage.getItem('tela1') || '{}');
+  if (!tela1.data || !tela1.funcionario) {
+    window.location.href = 'viabrasil-tela1.html';
     return;
   }
 
