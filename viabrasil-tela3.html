@@ -521,36 +521,46 @@ const ABA_CONTROLE = (lot && lot.abaExternos) ? lot.abaExternos : 'D.Centro';
 let dateFech    = null;
 
 window.addEventListener('DOMContentLoaded', () => {
-
   if (!lot) {
     alert('Loteria não identificada. Verifique o nome do arquivo HTML.');
     return;
   }
-
-  // carrega data da Tela 1 antes da busca
-  const raw = sessionStorage.getItem('tela1');
-  if (raw) {
-    const d = JSON.parse(raw);
-    if (d.data) {
-      const [y, m, dd] = d.data.split('-').map(Number);
-      dateFech = new Date(y, m - 1, dd);
-      document.getElementById('data-ref').textContent =
-        `${String(dd).padStart(2, '0')}/${String(m).padStart(2, '0')}/${y}`;
-      document.getElementById('data-badge').style.display = 'inline-flex';
-    }
-  }
-
-  const idMestra = document.getElementById('id-mestra');
-  const idControle = document.getElementById('id-controle');
-
-  if (idMestra) idMestra.value = lot.sheetId || '';
-  if (idControle) idControle.value = lot.controleId || '';
 
   const token = sessionStorage.getItem('sislot_token');
   if (!token) {
     window.location.href = 'login.html';
     return;
   }
+
+  const tela1 = JSON.parse(sessionStorage.getItem('tela1') || '{}');
+  if (!tela1.data || !tela1.funcionario) {
+    window.location.href = 'viabrasil-tela1.html';
+    return;
+  }
+
+  const tela2 = JSON.parse(sessionStorage.getItem('tela2') || '{}');
+  const tela2Existe =
+    Array.isArray(tela2.raspadinha) &&
+    !!tela2.telesena &&
+    Array.isArray(tela2.federais);
+
+  if (!tela2Existe) {
+    window.location.href = 'viabrasil-tela2.html';
+    return;
+  }
+
+  const [y, m, dd] = tela1.data.split('-').map(Number);
+  dateFech = new Date(y, m - 1, dd);
+
+  document.getElementById('data-ref').textContent =
+    `${String(dd).padStart(2, '0')}/${String(m).padStart(2, '0')}/${y}`;
+  document.getElementById('data-badge').style.display = 'inline-flex';
+
+  const idMestra = document.getElementById('id-mestra');
+  const idControle = document.getElementById('id-controle');
+
+  if (idMestra) idMestra.value = lot.sheetId || '';
+  if (idControle) idControle.value = lot.controleId || '';
 
   const authBanner = document.getElementById('auth-banner');
   if (authBanner) authBanner.style.display = 'none';
@@ -559,7 +569,6 @@ window.addEventListener('DOMContentLoaded', () => {
   if (btnBuscar) btnBuscar.style.display = 'none';
 
   buscarTodos();
-
 });
  
 let lstIC = [];
@@ -897,11 +906,11 @@ function avancarTela4() {
   sessionStorage.setItem('tela3', JSON.stringify(dados));
 
   const btn = document.getElementById('btn-next');
-  btn.innerHTML = '✓ Salvando...'; btn.style.background = '#00e8ad';
+  btn.innerHTML = '✓ Salvando...';
+  btn.style.background = '#00e8ad';
   setTimeout(() => {
-    alert('Tela 3 concluída!\n\n' + JSON.stringify(dados, null, 2));
-    window.location.href = 'viabrasil-tela4.html';
-  }, 600);
+  window.location.href = 'viabrasil-tela4.html';
+}, 600);
 }
 </script>
  <!-- Registrar Service Worker -->
