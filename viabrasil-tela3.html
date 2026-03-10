@@ -561,15 +561,40 @@ window.addEventListener('DOMContentLoaded', () => {
   buscarTodos();
 
 });
+ 
+let lstIC = [];
+let lstIE = [];
+let lstEC = [];
+let lstEE = [];
+let allBoloes = [];
+ 
+function ordenarBoloes(lista) {
+  return lista.sort((a, b) => {
+    // 1) Modalidade
+    const modA = (a.modalidade || '').toLowerCase().trim();
+    const modB = (b.modalidade || '').toLowerCase().trim();
 
+    if (modA < modB) return -1;
+    if (modA > modB) return 1;
 
-// 4 listas separadas
-let lstIC = []; // internos comuns
-let lstIE = []; // internos especiais
-let lstEC = []; // externos comuns
-let lstEE = []; // externos especiais
-let allBoloes = []; // [{seg, data, idx}]
+    // 2) Valor da cota
+    const valA = Number(a.valorCota || 0);
+    const valB = Number(b.valorCota || 0);
 
+    if (valA !== valB) {
+      return valA - valB;
+    }
+
+    // 3) Origem
+    const orgA = (a.origem || '').toLowerCase().trim();
+    const orgB = (b.origem || '').toLowerCase().trim();
+
+    if (orgA < orgB) return -1;
+    if (orgA > orgB) return 1;
+
+    return 0;
+  });
+}
 // ── Relógio ──
 function updateClock() {
   const now = new Date();
@@ -645,10 +670,10 @@ async function buscarTodos() {
       throw new Error(data.error || 'Erro ao buscar bolões');
     }
 
-    lstIC = data.internosComuns || [];
-    lstIE = data.internosEspeciais || [];
-    lstEC = data.externosComuns || [];
-    lstEE = data.externosEspeciais || [];
+    lstIC = ordenarBoloes(data.internosComuns || []);
+    lstIE = ordenarBoloes(data.internosEspeciais || []);
+    lstEC = ordenarBoloes(data.externosComuns || []);
+    lstEE = ordenarBoloes(data.externosEspeciais || []);
 
     const total = lstIC.length + lstIE.length + lstEC.length + lstEE.length;
     if (total === 0) {
