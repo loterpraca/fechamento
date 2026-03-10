@@ -303,9 +303,9 @@ form.addEventListener('submit', async (e) => {
 
     if (data.ok) {
       // Salvar sessão no localStorage
-      localStorage.setItem('sislot_token', data.token);
-      localStorage.setItem('sislot_user', JSON.stringify(data.user));
-
+      sessionStorage.setItem('sislot_token', data.token);
+      sessionStorage.setItem('sislot_user', JSON.stringify(data.user));
+     
       // Feedback visual
       btnText.textContent = '✓ Login realizado!';
       btnText.style.display = 'block';
@@ -330,28 +330,6 @@ form.addEventListener('submit', async (e) => {
   }
 });
 
-// Verificar se já está logado
-window.addEventListener('load', () => {
-  const token = localStorage.getItem('sislot_token');
-  if (token) {
-    // Validar sessão
-    fetch(BACKEND_URL, {
-  method: 'POST',
-  headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-  body: JSON.stringify({
-    action: 'validarSessao',
-    token: token,
-  }),
-})
-    .then(r => r.json())
-    .then(data => {
-      if (data.ok) {
-        window.location.href = 'viabrasil-tela1.html';
-      }
-    })
-    .catch(() => {});
-  }
-});
 </script>
 
 </body>
