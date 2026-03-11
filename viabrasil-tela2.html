@@ -797,24 +797,33 @@ function avancarTela3(){
     qtd:   parseInt(document.getElementById('rq-'+i).value)||0,
     sub:   (parseFloat(document.getElementById('rp-'+i).value)||0)*(parseInt(document.getElementById('rq-'+i).value)||0),
   }));
+
   const telesena={
     preco: parseFloat(document.getElementById('tele-preco').value)||0,
     qtd:   parseInt(document.getElementById('tele-qtd').value)||0,
     sub:   getTeleTot(),
   };
+
   const feds=federais.map((f,i)=>({
-    modalidade:f.modalidade, concurso:f.concurso, dtSorteio:f.dtSorteio, valorUnit:f.valorUnit,
+    modalidade:f.modalidade,
+    concurso:f.concurso,
+    dtSorteio:f.dtSorteio,
+    valorUnit:f.valorUnit,
     qtdVendida:parseInt(document.getElementById('fed-qtd-'+i)?.value)||0,
     subtotal:(parseInt(document.getElementById('fed-qtd-'+i)?.value)||0)*f.valorUnit,
   }));
+
   const dados={raspadinha,telesena,federais:feds};
   sessionStorage.setItem('tela2',JSON.stringify(dados));
+
   const btn=document.getElementById('btn-next');
   btn.innerHTML='✓ Salvando...';
   btn.style.background='#00e8ad';
+
   setTimeout(() => {
-  window.location.href='viabrasil-tela3.html';
-}, 600);
+    window.location.href='viabrasil-tela3.html';
+  }, 600);
+}
 </script>
 
 <script src="config-loterias.js"></script>
