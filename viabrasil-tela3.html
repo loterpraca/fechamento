@@ -432,7 +432,7 @@
 
 <script src="config-loterias.js"></script>
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbxWkOhvAGMc-bwNmMWNBlVCOX3lrMJFpPfZYonnRO2igwXYdjPj9LVLQA3IJ8qEn4jiRw/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyA8CYicVmGO3rkNZgmy2BA49GGoImVY8JCkcbmODYOxQa6x5otATmy1jDHYO_S3rsjMQ/exec';
 const lot = getLoteria();
 const ABA_MESTRA = 'Boloes';
 const ABA_CONTROLE = (lot && lot.abaExternos) ? lot.abaExternos : 'D.Centro';
@@ -687,19 +687,19 @@ function renderBoloes() {
         const gi = allBoloes.length;
 
         const enriched = {
-          seg: sec.seg,
-          key: String(b.key || '').trim(),
-          origem: String(b.origem || '').trim(),
-          destino: String(b.destino || '').trim(),
-          modalidade: String(b.modalidade || '').trim(),
-          concurso: String(b.concurso || '').trim(),
-          qtdJogos: String(b.qtdJogos || '').trim(),
-          qtdDezenas: String(b.qtdDezenas || '').trim(),
-          qtdCotas: String(b.qtdCotas || '').trim(),
-          valorCota: Number(b.valorCota || 0),
-          dtInicial: dataTela1?.data || '',
-          dtConcurso: ''
-        };
+  seg: sec.seg,
+  key: String(b.key || '').trim(),
+  origem: String(b.origem || '').trim(),
+  destino: String(b.destino || '').trim(),
+  modalidade: String(b.modalidade || '').trim(),
+  concurso: String(b.concurso || '').trim(),
+  qtdJogos: String(b.qtdJogos || '').trim(),
+  qtdDezenas: String(b.qtdDezenas || '').trim(),
+  qtdCotas: String(b.qtdCotas || '').trim(),
+  valorCota: Number(b.valorCota || 0),
+  dtInicial: String(b.dtInicial || '').trim(),
+  dtConcurso: String(b.dtConcurso || '').trim()
+};
 
         allBoloes.push({ seg: sec.seg, data: enriched, idx: gi });
 
