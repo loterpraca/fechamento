@@ -412,7 +412,49 @@
       </div>
     </div>
   </div>
+ 
+  <div id="modal-admin" style="
+  display:none; position:fixed; inset:0; z-index:1000;
+  background:rgba(10,22,40,0.85); backdrop-filter:blur(6px);
+  align-items:center; justify-content:center;
+">
+  <div style="
+    background:var(--blue-panel); border:1px solid rgba(245,166,35,0.3);
+    border-radius:16px; padding:32px 36px; width:min(92vw,420px);
+  ">
+    <div style="font-size:15px;font-weight:600;color:var(--amber);margin-bottom:8px;">
+      Autenticação de administrador
+    </div>
+    <div style="font-size:13px;color:var(--text-mid);margin-bottom:18px;line-height:1.5;">
+      Para sobrescrever um fechamento existente, informe usuário e senha de administrador.
+    </div>
 
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <input type="text" id="admin-login" placeholder="Usuário administrador" style="
+        width:100%; background:var(--input-bg); border:1px solid var(--input-border);
+        border-radius:8px; padding:12px 14px; color:var(--text-bright);
+      ">
+      <input type="password" id="admin-senha" placeholder="Senha" style="
+        width:100%; background:var(--input-bg); border:1px solid var(--input-border);
+        border-radius:8px; padding:12px 14px; color:var(--text-bright);
+      ">
+      <div id="admin-erro" style="display:none;font-size:12px;color:var(--error);"></div>
+    </div>
+
+    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:22px;">
+      <button type="button" onclick="fecharModalAdmin(false)" style="
+        background:transparent;border:1px solid var(--blue-border);color:var(--text-mid);
+        border-radius:8px;padding:10px 18px;cursor:pointer;
+      ">Cancelar</button>
+
+      <button type="button" onclick="confirmarAdminSobrescrita()" style="
+        background:var(--amber);color:var(--blue-deep);border:none;
+        border-radius:8px;padding:10px 18px;font-weight:600;cursor:pointer;
+      ">Confirmar</button>
+    </div>
+  </div>
+</div>
+ 
   <!-- GRADE DÉBITOS / CRÉDITOS -->
   <div class="grade">
 
@@ -538,6 +580,67 @@
 <script src="config-loterias.js"></script>
 
 <script>
+let resolverAdmin = null;
+
+function abrirModalAdmin() {
+  return new Promise(resolve => {
+    resolverAdmin = resolve;
+    document.getElementById('admin-login').value = '';
+    document.getElementById('admin-senha').value = '';
+    document.getElementById('admin-erro').style.display = 'none';
+    document.getElementById('admin-erro').textContent = '';
+    document.getElementById('modal-admin').style.display = 'flex';
+    document.getElementById('admin-login').focus();
+  });
+}
+
+function fecharModalAdmin(resultado) {
+  document.getElementById('modal-admin').style.display = 'none';
+  if (resolverAdmin) {
+    resolverAdmin(resultado);
+    resolverAdmin = null;
+  }
+}
+
+async function confirmarAdminSobrescrita() {
+  const login = String(document.getElementById('admin-login').value || '').trim();
+  const senha = String(document.getElementById('admin-senha').value || '').trim();
+  const erro = document.getElementById('admin-erro');
+
+  if (!login || !senha) {
+    erro.textContent = 'Informe usuário e senha do administrador.';
+    erro.style.display = 'block';
+    return;
+  }
+
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'validarAdminSobrescrita',
+        token,
+        login,
+        senha
+      })
+    });
+
+    const data = await response.json();
+
+    if (!data.ok) {
+      erro.textContent = data.error || 'Credenciais inválidas.';
+      erro.style.display = 'block';
+      return;
+    }
+
+    fecharModalAdmin(data.admin);
+
+  } catch (e) {
+    erro.textContent = 'Erro ao validar administrador.';
+    erro.style.display = 'block';
+  }
+}
+ 
 // ── Relógio ──
 function updateClock() {
   const now = new Date();
@@ -569,85 +672,105 @@ function set(id, val) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  const token = sessionStorage.getItem('sislot_token');
+  if (!token) {
+    window.location.href = 'login.html';
+    return;
+  }
+
   const t1 = JSON.parse(sessionStorage.getItem('tela1') || '{}');
   const t2 = JSON.parse(sessionStorage.getItem('tela2') || '{}');
   const t3 = JSON.parse(sessionStorage.getItem('tela3') || '{}');
 
-  // ── Info do fechamento ──
+  if (!t1.data || !t1.funcionario) {
+    window.location.href = 'viabrasil-tela1.html';
+    return;
+  }
+
+  const tela2Ok =
+    Array.isArray(t2.raspadinha) &&
+    !!t2.telesena &&
+    Array.isArray(t2.federais);
+
+  if (!tela2Ok) {
+    window.location.href = 'viabrasil-tela2.html';
+    return;
+  }
+
+  const tela3Ok =
+    Array.isArray(t3.internosComuns) &&
+    Array.isArray(t3.internosEspeciais) &&
+    Array.isArray(t3.externosComuns) &&
+    Array.isArray(t3.externosEspeciais);
+
+  if (!tela3Ok) {
+    window.location.href = 'viabrasil-tela3.html';
+    return;
+  }
+
   if (t1.funcionario) document.getElementById('info-func').textContent = t1.funcionario;
+
   if (t1.data) {
-    const [y,m,d] = t1.data.split('-');
+    const [y, m, d] = t1.data.split('-');
     document.getElementById('info-data').textContent = `${d}/${m}/${y}`;
   }
 
-  // ══════════════════════════════════════
-  // DÉBITOS
-  // ══════════════════════════════════════
-
-  // Troco Inicial
   const trocoIni = parseFloat(t1['troco-inicial']) || 0;
   set('l-troco-ini', trocoIni);
 
-  // Total Produtos (Raspadinha + Telesena)
   let totalRasp = 0;
   if (t2.raspadinha) t2.raspadinha.forEach(f => totalRasp += f.sub || 0);
+
   const totalTele = t2.telesena?.sub || 0;
   const totalProd = totalRasp + totalTele;
   set('l-produtos', totalProd);
 
-  // Total Federais
   let totalFed = 0;
   if (t2.federais) t2.federais.forEach(f => totalFed += f.subtotal || 0);
   set('l-federais', totalFed);
 
-  // Total Bolões
   let totalBoloes = 0;
   ['internosComuns','internosEspeciais','externosComuns','externosEspeciais'].forEach(k => {
     if (t3[k]) t3[k].forEach(b => totalBoloes += b.subtotal || 0);
   });
   set('l-boloes', totalBoloes);
 
-  // Relatório Diário
   const relatorio = parseFloat(t1.relatorio) || 0;
   set('l-relatorio', relatorio);
 
   const totalDebitos = trocoIni + totalProd + totalFed + totalBoloes + relatorio;
   set('tot-deb', totalDebitos);
 
-  // ══════════════════════════════════════
-  // CRÉDITOS
-  // ══════════════════════════════════════
+  const trocoSob   = parseFloat(t1['troco-sobra']) || 0;
+  const deposito   = parseFloat(t1.deposito) || 0;
+  const pix        = parseFloat(t1.pix) || 0;
+  const pixDif     = parseFloat(t1['pix-sistema']) || 0;
+  const raspadinha = parseFloat(t1.raspadinha) || 0;
+  const telesena   = parseFloat(t1.telesena) || 0;
 
-  const trocoSob  = parseFloat(t1['troco-sobra'])  || 0;
-  const deposito  = parseFloat(t1.deposito)         || 0;
-  const pix       = parseFloat(t1.pix)              || 0;
-  const pixDif    = parseFloat(t1['pix-sistema'])   || 0;
-  const raspadinha= parseFloat(t1.raspadinha)        || 0;
-  const telesena  = parseFloat(t1.telesena)          || 0;
-
-  set('l-troco-sob',  trocoSob);
-  set('l-deposito',   deposito);
-  set('l-pix',        pix);
-  set('l-pix-dif',    pixDif);
+  set('l-troco-sob', trocoSob);
+  set('l-deposito', deposito);
+  set('l-pix', pix);
+  set('l-pix-dif', pixDif);
   set('l-raspadinha', raspadinha);
-  set('l-telesena',   telesena);
+  set('l-telesena', telesena);
 
-  // Dívidas
   const dividas = t1.dividas || [];
   let totalDividas = 0;
   dividas.forEach(d => totalDividas += parseFloat(d.valor) || 0);
   set('l-dividas', totalDividas);
   document.getElementById('dividas-badge').textContent = dividas.length;
 
-  // Renderiza sub-itens de dívidas
   const subWrap = document.getElementById('dividas-sub');
+  subWrap.innerHTML = '';
+
   if (dividas.length > 0) {
     dividas.forEach(d => {
       const linha = document.createElement('div');
       linha.className = 'linha sub';
       linha.innerHTML = `
         <div class="linha-label"><div class="linha-dot"></div>${d.nome}</div>
-        <div class="linha-val">R$ ${parseFloat(d.valor).toFixed(2).replace('.',',')}</div>
+        <div class="linha-val">R$ ${parseFloat(d.valor).toFixed(2).replace('.', ',')}</div>
       `;
       subWrap.appendChild(linha);
     });
@@ -660,9 +783,6 @@ window.addEventListener('DOMContentLoaded', () => {
   const totalCreditos = trocoSob + deposito + pix + pixDif + raspadinha + telesena + totalDividas;
   set('tot-cred', totalCreditos);
 
-  // ══════════════════════════════════════
-  // QUEBRA
-  // ══════════════════════════════════════
   const quebra = totalCreditos - totalDebitos;
   dadosQuebra = quebra;
   renderQuebra(quebra, totalCreditos, totalDebitos);
@@ -744,14 +864,23 @@ document.addEventListener('DOMContentLoaded', () => {
 // INTEGRAÇÃO GOOGLE SHEETS
 // ══════════════════════════════════════
 
-let loteiraAtiva   = null;
+let loteriaAtiva = null;
 let resolverSob    = null; // promise resolver do modal sobrescrever
 
 // Detecta loteria ao carregar
 window.addEventListener('DOMContentLoaded', () => {
-  loteiraAtiva = getLoteria();
-  if (loteiraAtiva) {
-    document.getElementById('info-loteria').textContent = loteiraAtiva.nome;
+  const user = JSON.parse(sessionStorage.getItem('sislot_user') || '{}');
+  const lotConfig = getLoteria();
+
+  const nomeLoteriaSessao = String(user?.loteria || '').trim();
+  const nomeLoteriaConfig = String(lotConfig?.nome || '').trim();
+
+  loteriaAtiva = {
+    nome: nomeLoteriaSessao || nomeLoteriaConfig || ''
+  };
+
+  if (loteriaAtiva.nome) {
+    document.getElementById('info-loteria').textContent = loteriaAtiva.nome;
     document.getElementById('chip-loteria').style.display = 'flex';
   } else {
     document.getElementById('chip-loteria-erro').style.display = 'flex';
@@ -783,7 +912,7 @@ function setProgresso(label, feito, total) {
 // FINALIZAR
 // ══════════════════════════════════════
 async function finalizar() {
-  if (!loteiraAtiva) {
+  if (!loteriaAtiva || !loteriaAtiva.nome) {
     alert('⚠️ Loteria não identificada. Verifique o arquivo HTML que está usando.');
     return;
   }
@@ -792,7 +921,7 @@ async function finalizar() {
   const t2 = JSON.parse(sessionStorage.getItem('tela2') || '{}');
   const t3 = JSON.parse(sessionStorage.getItem('tela3') || '{}');
   const justificativa = document.getElementById('justificativa').value.trim();
- 
+
   let dataStr = t1.data || '';
   if (dataStr.includes('-')) {
     const [y, m, d] = dataStr.split('-');
@@ -813,20 +942,32 @@ async function finalizar() {
   btn.disabled = true;
 
   try {
-    const jaExiste = await verificarFechamentoExistenteBackend(token, t1.funcionario, dataStr);
     let sobrescrever = false;
+    let adminAprovador = null;
+
+    const jaExiste = await verificarFechamentoExistenteBackend(token, t1.funcionario, dataStr);
 
     if (jaExiste) {
-      sobrescrever = await perguntarSobrescrever(t1.funcionario, dataStr);
-      if (!sobrescrever) {
+      const confirmou = await perguntarSobrescrever(t1.funcionario, dataStr);
+      if (!confirmou) {
         btn.disabled = false;
         return;
       }
+
+      adminAprovador = await abrirModalAdmin();
+      if (!adminAprovador) {
+        btn.disabled = false;
+        return;
+      }
+
+      sobrescrever = true;
     }
 
     document.getElementById('modal-gravando').style.display = 'flex';
     document.getElementById('modal-titulo').textContent = `Gravando fechamento de ${t1.funcionario}...`;
     setProgresso('Enviando dados ao servidor', 1, 1);
+
+    const user = getUsuarioLogado();
 
     const response = await fetch(API_URL, {
       method: 'POST',
@@ -840,6 +981,18 @@ async function finalizar() {
           quebra: dadosQuebra,
           justificativa,
           sobrescrever,
+          usuarioLogado: {
+            userid: user.userid || '',
+            nome: user.nome || '',
+            perfil: user.perfil || '',
+            loteria: user.loteria || ''
+          },
+          adminSobrescrita: adminAprovador ? {
+            userid: adminAprovador.userid || '',
+            nome: adminAprovador.nome || '',
+            perfil: adminAprovador.perfil || '',
+            loteria: adminAprovador.loteria || ''
+          } : null,
           tela1: t1,
           tela2: t2,
           tela3: t3
@@ -864,7 +1017,7 @@ async function finalizar() {
       alert(
         `✅ Fechamento gravado com sucesso!\n\n` +
         `Funcionário: ${t1.funcionario}\n` +
-        `Loteria: ${loteiraAtiva.nome}\n` +
+        `Loteria: ${loteriaAtiva.nome}\n` +
         `Data: ${dataStr}\n` +
         `Quebra: R$ ${dadosQuebra.toFixed(2).replace('.', ',')}\n` +
         (justificativa ? `\nJustificativa registrada.` : '')
@@ -878,6 +1031,20 @@ async function finalizar() {
     alert(`❌ Erro ao gravar:\n\n${e.message || 'Erro desconhecido'}`);
   }
 }
+
+ function getUsuarioLogado() {
+  try {
+    return JSON.parse(sessionStorage.getItem('sislot_user') || '{}');
+  } catch {
+    return {};
+  }
+}
+
+function isAdmin(user) {
+  const perfil = String(user?.perfil || '').trim().toUpperCase();
+  return perfil === 'ADMIN' || perfil === 'ADM';
+}
+ 
 async function verificarFechamentoExistenteBackend(token, funcionario, dataStr) {
   try {
     const response = await fetch(API_URL, {
