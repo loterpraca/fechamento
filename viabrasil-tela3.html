@@ -43,10 +43,10 @@
     --input-border:#1e3a6e;
     --error:       #ff5252;
 
-    --c-ic: #00c896;   /* interno comum   — verde   */
-    --c-ie: #f5a623;   /* interno especial — âmbar  */
-    --c-ec: #38bdf8;   /* externo comum   — azul    */
-    --c-ee: #fb7185;   /* externo especial — rosa   */
+    --c-ic: #00c896;
+    --c-ie: #f5a623;
+    --c-ec: #38bdf8;
+    --c-ee: #fb7185;
   }
 
   body {
@@ -62,7 +62,6 @@
       repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(30,58,110,0.15) 39px, rgba(30,58,110,0.15) 40px);
   }
 
-  /* ── TOPBAR ── */
   .topbar {
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 32px; height: 56px;
@@ -79,7 +78,6 @@
   .brand-sub  { font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
   .topbar-right { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-mid); }
 
-  /* ── STEPS ── */
   .steps-bar { display: flex; align-items: center; justify-content: center; padding: 24px 32px 0; }
   .step { display: flex; align-items: center; gap: 8px; }
   .step-circle {
@@ -96,7 +94,6 @@
   .step-connector { width: 64px; height: 1px; background: var(--blue-border); margin: 0 4px; }
   .step-connector.done { background: var(--accent); opacity: 0.4; }
 
-  /* ── MAIN ── */
   .main { flex: 1; padding: 32px; max-width: 1040px; width: 100%; margin: 0 auto; }
 
   .page-header {
@@ -112,54 +109,11 @@
     padding: 4px 12px; border-radius: 20px; letter-spacing: 0.1em; text-transform: uppercase;
   }
 
-  /* ── AUTH ── */
   .auth-banner {
     display: flex; align-items: center; gap: 16px;
     background: var(--blue-panel); border: 1px solid var(--blue-border);
     border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; transition: all 0.3s;
   }
-  .auth-banner.connected { border-color: rgba(0,200,150,0.3); background: rgba(0,200,150,0.04); }
-  .auth-icon { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); }
-  .auth-info { flex: 1; }
-  .auth-title { font-size: 13px; font-weight: 600; }
-  .auth-sub   { font-size: 11px; color: var(--text-mid); margin-top: 2px; }
-  .btn-auth {
-    display: flex; align-items: center; gap: 8px; background: #fff; color: #1a1a2e;
-    border: none; border-radius: 6px; padding: 8px 16px; font-size: 13px; font-weight: 600;
-    cursor: pointer; white-space: nowrap; font-family: 'IBM Plex Sans', sans-serif; transition: all 0.2s;
-  }
-  .btn-auth:hover { background: #f0f4ff; }
-  .btn-auth-connected {
-    background: transparent; color: var(--text-dim); border: 1px solid var(--blue-border);
-    border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer;
-    font-family: 'IBM Plex Sans', sans-serif; transition: all 0.2s;
-  }
-  .btn-auth-connected:hover { border-color: var(--error); color: var(--error); }
-  .dot-ok { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px rgba(0,200,150,0.6); animation: pulse 2s infinite; display: inline-block; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-  /* ── INPUTS / FIELDS ── */
-  .field-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-mid); display: block; margin-bottom: 6px; }
-  input[type="text"] {
-    width: 100%; background: var(--input-bg); border: 1px solid var(--input-border);
-    border-radius: 6px; padding: 10px 14px;
-    font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-bright);
-    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  input[type="text"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,200,150,0.1); }
-  input::placeholder { color: var(--text-dim); }
-
-  /* ── CONFIG ── */
-  /* sheets-config removido — IDs vêm do config-loterias.js */
-  .btn-buscar {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    background: var(--blue-panel); border: 1px solid var(--blue-border);
-    color: var(--text-bright); border-radius: 6px; padding: 10px 20px;
-    font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s;
-    font-family: 'IBM Plex Sans', sans-serif; width: 100%; margin-bottom: 20px;
-  }
-  .btn-buscar:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); background: rgba(0,200,150,0.05); }
-  .btn-buscar:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .data-badge {
     display: inline-flex; align-items: center; gap: 8px;
@@ -168,7 +122,6 @@
     font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #f5a623;
   }
 
-  /* ── ESTADOS ── */
   .state-box {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 10px; padding: 48px 24px; text-align: center;
@@ -180,7 +133,6 @@
   .spinner { width: 34px; height: 34px; border-radius: 50%; border: 3px solid rgba(0,200,150,0.15); border-top-color: var(--accent); animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── SEPARADOR DE BLOCO (INTERNOS / EXTERNOS) ── */
   .bloco-sep {
     display: flex; align-items: center; gap: 14px;
     margin: 28px 0 20px;
@@ -202,7 +154,6 @@
   .bloco-externos .bloco-sep-line  { background: rgba(56,189,248,0.2); }
   .bloco-externos .bloco-sep-tot   { background: rgba(56,189,248,0.06); border: 1px solid rgba(56,189,248,0.15); color: var(--c-ec); }
 
-  /* ── SEÇÃO (sub-bloco) ── */
   .secao-header {
     display: flex; align-items: center; gap: 10px;
     padding: 0 0 10px; margin-top: 4px; margin-bottom: 2px;
@@ -213,7 +164,6 @@
   .secao-line   { flex: 1; height: 1px; background: var(--blue-border); }
   .secao-subtot { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 5px; }
 
-  /* Cores por seção */
   .s-ic .secao-dot    { background: var(--c-ic); box-shadow: 0 0 5px var(--c-ic); }
   .s-ic .secao-titulo { color: var(--c-ic); }
   .s-ic .secao-count  { background: rgba(0,200,150,0.08); border: 1px solid rgba(0,200,150,0.2); color: var(--c-ic); }
@@ -234,7 +184,6 @@
   .s-ee .secao-count  { background: rgba(251,113,133,0.08); border: 1px solid rgba(251,113,133,0.2); color: var(--c-ee); }
   .s-ee .secao-subtot { background: rgba(251,113,133,0.07); border: 1px solid rgba(251,113,133,0.15); color: var(--c-ee); }
 
-  /* ── CARD ── */
   .bolao-card {
     display: grid; grid-template-columns: 1fr auto;
     gap: 16px; align-items: center;
@@ -243,7 +192,6 @@
     transition: border-color 0.2s;
     animation: cardIn 0.3s ease both;
   }
-  /* borda esquerda colorida por tipo */
   .c-ic { border-left: 3px solid var(--c-ic); }
   .c-ie { border-left: 3px solid var(--c-ie); }
   .c-ec { border-left: 3px solid var(--c-ec); }
@@ -260,13 +208,11 @@
   .meta-tag   { font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 2px 7px; border-radius: 4px; background: rgba(255,255,255,0.04); border: 1px solid var(--blue-border); color: var(--text-mid); white-space: nowrap; }
   .meta-dest  { color: #f5a623; border-color: rgba(245,166,35,0.2); background: rgba(245,166,35,0.05); }
 
-  /* Valor Cota colorido por tipo */
   .c-ic .meta-val { color: var(--c-ic); border-color: rgba(0,200,150,0.25); background: rgba(0,200,150,0.05); }
   .c-ie .meta-val { color: var(--c-ie); border-color: rgba(245,166,35,0.25); background: rgba(245,166,35,0.05); }
   .c-ec .meta-val { color: var(--c-ec); border-color: rgba(56,189,248,0.25); background: rgba(56,189,248,0.05); }
   .c-ee .meta-val { color: var(--c-ee); border-color: rgba(251,113,133,0.25); background: rgba(251,113,133,0.05); }
 
-  /* Qtd */
   .qtd-block { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; min-width: 120px; }
   .qtd-lbl   { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); }
   .qtd-wrap  { display: flex; align-items: center; }
@@ -277,7 +223,7 @@
   }
   .btn-q:first-child { border-radius: 5px 0 0 5px; }
   .btn-q:last-child  { border-radius: 0 5px 5px 0; }
-  /* hover colorido por tipo */
+
   .c-ic .btn-q:hover { background: rgba(0,200,150,0.12); color: var(--c-ic); border-color: rgba(0,200,150,0.35); }
   .c-ie .btn-q:hover { background: rgba(245,166,35,0.12); color: var(--c-ie); border-color: rgba(245,166,35,0.35); }
   .c-ec .btn-q:hover { background: rgba(56,189,248,0.12); color: var(--c-ec); border-color: rgba(56,189,248,0.35); }
@@ -298,8 +244,8 @@
   input.inp-qtd:focus { box-shadow: none; }
 
   .c-ic input.inp-qtd.filled { color: var(--c-ic); border-top-color: rgba(0,200,150,0.4) !important; border-bottom-color: rgba(0,200,150,0.4) !important; }
-  .c-ie input.inp-qtd.filled { color: var(--c-ie); border-top-color: rgba(245,166,35,0.4) !important;  border-bottom-color: rgba(245,166,35,0.4) !important; }
-  .c-ec input.inp-qtd.filled { color: var(--c-ec); border-top-color: rgba(56,189,248,0.4) !important;  border-bottom-color: rgba(56,189,248,0.4) !important; }
+  .c-ie input.inp-qtd.filled { color: var(--c-ie); border-top-color: rgba(245,166,35,0.4) !important; border-bottom-color: rgba(245,166,35,0.4) !important; }
+  .c-ec input.inp-qtd.filled { color: var(--c-ec); border-top-color: rgba(56,189,248,0.4) !important; border-bottom-color: rgba(56,189,248,0.4) !important; }
   .c-ee input.inp-qtd.filled { color: var(--c-ee); border-top-color: rgba(251,113,133,0.4) !important; border-bottom-color: rgba(251,113,133,0.4) !important; }
 
   .qtd-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-dim); text-align: right; min-height: 14px; transition: color 0.2s; }
@@ -308,7 +254,6 @@
   .c-ec .qtd-sub.on { color: var(--c-ec); }
   .c-ee .qtd-sub.on { color: var(--c-ee); }
 
-  /* ── TOTAIS ── */
   .totais-bar {
     display: flex; background: var(--blue-panel); border: 1px solid var(--blue-border);
     border-radius: 10px; overflow: hidden; margin-top: 28px; margin-bottom: 8px;
@@ -323,7 +268,6 @@
   .tv-ee { color: var(--c-ee); }
   .tv-g  { color: var(--text-bright); font-size: 17px; }
 
-  /* ── FOOTER ── */
   .form-footer {
     display: flex; align-items: center; justify-content: space-between;
     padding-top: 20px; border-top: 1px solid var(--blue-border); margin-top: 8px;
@@ -352,7 +296,6 @@
     .main { padding: 16px; }
     .bolao-card { grid-template-columns: 1fr; }
     .qtd-block { align-items: flex-start; }
-
     .totais-bar { flex-wrap: wrap; }
   }
 </style>
@@ -389,41 +332,19 @@
     <div class="step-badge">Tela 3 de 4</div>
   </div>
 
-  <!-- AUTH -->
   <div class="auth-banner" id="auth-banner">
-    <div class="auth-icon">
-      <svg viewBox="0 0 24 24" width="22" height="22">
-        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-      </svg>
-    </div>
-    <div class="auth-info">
-      <div class="auth-title" id="auth-title">Conectar ao Google Sheets</div>
-      <div class="auth-sub" id="auth-sub">Necessário para buscar os bolões nas planilhas Mestra e Controle</div>
-    </div>
-    <button class="btn-auth" id="btn-auth" onclick="iniciarAuth()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15">
-        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/>
-      </svg>
-      Entrar com Google
-    </button>
+    <div>Carregando bolões...</div>
   </div>
 
-  <!-- IDs vêm do config-loterias.js — sem campos manuais -->
-  <input type="hidden" id="id-mestra"   value="">
+  <input type="hidden" id="id-mestra" value="">
   <input type="hidden" id="id-controle" value="">
+
   <div id="config-wrap">
-    <button class="btn-buscar" id="btn-buscar" onclick="buscarTodos()" disabled>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15">
-        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-      </svg>
+    <button class="btn-next" id="btn-buscar" onclick="buscarTodos()" style="width:100%;justify-content:center;">
       Buscar Todos os Bolões
     </button>
   </div>
 
-  <!-- DATA BADGE -->
   <div class="data-badge" id="data-badge" style="display:none;">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
@@ -431,19 +352,20 @@
     Data de referência: <strong id="data-ref">—</strong>
   </div>
 
-  <!-- ESTADOS -->
   <div id="st-inicial" class="state-box">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
     </svg>
-    <div class="state-title">Aguardando autenticação</div>
-    <div class="state-sub">Conecte sua conta Google para carregar os bolões</div>
+    <div class="state-title">Aguardando carregamento</div>
+    <div class="state-sub">Os bolões serão carregados automaticamente.</div>
   </div>
+
   <div id="st-loading" class="state-box" style="display:none;">
     <div class="spinner"></div>
     <div class="state-title">Buscando bolões vigentes...</div>
     <div class="state-sub" id="st-loading-sub">Consultando planilhas</div>
   </div>
+
   <div id="st-erro" class="state-box" style="display:none;">
     <svg viewBox="0 0 24 24" fill="none" stroke="#ff5252" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.8">
       <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
@@ -451,6 +373,7 @@
     <div class="state-title" style="color:var(--error)">Erro ao buscar bolões</div>
     <div class="state-sub" id="st-erro-msg">Verifique os IDs e tente novamente.</div>
   </div>
+
   <div id="st-vazio" class="state-box" style="display:none;">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3" y="3" width="18" height="18" rx="2"/>
@@ -459,11 +382,9 @@
     <div class="state-sub">Não foram encontrados bolões ativos para a data informada.</div>
   </div>
 
-  <!-- LISTA -->
   <div id="st-lista" style="display:none;">
     <div id="boloes-wrap"></div>
 
-    <!-- CARD TOTAL GERAL EM DESTAQUE -->
     <div id="card-total-geral" style="
       display:flex; align-items:center; justify-content:space-between;
       background: linear-gradient(135deg, rgba(0,200,150,0.1) 0%, rgba(0,200,150,0.04) 100%);
@@ -488,7 +409,6 @@
       </div>
     </div>
 
-    <!-- BARRA DETALHADA POR TIPO -->
     <div class="totais-bar">
       <div class="tot-item"><div class="tot-lbl">🟢 Internos Comuns</div><div class="tot-val tv-ic" id="tot-ic">R$ 0,00</div></div>
       <div class="tot-item"><div class="tot-lbl">🟡 Internos Especiais</div><div class="tot-val tv-ie" id="tot-ie">R$ 0,00</div></div>
@@ -509,51 +429,118 @@
     </button>
   </div>
 </main>
+
 <script src="config-loterias.js"></script>
 <script>
-// CLIENT_ID vem do config-loterias.js
 const API_URL = 'https://script.google.com/macros/s/AKfycbwhyEt0sltxU9Hx1WVFPmZWqGRiWxBIZ4-EiDauDvifAX1-oFe-aWVZlG5oMpMBtHL_cw/exec';
 const lot = getLoteria();
 const ABA_MESTRA = 'Boloes';
 const ABA_CONTROLE = (lot && lot.abaExternos) ? lot.abaExternos : 'D.Centro';
-// ESPECIAIS_REGEX vem do config-loterias.js
-// ESPECIAIS_REGEX vem do config-loterias.js
-let dateFech    = null;
+
+let dateFech = null;
+let dataTela1 = null;
+
+let lstIC = [];
+let lstIE = [];
+let lstEC = [];
+let lstEE = [];
+let allBoloes = [];
+
+function updateClock() {
+  const now = new Date();
+  document.getElementById('relogio').textContent =
+    now.toLocaleTimeString('pt-BR') + ' — ' +
+    now.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'2-digit', year:'numeric' });
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+function fmt(v) {
+  return 'R$ ' + Number(v || 0).toFixed(2).replace('.', ',');
+}
+
+function setEstado(s) {
+  ['st-inicial','st-loading','st-erro','st-vazio','st-lista'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById('st-' + s).style.display = s === 'lista' ? 'block' : 'flex';
+}
+
+function showErro(msg) {
+  document.getElementById('st-erro-msg').textContent = msg;
+  setEstado('erro');
+}
+
+function ordenarBoloes(lista) {
+  return (lista || []).sort((a, b) => {
+    const modA = String(a.modalidade || '').toLowerCase().trim();
+    const modB = String(b.modalidade || '').toLowerCase().trim();
+    if (modA < modB) return -1;
+    if (modA > modB) return 1;
+
+    const valA = Number(a.valorCota || 0);
+    const valB = Number(b.valorCota || 0);
+    if (valA !== valB) return valA - valB;
+
+    const orgA = String(a.origem || '').toLowerCase().trim();
+    const orgB = String(b.origem || '').toLowerCase().trim();
+    if (orgA < orgB) return -1;
+    if (orgA > orgB) return 1;
+
+    return 0;
+  });
+}
 
 window.addEventListener('DOMContentLoaded', () => {
-  if (!lot) {
-    alert('Loteria não identificada. Verifique o nome do arquivo HTML.');
-    return;
-  }
-
   const token = sessionStorage.getItem('sislot_token');
   if (!token) {
     window.location.href = 'login.html';
     return;
   }
 
-  const tela1 = JSON.parse(sessionStorage.getItem('tela1') || '{}');
-  if (!tela1.data || !tela1.funcionario) {
+  const raw1 = sessionStorage.getItem('tela1');
+  if (!raw1) {
     window.location.href = 'viabrasil-tela1.html';
     return;
   }
 
-  const tela2 = JSON.parse(sessionStorage.getItem('tela2') || '{}');
-  const tela2Existe =
-    Array.isArray(tela2.raspadinha) &&
-    !!tela2.telesena &&
-    Array.isArray(tela2.federais);
-
-  if (!tela2Existe) {
+  const raw2 = sessionStorage.getItem('tela2');
+  if (!raw2) {
     window.location.href = 'viabrasil-tela2.html';
     return;
   }
 
-  const [y, m, dd] = tela1.data.split('-').map(Number);
-  dateFech = new Date(y, m - 1, dd);
+  const t1 = JSON.parse(raw1 || '{}');
+  const t2 = JSON.parse(raw2 || '{}');
+
+  const tela2Ok =
+    Array.isArray(t2.raspadinha) &&
+    !!t2.telesena &&
+    Array.isArray(t2.federais);
+
+  if (!tela2Ok) {
+    window.location.href = 'viabrasil-tela2.html';
+    return;
+  }
+
+  if (!lot) {
+    alert('Loteria não identificada. Verifique o nome do arquivo HTML.');
+    return;
+  }
+
+  dataTela1 = t1;
+
+  if (!t1.data) {
+    window.location.href = 'viabrasil-tela1.html';
+    return;
+  }
+
+  const [y, m, d] = t1.data.split('-').map(Number);
+  dateFech = new Date(y, m - 1, d);
 
   document.getElementById('data-ref').textContent =
-    `${String(dd).padStart(2, '0')}/${String(m).padStart(2, '0')}/${y}`;
+    `${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}/${y}`;
   document.getElementById('data-badge').style.display = 'inline-flex';
 
   const idMestra = document.getElementById('id-mestra');
@@ -570,65 +557,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   buscarTodos();
 });
- 
-let lstIC = [];
-let lstIE = [];
-let lstEC = [];
-let lstEE = [];
-let allBoloes = [];
- 
-function ordenarBoloes(lista) {
-  return lista.sort((a, b) => {
-    // 1) Modalidade
-    const modA = (a.modalidade || '').toLowerCase().trim();
-    const modB = (b.modalidade || '').toLowerCase().trim();
 
-    if (modA < modB) return -1;
-    if (modA > modB) return 1;
-
-    // 2) Valor da cota
-    const valA = Number(a.valorCota || 0);
-    const valB = Number(b.valorCota || 0);
-
-    if (valA !== valB) {
-      return valA - valB;
-    }
-
-    // 3) Origem
-    const orgA = (a.origem || '').toLowerCase().trim();
-    const orgB = (b.origem || '').toLowerCase().trim();
-
-    if (orgA < orgB) return -1;
-    if (orgA > orgB) return 1;
-
-    return 0;
-  });
-}
-// ── Relógio ──
-function updateClock() {
-  const now = new Date();
-  document.getElementById('relogio').textContent =
-    now.toLocaleTimeString('pt-BR') + ' — ' +
-    now.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'2-digit', year:'numeric' });
-}
-updateClock(); setInterval(updateClock, 1000);
-
-// ── Data da Tela 1 ──
-
-// ── Helpers ──
-function dtTs(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime(); }
-function parseData(v) {
-  if (!v) return null;
-  const s = String(v).trim();
-  let m;
-  m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if (m) return new Date(+m[3],+m[2]-1,+m[1]);
-  m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);        if (m) return new Date(+m[1],+m[2]-1,+m[3]);
-  if (/^\d+(\.\d+)?$/.test(s)) return new Date(Date.UTC(1899,11,30)+parseFloat(s)*86400000);
-  return null;
-}
-const fmt = v => 'R$ ' + v.toFixed(2).replace('.', ',');
-
-// ── Buscar ──
 async function buscarTodos() {
   const token = sessionStorage.getItem('sislot_token');
   if (!token) {
@@ -649,8 +578,8 @@ async function buscarTodos() {
     return;
   }
 
-  if (!dateFech) {
-    alert('Volte para a Tela 1 e informe a data.');
+  if (!dateFech || !dataTela1) {
+    window.location.href = 'viabrasil-tela1.html';
     return;
   }
 
@@ -692,7 +621,6 @@ async function buscarTodos() {
 
     renderBoloes();
     setEstado('lista');
-    document.getElementById('config-wrap').style.display = 'none';
 
   } catch (e) {
     console.error(e);
@@ -700,25 +628,6 @@ async function buscarTodos() {
   }
 }
 
-function mapMestra(r, seg) {
-  return {
-    seg, key: r[1]||'', modalidade: r[4]||'', concurso: r[5]||'',
-    qtdJogos: r[6]||'', qtdDezenas: r[7]||'',
-    valorCota: parseFloat(String(r[8]||'0').replace(',','.')) || 0,
-    origem: '',
-  };
-}
-function mapExterno(r, seg) {
-  return {
-    seg, key: r[2]||'', origem: r[11]||'',
-    modalidade: r[5]||'', concurso: r[6]||'',
-    qtdJogos: r[7]||'', qtdDezenas: r[8]||'',
-    valorCota: parseFloat(String(r[9]||'0').replace(',','.')) || 0,
-    qtdCotas: r[10]||'', destino: r[12]||'',
-  };
-}
-
-// ── Render ──
 function renderBoloes() {
   const wrap = document.getElementById('boloes-wrap');
   wrap.innerHTML = '';
@@ -726,28 +635,31 @@ function renderBoloes() {
 
   const blocos = [
     {
-      id: 'internos', label: 'Internos', cls: 'bloco-internos',
+      id: 'internos',
+      label: 'Internos',
+      cls: 'bloco-internos',
       totId: 'bloco-tot-int',
       secoes: [
-        { seg: 'ic', label: 'Internos Comuns',   lista: lstIC, sCls: 's-ic', cCls: 'c-ic' },
-        { seg: 'ie', label: 'Internos Especiais', lista: lstIE, sCls: 's-ie', cCls: 'c-ie' },
+        { seg: 'ic', label: 'Internos Comuns', lista: lstIC, sCls: 's-ic', cCls: 'c-ic' },
+        { seg: 'ie', label: 'Internos Especiais', lista: lstIE, sCls: 's-ie', cCls: 'c-ie' }
       ]
     },
     {
-      id: 'externos', label: 'Externos', cls: 'bloco-externos',
+      id: 'externos',
+      label: 'Externos',
+      cls: 'bloco-externos',
       totId: 'bloco-tot-ext',
       secoes: [
-        { seg: 'ec', label: 'Externos Comuns',   lista: lstEC, sCls: 's-ec', cCls: 'c-ec' },
-        { seg: 'ee', label: 'Externos Especiais', lista: lstEE, sCls: 's-ee', cCls: 'c-ee' },
+        { seg: 'ec', label: 'Externos Comuns', lista: lstEC, sCls: 's-ec', cCls: 'c-ec' },
+        { seg: 'ee', label: 'Externos Especiais', lista: lstEE, sCls: 's-ee', cCls: 'c-ee' }
       ]
-    },
+    }
   ];
 
   blocos.forEach(bloco => {
-    const totalBloco = bloco.secoes.reduce((a,s) => a + s.lista.length, 0);
+    const totalBloco = bloco.secoes.reduce((a, s) => a + s.lista.length, 0);
     if (totalBloco === 0) return;
 
-    // Separador de bloco
     const bsep = document.createElement('div');
     bsep.className = `bloco-sep ${bloco.cls}`;
     bsep.innerHTML = `
@@ -758,9 +670,8 @@ function renderBoloes() {
     wrap.appendChild(bsep);
 
     bloco.secoes.forEach(sec => {
-      if (sec.lista.length === 0) return;
+      if (!sec.lista.length) return;
 
-      // Cabeçalho de seção
       const shdr = document.createElement('div');
       shdr.className = `secao-header ${sec.sCls}`;
       shdr.innerHTML = `
@@ -772,22 +683,38 @@ function renderBoloes() {
       `;
       wrap.appendChild(shdr);
 
-      // Cards
       sec.lista.forEach((b, i) => {
         const gi = allBoloes.length;
-        allBoloes.push({ seg: sec.seg, data: b, idx: gi });
+
+        const enriched = {
+          seg: sec.seg,
+          key: String(b.key || '').trim(),
+          origem: String(b.origem || '').trim(),
+          destino: String(b.destino || '').trim(),
+          modalidade: String(b.modalidade || '').trim(),
+          concurso: String(b.concurso || '').trim(),
+          qtdJogos: String(b.qtdJogos || '').trim(),
+          qtdDezenas: String(b.qtdDezenas || '').trim(),
+          qtdCotas: String(b.qtdCotas || '').trim(),
+          valorCota: Number(b.valorCota || 0),
+          dtInicial: dataTela1?.data || '',
+          dtConcurso: ''
+        };
+
+        allBoloes.push({ seg: sec.seg, data: enriched, idx: gi });
 
         const partes = [];
-        if (b.origem)     partes.push(b.origem);
-        if (b.modalidade) partes.push(b.modalidade);
-        if (b.concurso)   partes.push(b.concurso);
-        const nome = partes.join(' · ') || b.key || `Bolão ${gi+1}`;
+        if (enriched.origem) partes.push(enriched.origem);
+        if (enriched.modalidade) partes.push(enriched.modalidade);
+        if (enriched.concurso) partes.push(enriched.concurso);
+        const nome = partes.join(' · ') || enriched.key || `Bolão ${gi + 1}`;
 
         const metas = [];
-        if (b.qtdJogos)   metas.push(`<span class="meta-tag">${b.qtdJogos} jogo${b.qtdJogos>1?'s':''}</span>`);
-        if (b.qtdDezenas) metas.push(`<span class="meta-tag">${b.qtdDezenas} dez.</span>`);
-        if (b.destino)    metas.push(`<span class="meta-tag meta-dest">→ ${b.destino}</span>`);
-        if (b.valorCota)  metas.push(`<span class="meta-tag meta-val">R$ ${b.valorCota.toFixed(2).replace('.',',')} / cota</span>`);
+        if (enriched.qtdJogos) metas.push(`<span class="meta-tag">${enriched.qtdJogos} jogo(s)</span>`);
+        if (enriched.qtdDezenas) metas.push(`<span class="meta-tag">${enriched.qtdDezenas} dez.</span>`);
+        if (enriched.qtdCotas) metas.push(`<span class="meta-tag">${enriched.qtdCotas} cotas</span>`);
+        if (enriched.destino) metas.push(`<span class="meta-tag meta-dest">→ ${enriched.destino}</span>`);
+        if (enriched.valorCota) metas.push(`<span class="meta-tag meta-val">R$ ${enriched.valorCota.toFixed(2).replace('.', ',')} / cota</span>`);
 
         const card = document.createElement('div');
         card.className = `bolao-card ${sec.cCls}`;
@@ -795,7 +722,7 @@ function renderBoloes() {
         card.style.animationDelay = (i * 0.04) + 's';
         card.innerHTML = `
           <div>
-            <div class="bolao-key">${b.key}</div>
+            <div class="bolao-key">${enriched.key}</div>
             <div class="bolao-nome">${nome}</div>
             <div class="bolao-meta">${metas.join('')}</div>
           </div>
@@ -818,102 +745,115 @@ function renderBoloes() {
   updTotais();
 }
 
-// ── Interações ──
 function ajQ(idx, d) {
-  const inp = document.getElementById('qtd-'+idx);
-  inp.value = Math.max(0,(parseInt(inp.value)||0)+d)||'';
-  onQtd(idx); inp.focus();
+  const inp = document.getElementById('qtd-' + idx);
+  inp.value = Math.max(0, (parseInt(inp.value) || 0) + d) || '';
+  onQtd(idx);
+  inp.focus();
 }
+
 function onQtd(idx) {
-  const inp  = document.getElementById('qtd-'+idx);
-  const sub  = document.getElementById('sub-'+idx);
+  const inp = document.getElementById('qtd-' + idx);
+  const sub = document.getElementById('sub-' + idx);
   const card = inp.closest('.bolao-card');
-  const b    = allBoloes[idx].data;
-  const qtd  = parseInt(inp.value)||0;
+  const b = allBoloes[idx].data;
+  const qtd = parseInt(inp.value) || 0;
+
   if (qtd > 0) {
     sub.textContent = fmt(qtd * b.valorCota);
-    sub.classList.add('on'); inp.classList.add('filled'); card.classList.add('has-val');
+    sub.classList.add('on');
+    inp.classList.add('filled');
+    card.classList.add('has-val');
   } else {
     sub.textContent = '—';
-    sub.classList.remove('on'); inp.classList.remove('filled'); card.classList.remove('has-val');
+    sub.classList.remove('on');
+    inp.classList.remove('filled');
+    card.classList.remove('has-val');
   }
+
   updTotais();
 }
-function blurQ(idx) { const inp=document.getElementById('qtd-'+idx); if(inp.value==='0') inp.value=''; }
 
-// ── Totais ──
+function blurQ(idx) {
+  const inp = document.getElementById('qtd-' + idx);
+  if (inp.value === '0') inp.value = '';
+}
+
 function updTotais() {
-  const tots  = { ic:0, ie:0, ec:0, ee:0 };
+  const tots = { ic: 0, ie: 0, ec: 0, ee: 0 };
   let totalCotas = 0;
 
-  allBoloes.forEach(({seg, data:b, idx}) => {
-    const qtd = parseInt(document.getElementById('qtd-'+idx)?.value) || 0;
-    tots[seg] += qtd * b.valorCota;
+  allBoloes.forEach(({ seg, data, idx }) => {
+    const qtd = parseInt(document.getElementById('qtd-' + idx)?.value) || 0;
+    tots[seg] += qtd * data.valorCota;
     totalCotas += qtd;
   });
 
   const totalGeral = tots.ic + tots.ie + tots.ec + tots.ee;
 
-  // Card destaque
   document.getElementById('tot-geral-destaque').textContent = fmt(totalGeral);
-  document.getElementById('tot-cotas-count').textContent = totalCotas.toLocaleString('pt-BR') + ' cota' + (totalCotas !== 1 ? 's' : '');
+  document.getElementById('tot-cotas-count').textContent = totalCotas;
 
-  // Barra detalhada
   document.getElementById('tot-ic').textContent = fmt(tots.ic);
   document.getElementById('tot-ie').textContent = fmt(tots.ie);
   document.getElementById('tot-ec').textContent = fmt(tots.ec);
   document.getElementById('tot-ee').textContent = fmt(tots.ee);
-  document.getElementById('tot-g').textContent  = fmt(totalGeral);
+  document.getElementById('tot-g').textContent = fmt(totalGeral);
 
-  // Subtotais nas seções
   if (document.getElementById('stot-ic')) document.getElementById('stot-ic').textContent = fmt(tots.ic);
   if (document.getElementById('stot-ie')) document.getElementById('stot-ie').textContent = fmt(tots.ie);
   if (document.getElementById('stot-ec')) document.getElementById('stot-ec').textContent = fmt(tots.ec);
   if (document.getElementById('stot-ee')) document.getElementById('stot-ee').textContent = fmt(tots.ee);
 
-  // Totais dos blocos Internos / Externos
-  if (document.getElementById('bloco-tot-int')) document.getElementById('bloco-tot-int').textContent = fmt(tots.ic+tots.ie);
-  if (document.getElementById('bloco-tot-ext')) document.getElementById('bloco-tot-ext').textContent = fmt(tots.ec+tots.ee);
+  if (document.getElementById('bloco-tot-int')) document.getElementById('bloco-tot-int').textContent = fmt(tots.ic + tots.ie);
+  if (document.getElementById('bloco-tot-ext')) document.getElementById('bloco-tot-ext').textContent = fmt(tots.ec + tots.ee);
 }
 
-// ── Estados ──
-function setEstado(s) {
-  ['st-inicial','st-loading','st-erro','st-vazio','st-lista']
-    .forEach(id => document.getElementById(id).style.display = 'none');
-  document.getElementById('st-'+s).style.display = s==='lista' ? 'block' : 'flex';
+function voltarTela2() {
+  window.location.href = 'viabrasil-tela2.html';
 }
-function showErro(msg) { document.getElementById('st-erro-msg').textContent = msg; setEstado('erro'); }
-
-// ── Navegação ──
-function voltarTela2() { window.location.href = 'viabrasil-tela2.html'; }
 
 function avancarTela4() {
   const coleta = seg => allBoloes
     .filter(b => b.seg === seg)
-    .map(({data:b, idx}) => ({
-      key: b.key, origem: b.origem||'', modalidade: b.modalidade,
-      concurso: b.concurso, valorCota: b.valorCota,
-      qtdVendida: parseInt(document.getElementById('qtd-'+idx)?.value)||0,
-      subtotal: (parseInt(document.getElementById('qtd-'+idx)?.value)||0)*b.valorCota,
-    }));
+    .map(({ data, idx }) => {
+      const qtdVendida = parseInt(document.getElementById('qtd-' + idx)?.value) || 0;
+      return {
+        key: data.key || '',
+        origem: data.origem || '',
+        destino: data.destino || '',
+        modalidade: data.modalidade || '',
+        concurso: data.concurso || '',
+        qtdJogos: data.qtdJogos || '',
+        qtdDezenas: data.qtdDezenas || '',
+        qtdCotas: data.qtdCotas || '',
+        dtInicial: data.dtInicial || '',
+        dtConcurso: data.dtConcurso || '',
+        valorCota: Number(data.valorCota || 0),
+        qtdVendida: qtdVendida,
+        subtotal: qtdVendida * Number(data.valorCota || 0)
+      };
+    });
 
   const dados = {
-    internosComuns:   coleta('ic'),
-    internosEspeciais:coleta('ie'),
-    externosComuns:   coleta('ec'),
-    externosEspeciais:coleta('ee'),
+    internosComuns: coleta('ic'),
+    internosEspeciais: coleta('ie'),
+    externosComuns: coleta('ec'),
+    externosEspeciais: coleta('ee')
   };
+
   sessionStorage.setItem('tela3', JSON.stringify(dados));
 
   const btn = document.getElementById('btn-next');
   btn.innerHTML = '✓ Salvando...';
   btn.style.background = '#00e8ad';
+
   setTimeout(() => {
-  window.location.href = 'viabrasil-tela4.html';
-}, 600);
+    window.location.href = 'viabrasil-tela4.html';
+  }, 500);
 }
 </script>
- <!-- Registrar Service Worker -->
+
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
