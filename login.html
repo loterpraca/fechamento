@@ -236,10 +236,8 @@
 </div>
 
 <script>
-// Configuração do backend
-const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwIDmrrNDNEhYcaQRA6rj4IZLBH_so5WzaSZHxtb-tKCBKc1H7qXCmYoJ74Dsw6WATEmA/exec';
+const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxrk-dqdtO8DTIoQ2PgYe8xrdmS7VbCClOBFQSdvXUcvgPg5z4hdx2cUDmHOTFlIi7_lg/exec';
 
-// Elementos
 const form = document.getElementById('form-login');
 const loginInput = document.getElementById('login');
 const senhaInput = document.getElementById('senha');
@@ -248,7 +246,6 @@ const btnText = document.getElementById('btn-text');
 const spinner = document.getElementById('spinner');
 const alertError = document.getElementById('alert-error');
 
-// Limpar erros ao digitar
 [loginInput, senhaInput].forEach(input => {
   input.addEventListener('input', () => {
     input.classList.remove('error');
@@ -257,16 +254,13 @@ const alertError = document.getElementById('alert-error');
   });
 });
 
-// Submit do formulário
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  // Limpar erros
   document.querySelectorAll('.error-message').forEach(el => el.classList.remove('visible'));
   document.querySelectorAll('.form-input').forEach(el => el.classList.remove('error'));
   alertError.classList.remove('visible');
 
-  // Validar campos
   let valid = true;
 
   if (!loginInput.value.trim()) {
@@ -283,70 +277,67 @@ form.addEventListener('submit', async (e) => {
 
   if (!valid) return;
 
-  // Mostrar loading
   btnLogin.disabled = true;
   btnText.style.display = 'none';
   spinner.style.display = 'block';
 
   try {
     const response = await fetch(BACKEND_URL, {
-  method: 'POST',
-  headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-  body: JSON.stringify({
-    action: 'login',
-    login: loginInput.value.trim(),
-    senha: senhaInput.value.trim(),
-  }),
-});
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'login',
+        login: loginInput.value.trim(),
+        senha: senhaInput.value.trim(),
+      }),
+    });
 
     const data = await response.json();
 
-if (data.ok) {
-  const user = {
-    key: data.user?.key || '',
-    userid: data.user?.userid || '',
-    nome: data.user?.nome || '',
-    perfil: String(data.user?.perfil || '').toUpperCase(),
-    loteria: data.user?.loteria || '',
-    status: data.user?.status || ''
-  };
+    if (data.ok) {
+      const user = {
+        key: data.user?.key || '',
+        userid: data.user?.userid || '',
+        nome: data.user?.nome || '',
+        perfil: String(data.user?.perfil || '').toUpperCase(),
+        loteria: data.user?.loteria || '',
+        status: data.user?.status || ''
+      };
 
-  // Limpar sessão anterior
-  sessionStorage.removeItem('sislot_token');
-  sessionStorage.removeItem('sislot_user');
-  sessionStorage.removeItem('tela1');
-  sessionStorage.removeItem('tela2');
-  sessionStorage.removeItem('tela3');
-  sessionStorage.removeItem('fechamento-final');
+      sessionStorage.removeItem('sislot_token');
+      sessionStorage.removeItem('sislot_user');
+      sessionStorage.removeItem('sislot_api_url');
+      sessionStorage.removeItem('tela1');
+      sessionStorage.removeItem('tela2');
+      sessionStorage.removeItem('tela3');
+      sessionStorage.removeItem('fechamento-final');
 
-  // Salvar nova sessão
-  sessionStorage.setItem('sislot_token', data.token);
-  sessionStorage.setItem('sislot_user', JSON.stringify(user));
+      sessionStorage.setItem('sislot_token', data.token);
+      sessionStorage.setItem('sislot_user', JSON.stringify(user));
+      sessionStorage.setItem('sislot_api_url', BACKEND_URL);
 
-  // Feedback visual
-  btnText.textContent = '✓ Login realizado!';
-  btnText.style.display = 'block';
-  spinner.style.display = 'none';
-  btnLogin.style.background = '#00e8ad';
+      btnText.textContent = '✓ Login realizado!';
+      btnText.style.display = 'block';
+      spinner.style.display = 'none';
+      btnLogin.style.background = '#00e8ad';
 
-  // Redirecionar para a tela 1
-  setTimeout(() => {
-    window.location.href = 'viabrasil-tela1.html';
-  }, 800);
-} else {
-  throw new Error(data.error || 'Erro ao fazer login');
-}
+      setTimeout(() => {
+        window.location.href = 'viabrasil-tela1.html';
+      }, 800);
+    } else {
+      throw new Error(data.error || 'Erro ao fazer login');
+    }
+
   } catch (error) {
     console.error('Erro:', error);
     alertError.textContent = error.message || 'Erro ao conectar com o servidor';
     alertError.classList.add('visible');
-    
+
     btnLogin.disabled = false;
     btnText.style.display = 'block';
     spinner.style.display = 'none';
   }
 });
-
 </script>
 
 </body>
