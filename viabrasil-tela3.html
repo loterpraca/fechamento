@@ -774,6 +774,30 @@
   // ─── INIT ─────────────────────────────────────────────────────
   window.addEventListener('DOMContentLoaded', () => {
 
+// ── Botões Início / Sair ──────────────────────────────────────
+function fecharModal(id) {
+  document.getElementById(id).classList.remove('show');
+}
+function confirmarInicio() {
+  document.getElementById('modal-inicio').classList.add('show');
+}
+function confirmarSair() {
+  document.getElementById('modal-sair').classList.add('show');
+}
+function executarInicio() {
+  // Limpa dados das telas mas mantém sessão (token + usuário)
+  sessionStorage.removeItem('tela1');
+  sessionStorage.removeItem('tela2');
+  sessionStorage.removeItem('tela3');
+  sessionStorage.removeItem('fechamento_original');
+  window.location.href = 'viabrasil-tela1.html';
+}
+function executarSair() {
+  // Limpa tudo incluindo sessão
+  sessionStorage.clear();
+  window.location.href = 'login.html';
+}
+   
     // 1. Sessão
     const token = sessionStorage.getItem('sislot_token');
     if (!token) { window.location.href = 'login.html'; return; }
