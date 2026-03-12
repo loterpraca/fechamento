@@ -23,10 +23,12 @@
 <!-- Favicon -->
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png">
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fechamento de Caixa — Lotérica</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -60,7 +62,6 @@
       repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(30,58,110,0.15) 39px, rgba(30,58,110,0.15) 40px);
   }
 
-  /* TOP BAR */
   .topbar {
     display: flex;
     align-items: center;
@@ -117,7 +118,6 @@
     letter-spacing: 0.05em;
   }
 
-  /* STEP INDICATOR */
   .steps-bar {
     display: flex;
     align-items: center;
@@ -175,7 +175,6 @@
     margin: 0 4px;
   }
 
-  /* MAIN CONTENT */
   .main {
     flex: 1;
     padding: 32px;
@@ -219,7 +218,6 @@
     text-transform: uppercase;
   }
 
-  /* FORM SECTIONS */
   .section {
     margin-bottom: 28px;
   }
@@ -248,7 +246,6 @@
   .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
   .grid-full { display: grid; grid-template-columns: 1fr; gap: 16px; }
 
-  /* FIELD */
   .field {
     display: flex;
     flex-direction: column;
@@ -285,51 +282,51 @@
   }
 
   input[type="text"],
-input[type="number"],
-input[type="date"],
-select.field-select {
-  width: 100%;
-  background: var(--input-bg);
-  border: 1px solid var(--input-border);
-  border-radius: 6px;
-  padding: 11px 14px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 14px;
-  color: var(--text-bright);
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-  -webkit-appearance: none;
-}
+  input[type="number"],
+  input[type="date"],
+  select.field-select {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    padding: 11px 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    color: var(--text-bright);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    -webkit-appearance: none;
+  }
 
-select.field-select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234a6491' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 36px;
-  cursor: pointer;
-}
+  select.field-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234a6491' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
 
-select.field-select:disabled {
-  opacity: 0.9;
-  cursor: not-allowed;
-  background-color: #10213f;
-  color: var(--text-bright);
-}
+  select.field-select:disabled {
+    opacity: 0.9;
+    cursor: not-allowed;
+    background-color: #10213f;
+    color: var(--text-bright);
+  }
 
-select.field-select:focus {
-  border-color: var(--input-focus);
-  box-shadow: 0 0 0 3px rgba(0,200,150,0.1);
-  background-color: #0e2040;
-}
+  select.field-select:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 3px rgba(0,200,150,0.1);
+    background-color: #0e2040;
+  }
 
-select.field-select option {
-  background: var(--blue-mid);
-  color: var(--text-bright);
-}
+  select.field-select option {
+    background: var(--blue-mid);
+    color: var(--text-bright);
+  }
 
-select.field-select.filled {
-  border-color: rgba(0,200,150,0.4);
-}
+  select.field-select.filled {
+    border-color: rgba(0,200,150,0.4);
+  }
 
   input[type="text"].has-prefix,
   input[type="number"].has-prefix {
@@ -359,7 +356,6 @@ select.field-select.filled {
     border-color: rgba(0,200,150,0.35);
   }
 
-  /* SUBMIT AREA */
   .form-footer {
     display: flex;
     align-items: center;
@@ -411,67 +407,40 @@ select.field-select.filled {
     width: 16px;
     height: 16px;
   }
-.btn-secondary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  background: transparent;
-  color: var(--accent);
-  border: 1px solid rgba(0,200,150,0.35);
-  border-radius: 8px;
-  padding: 12px 18px;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-transform: uppercase;
-  min-height: 44px;
-}
 
-.btn-secondary:hover {
-  background: rgba(0,200,150,0.08);
-  border-color: var(--accent);
-  box-shadow: 0 6px 24px rgba(0,200,150,0.12);
-}
+  .btn-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid rgba(0,200,150,0.35);
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    min-height: 44px;
+  }
 
-.btn-secondary:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-  box-shadow: none;
-}
+  .btn-secondary:hover {
+    background: rgba(0,200,150,0.08);
+    border-color: var(--accent);
+    box-shadow: 0 6px 24px rgba(0,200,150,0.12);
+  }
 
-.status-chip {
-  display: none;
-  margin-top: 12px;
-  padding: 10px 14px;
-  border-radius: 8px;
-  font-size: 12px;
-  line-height: 1.4;
-  border: 1px solid transparent;
-}
+  .btn-secondary:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
 
-.status-chip.show {
-  display: block;
-}
-
-.status-chip.info {
-  background: rgba(0,200,150,0.08);
-  border-color: rgba(0,200,150,0.2);
-  color: var(--text-bright);
-}
-
-.status-chip.error {
-  background: rgba(255,82,82,0.08);
-  border-color: rgba(255,82,82,0.2);
-  color: #ffb3b3;
-}
-
- 
-  /* VALIDATION */
   .field-error {
     font-size: 11px;
     color: var(--error);
@@ -479,10 +448,15 @@ select.field-select.filled {
     display: none;
   }
 
-  .field.has-error input { border-color: var(--error); }
-  .field.has-error .field-error { display: block; }
+  .field.has-error input,
+  .field.has-error select {
+    border-color: var(--error);
+  }
 
-  /* SUMMARY PREVIEW */
+  .field.has-error .field-error {
+    display: block;
+  }
+
   .summary-chip {
     display: inline-flex;
     align-items: center;
@@ -507,7 +481,32 @@ select.field-select.filled {
 
   .summary-chip strong { color: var(--accent); }
 
-  /* DÍVIDAS */
+  .status-chip {
+    display: none;
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.4;
+    border: 1px solid transparent;
+  }
+
+  .status-chip.show {
+    display: block;
+  }
+
+  .status-chip.info {
+    background: rgba(0,200,150,0.08);
+    border-color: rgba(0,200,150,0.2);
+    color: var(--text-bright);
+  }
+
+  .status-chip.error {
+    background: rgba(255,82,82,0.08);
+    border-color: rgba(255,82,82,0.2);
+    color: #ffb3b3;
+  }
+
   .divida-row {
     display: grid;
     grid-template-columns: 1fr auto auto;
@@ -632,7 +631,6 @@ select.field-select.filled {
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* ANIMATION */
   .section { animation: fadeIn 0.4s ease both; }
   .section:nth-child(1) { animation-delay: 0.05s; }
   .section:nth-child(2) { animation-delay: 0.10s; }
@@ -644,7 +642,6 @@ select.field-select.filled {
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* RESPONSIVE */
   @media (max-width: 640px) {
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
     .steps-bar { gap: 0; }
@@ -656,7 +653,6 @@ select.field-select.filled {
 </head>
 <body>
 
-<!-- TOP BAR -->
 <header class="topbar">
   <div class="topbar-brand">
     <div class="brand-icon">LC</div>
@@ -668,7 +664,6 @@ select.field-select.filled {
   <div class="topbar-right" id="relogio">--:--:--</div>
 </header>
 
-<!-- STEPS -->
 <div class="steps-bar">
   <div class="step active">
     <div class="step-circle">1</div>
@@ -691,7 +686,6 @@ select.field-select.filled {
   </div>
 </div>
 
-<!-- MAIN -->
 <main class="main">
   <div class="page-header">
     <div>
@@ -703,11 +697,9 @@ select.field-select.filled {
 
   <form id="form1" novalidate>
 
-    <!-- IDENTIFICAÇÃO -->
     <div class="section">
       <div class="section-label">Identificação</div>
 
-      <!-- Chip da loteria ativa -->
       <div id="chip-loteria" style="
         display:none; align-items:center; gap:8px; margin-bottom:14px;
         background:rgba(0,200,150,0.07); border:1px solid rgba(0,200,150,0.2);
@@ -717,6 +709,7 @@ select.field-select.filled {
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
         Loteria: <strong id="chip-loteria-nome">—</strong>
       </div>
+
       <div id="chip-loteria-erro" style="
         display:none; align-items:center; gap:8px; margin-bottom:14px;
         background:rgba(255,82,82,0.07); border:1px solid rgba(255,82,82,0.2);
@@ -726,32 +719,32 @@ select.field-select.filled {
         ⚠️ Loteria não identificada — verifique o nome do arquivo HTML
       </div>
 
-     <div class="grid-3">
-  <div class="field" id="field-funcionario">
-    <label class="field-label field-required">Funcionário</label>
-    <select id="funcionario" name="funcionario" class="field-select" onchange="onSelectFunc()">
-      <option value="">Selecione o funcionário...</option>
-    </select>
-    <div class="field-error">Selecione o funcionário</div>
-  </div>
+      <div class="grid-3">
+        <div class="field" id="field-funcionario">
+          <label class="field-label field-required">Funcionário</label>
+          <select id="funcionario" name="funcionario" class="field-select" onchange="onSelectFunc()">
+            <option value="">Selecione o funcionário...</option>
+          </select>
+          <div class="field-error">Selecione o funcionário</div>
+        </div>
 
-  <div class="field" id="field-data">
-    <label class="field-label field-required">Data do Fechamento</label>
-    <input type="date" id="data" name="data">
-    <div class="field-error">Campo obrigatório</div>
-  </div>
+        <div class="field" id="field-data">
+          <label class="field-label field-required">Data do Fechamento</label>
+          <input type="date" id="data" name="data">
+          <div class="field-error">Campo obrigatório</div>
+        </div>
 
-  <div class="field">
-    <label class="field-label">&nbsp;</label>
-    <button type="button" id="btn-buscar-fechamento" class="btn-secondary">
-      Buscar Fechamento
-    </button>
-  </div>
-</div>
+        <div class="field">
+          <label class="field-label">&nbsp;</label>
+          <button type="button" id="btn-buscar-fechamento" class="btn-secondary">
+            Buscar Fechamento
+          </button>
+        </div>
+      </div>
 
-<div id="status-busca-fechamento" class="status-chip"></div>
+      <div id="status-busca-fechamento" class="status-chip"></div>
+    </div>
 
-    <!-- RELATÓRIO E DEPÓSITO -->
     <div class="section">
       <div class="section-label">Relatório e Movimentação Bancária</div>
       <div class="grid-2">
@@ -759,7 +752,7 @@ select.field-select.filled {
           <label class="field-label field-required">Valor do Relatório</label>
           <div class="input-wrapper">
             <span class="input-prefix">R$</span>
-            <input type="number" id="relatorio" name="relatorio" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+            <input type="number" id="relatorio" name="relatorio" class="has-prefix" placeholder="0,00" step="0.01">
           </div>
           <div class="field-error">Informe um valor válido</div>
         </div>
@@ -767,14 +760,13 @@ select.field-select.filled {
           <label class="field-label field-required">Depósito Bancário</label>
           <div class="input-wrapper">
             <span class="input-prefix">R$</span>
-            <input type="number" id="deposito" name="deposito" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+            <input type="number" id="deposito" name="deposito" class="has-prefix" placeholder="0,00" step="0.01">
           </div>
           <div class="field-error">Informe um valor válido</div>
         </div>
       </div>
     </div>
 
-    <!-- TROCO -->
     <div class="section">
       <div class="section-label">Controle de Troco</div>
       <div class="grid-2">
@@ -782,7 +774,7 @@ select.field-select.filled {
           <label class="field-label field-required">Troco Inicial (Fundo de Caixa)</label>
           <div class="input-wrapper">
             <span class="input-prefix">R$</span>
-            <input type="number" id="troco-inicial" name="troco-inicial" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+            <input type="number" id="troco-inicial" name="troco-inicial" class="has-prefix" placeholder="0,00" step="0.01">
           </div>
           <div class="field-error">Informe um valor válido</div>
         </div>
@@ -790,7 +782,7 @@ select.field-select.filled {
           <label class="field-label field-required">Troco Sobra (Final do Dia)</label>
           <div class="input-wrapper">
             <span class="input-prefix">R$</span>
-            <input type="number" id="troco-sobra" name="troco-sobra" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+            <input type="number" id="troco-sobra" name="troco-sobra" class="has-prefix" placeholder="0,00" step="0.01">
           </div>
           <div class="field-error">Informe um valor válido</div>
         </div>
@@ -800,7 +792,6 @@ select.field-select.filled {
       </div>
     </div>
 
-    <!-- PIX / PRÊMIOS -->
     <div class="section">
       <div class="section-label">PIX e Prêmios</div>
       <div class="grid-3">
@@ -808,7 +799,7 @@ select.field-select.filled {
           <label class="field-label field-required">PIX CNPJ Recebido</label>
           <div class="input-wrapper">
             <span class="input-prefix">R$</span>
-            <input type="number" id="pix" name="pix" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+            <input type="number" id="pix" name="pix" class="has-prefix" placeholder="0,00" step="0.01">
           </div>
           <div class="field-error">Informe um valor válido</div>
         </div>
@@ -816,7 +807,7 @@ select.field-select.filled {
           <label class="field-label field-required">Diferença de PIX</label>
           <div class="input-wrapper">
             <span class="input-prefix">R$</span>
-            <input type="number" id="pix-sistema" name="pix-sistema" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+            <input type="number" id="pix-sistema" name="pix-sistema" class="has-prefix" placeholder="0,00" step="0.01">
           </div>
           <div class="field-error">Informe um valor válido</div>
         </div>
@@ -824,33 +815,32 @@ select.field-select.filled {
           <label class="field-label field-required">Prêmio Raspadinha</label>
           <div class="input-wrapper">
             <span class="input-prefix">R$</span>
-            <input type="number" id="raspadinha" name="raspadinha" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+            <input type="number" id="raspadinha" name="raspadinha" class="has-prefix" placeholder="0,00" step="0.01">
           </div>
           <div class="field-error">Informe um valor válido</div>
         </div>
       </div>
+
       <div style="margin-top:12px;">
         <div class="field" id="field-telesena" style="max-width:300px;">
           <label class="field-label field-required">Resgate Telesena</label>
           <div class="input-wrapper">
             <span class="input-prefix">R$</span>
-            <input type="number" id="telesena" name="telesena" class="has-prefix" placeholder="0,00" step="0.01" min="0">
+            <input type="number" id="telesena" name="telesena" class="has-prefix" placeholder="0,00" step="0.01">
           </div>
           <div class="field-error">Informe um valor válido</div>
         </div>
       </div>
+
       <div id="chip-pix" class="summary-chip" style="margin-top:12px;">
         Diferença PIX (Recebido − Diferença): <strong id="chip-pix-val">—</strong>
       </div>
     </div>
 
-    <!-- DÍVIDAS DE CLIENTES -->
     <div class="section">
       <div class="section-label">Dívidas de Clientes</div>
 
-      <div class="dividas-list" id="dividas-list">
-        <!-- linhas injetadas via JS -->
-      </div>
+      <div class="dividas-list" id="dividas-list"></div>
 
       <div class="dividas-footer">
         <div class="divida-counter" id="divida-counter">0 / 9 clientes</div>
@@ -865,8 +855,6 @@ select.field-select.filled {
       </button>
     </div>
 
-     
-    <!-- FOOTER -->
     <div class="form-footer">
       <div class="required-note"><span>*</span> Campos obrigatórios</div>
       <button type="submit" class="btn-next">
@@ -881,9 +869,21 @@ select.field-select.filled {
 </main>
 
 <script>
+  const API_URL = localStorage.getItem('sislot_api_url') || sessionStorage.getItem('sislot_api_url') || '';
 
- 
-  // Relógio
+  function getUsuarioLogado() {
+    try {
+      return JSON.parse(sessionStorage.getItem('sislot_user') || '{}');
+    } catch {
+      return {};
+    }
+  }
+
+  function isAdmin(user) {
+    const perfil = String(user?.perfil || '').trim().toUpperCase();
+    return perfil === 'ADMIN' || perfil === 'ADM';
+  }
+
   function updateClock() {
     const now = new Date();
     document.getElementById('relogio').textContent =
@@ -893,10 +893,8 @@ select.field-select.filled {
   updateClock();
   setInterval(updateClock, 1000);
 
-  // Data padrão = hoje
   document.getElementById('data').value = new Date().toISOString().split('T')[0];
 
-  // Indicar campo preenchido + limpar erro
   document.addEventListener('input', function(e) {
     if (e.target.matches('input')) {
       e.target.classList.toggle('filled', e.target.value.trim() !== '');
@@ -905,13 +903,13 @@ select.field-select.filled {
     }
   });
 
-  // Chip diferença de troco
   function calcTroco() {
     const ini = parseFloat(document.getElementById('troco-inicial').value) || 0;
-    const sob = parseFloat(document.getElementById('troco-sobra').value)   || 0;
+    const sob = parseFloat(document.getElementById('troco-sobra').value) || 0;
     const chip = document.getElementById('chip-troco');
-    const val  = document.getElementById('chip-troco-val');
-    if (ini > 0 || sob > 0) {
+    const val = document.getElementById('chip-troco-val');
+
+    if (ini !== 0 || sob !== 0) {
       const diff = sob - ini;
       val.textContent = 'R$ ' + diff.toFixed(2).replace('.', ',');
       val.style.color = diff >= 0 ? 'var(--accent)' : 'var(--error)';
@@ -920,16 +918,17 @@ select.field-select.filled {
       chip.classList.remove('visible');
     }
   }
+
   document.getElementById('troco-inicial').addEventListener('input', calcTroco);
   document.getElementById('troco-sobra').addEventListener('input', calcTroco);
 
-  // Chip diferença de PIX
   function calcPix() {
     const rec = parseFloat(document.getElementById('pix').value) || 0;
     const sis = parseFloat(document.getElementById('pix-sistema').value) || 0;
     const chip = document.getElementById('chip-pix');
-    const val  = document.getElementById('chip-pix-val');
-    if (rec > 0 || sis > 0) {
+    const val = document.getElementById('chip-pix-val');
+
+    if (rec !== 0 || sis !== 0) {
       const diff = rec - sis;
       val.textContent = 'R$ ' + diff.toFixed(2).replace('.', ',');
       val.style.color = diff === 0 ? 'var(--accent)' : diff > 0 ? 'var(--amber)' : 'var(--error)';
@@ -938,17 +937,17 @@ select.field-select.filled {
       chip.classList.remove('visible');
     }
   }
+
   document.getElementById('pix').addEventListener('input', calcPix);
   document.getElementById('pix-sistema').addEventListener('input', calcPix);
 
-  // Formatação monetária
   document.addEventListener('blur', function(e) {
     if (e.target.matches('input[type="number"]') && e.target.value !== '') {
-      e.target.value = parseFloat(e.target.value).toFixed(2);
+      const n = Number(e.target.value);
+      if (!Number.isNaN(n)) e.target.value = n.toFixed(2);
     }
   }, true);
 
-  // ── DÍVIDAS ──────────────────────────────────────────
   const MAX_DIVIDAS = 9;
   let dividaCount = 0;
 
@@ -962,6 +961,7 @@ select.field-select.filled {
     document.querySelectorAll('.divida-valor').forEach(inp => {
       total += parseFloat(inp.value) || 0;
     });
+
     const chip = document.getElementById('divida-total-chip');
     if (dividaCount > 0) {
       chip.textContent = 'Total dívidas: R$ ' + total.toFixed(2).replace('.', ',');
@@ -976,13 +976,15 @@ select.field-select.filled {
     row.style.transition = 'opacity 0.2s, transform 0.2s';
     row.style.opacity = '0';
     row.style.transform = 'translateX(12px)';
+
     setTimeout(() => {
       row.remove();
       dividaCount--;
-      // Renumerar
+
       document.querySelectorAll('.divida-num').forEach((el, i) => {
         el.textContent = `CLIENTE ${String(i + 1).padStart(2, '0')}`;
       });
+
       renderDividaCounter();
       calcTotalDividas();
     }, 200);
@@ -990,10 +992,10 @@ select.field-select.filled {
 
   function addDivida() {
     if (dividaCount >= MAX_DIVIDAS) return;
-    dividaCount++;
 
+    dividaCount++;
     const list = document.getElementById('dividas-list');
-    const idx  = dividaCount;
+    const idx = dividaCount;
 
     const row = document.createElement('div');
     row.className = 'divida-row';
@@ -1020,31 +1022,183 @@ select.field-select.filled {
     `;
 
     list.appendChild(row);
-
-    // Listener para recalcular total ao digitar valor
     row.querySelector('.divida-valor').addEventListener('input', calcTotalDividas);
 
     renderDividaCounter();
     calcTotalDividas();
-
-    // Foco no nome do cliente
     row.querySelector('.divida-nome').focus();
   }
 
   document.getElementById('btn-add-divida').addEventListener('click', addDivida);
 
-  // ── VALIDAÇÃO E SUBMIT ────────────────────────────────
+  function formatDateToBR(isoDate) {
+    if (!isoDate) return '';
+    const m = String(isoDate).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!m) return isoDate;
+    return `${m[3]}/${m[2]}/${m[1]}`;
+  }
+
+  function showBuscaStatus(msg, type = 'info') {
+    const el = document.getElementById('status-busca-fechamento');
+    el.textContent = msg;
+    el.className = `status-chip show ${type}`;
+  }
+
+  function hideBuscaStatus() {
+    const el = document.getElementById('status-busca-fechamento');
+    el.textContent = '';
+    el.className = 'status-chip';
+  }
+
+  function setValue(id, value) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.value = value ?? '';
+    el.classList.toggle('filled', String(el.value).trim() !== '');
+    const field = el.closest('.field');
+    if (field) field.classList.remove('has-error');
+  }
+
+  function preencherDividas(dividas) {
+    const list = document.getElementById('dividas-list');
+    list.innerHTML = '';
+    dividaCount = 0;
+
+    (dividas || []).forEach(d => {
+      addDivida();
+      const rows = document.querySelectorAll('.divida-row');
+      const row = rows[rows.length - 1];
+      row.querySelector('.divida-nome').value = d.nome || '';
+      row.querySelector('.divida-valor').value =
+        d.valor !== undefined && d.valor !== null && d.valor !== ''
+          ? Number(d.valor).toFixed(2)
+          : '';
+    });
+
+    calcTotalDividas();
+  }
+
+  function preencherTela1ComFechamento(fechamento) {
+    if (!fechamento || !fechamento.grl) {
+      throw new Error('Dados do fechamento não encontrados.');
+    }
+
+    const grl = fechamento.grl;
+
+    setValue('relatorio', Number(grl['Relatório'] || 0).toFixed(2));
+    setValue('deposito', Number(grl['Depósito'] || 0).toFixed(2));
+    setValue('troco-inicial', Number(grl['Troco_Inicial'] || 0).toFixed(2));
+    setValue('troco-sobra', Number(grl['Troco_Sobra'] || 0).toFixed(2));
+    setValue('pix', Number(grl['PIX_CNPJ'] || 0).toFixed(2));
+    setValue('pix-sistema', Number(grl['Diferença_PIX'] || 0).toFixed(2));
+    setValue('raspadinha', Number(grl['Premio_Raspadinha'] || 0).toFixed(2));
+    setValue('telesena', Number(grl['Resgate_Telesena'] || 0).toFixed(2));
+
+    const dividas = (fechamento.dividas || []).map(d => ({
+      nome: d.Cliente || '',
+      valor: Number(d.Valor || 0)
+    }));
+
+    preencherDividas(dividas);
+
+    const sessionTela1 = {
+      funcionario: document.getElementById('funcionario').value,
+      data: document.getElementById('data').value,
+      relatorio: document.getElementById('relatorio').value,
+      deposito: document.getElementById('deposito').value,
+      'troco-inicial': document.getElementById('troco-inicial').value,
+      'troco-sobra': document.getElementById('troco-sobra').value,
+      pix: document.getElementById('pix').value,
+      'pix-sistema': document.getElementById('pix-sistema').value,
+      raspadinha: document.getElementById('raspadinha').value,
+      telesena: document.getElementById('telesena').value,
+      dividas: dividas
+    };
+
+    sessionStorage.setItem('tela1', JSON.stringify(sessionTela1));
+
+    calcTroco();
+    calcPix();
+  }
+
+  async function buscarFechamentoTela1() {
+    hideBuscaStatus();
+
+    const token = sessionStorage.getItem('sislot_token') || localStorage.getItem('sislot_token') || '';
+    const funcionario = String(document.getElementById('funcionario').value || '').trim();
+    const dataIso = String(document.getElementById('data').value || '').trim();
+
+    if (!API_URL) {
+      showBuscaStatus('API não configurada no navegador.', 'error');
+      return;
+    }
+
+    if (!token) {
+      showBuscaStatus('Sessão não encontrada. Faça login novamente.', 'error');
+      return;
+    }
+
+    if (!funcionario) {
+      showBuscaStatus('Selecione o funcionário antes de buscar.', 'error');
+      document.getElementById('field-funcionario')?.classList.add('has-error');
+      return;
+    }
+
+    if (!dataIso) {
+      showBuscaStatus('Informe a data antes de buscar.', 'error');
+      document.getElementById('field-data')?.classList.add('has-error');
+      return;
+    }
+
+    const btn = document.getElementById('btn-buscar-fechamento');
+    const textoOriginal = btn.textContent;
+
+    try {
+      btn.disabled = true;
+      btn.textContent = 'Buscando...';
+
+      const resp = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'buscarFechamento',
+          token,
+          payload: {
+            funcionario,
+            data: formatDateToBR(dataIso)
+          }
+        })
+      });
+
+      const data = await resp.json();
+
+      if (!data.ok) {
+        showBuscaStatus(data.error || 'Não foi possível buscar o fechamento.', 'error');
+        return;
+      }
+
+      preencherTela1ComFechamento(data.fechamento);
+      showBuscaStatus('Fechamento carregado com sucesso.', 'info');
+
+    } catch (err) {
+      showBuscaStatus('Erro ao buscar fechamento: ' + (err.message || err), 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = textoOriginal;
+    }
+  }
+
   const requiredFields = [
-    { id: 'funcionario',  msg: 'Informe o nome do funcionário' },
-    { id: 'data',         msg: 'Informe a data' },
-    { id: 'relatorio',    msg: 'Informe o valor do relatório' },
-    { id: 'deposito',     msg: 'Informe o valor do depósito' },
-    { id: 'troco-inicial',msg: 'Informe o troco inicial' },
-    { id: 'troco-sobra',  msg: 'Informe o troco sobra' },
-    { id: 'pix',          msg: 'Informe o PIX CNPJ recebido' },
-    { id: 'pix-sistema',  msg: 'Informe a diferença de PIX' },
-    { id: 'raspadinha',   msg: 'Informe o prêmio raspadinha' },
-    { id: 'telesena',     msg: 'Informe o resgate telesena' },
+    { id: 'funcionario', msg: 'Informe o nome do funcionário' },
+    { id: 'data', msg: 'Informe a data' },
+    { id: 'relatorio', msg: 'Informe o valor do relatório' },
+    { id: 'deposito', msg: 'Informe o valor do depósito' },
+    { id: 'troco-inicial', msg: 'Informe o troco inicial' },
+    { id: 'troco-sobra', msg: 'Informe o troco sobra' },
+    { id: 'pix', msg: 'Informe o PIX CNPJ recebido' },
+    { id: 'pix-sistema', msg: 'Informe a diferença de PIX' },
+    { id: 'raspadinha', msg: 'Informe o prêmio raspadinha' },
+    { id: 'telesena', msg: 'Informe o resgate telesena' },
   ];
 
   document.getElementById('form1').addEventListener('submit', function(e) {
@@ -1052,9 +1206,10 @@ select.field-select.filled {
     let valid = true;
 
     requiredFields.forEach(f => {
-      const inp   = document.getElementById(f.id);
+      const inp = document.getElementById(f.id);
       const field = document.getElementById('field-' + f.id) || inp.closest('.field');
       const errEl = field ? field.querySelector('.field-error') : null;
+
       if (!inp.value.trim()) {
         valid = false;
         if (field) field.classList.add('has-error');
@@ -1062,52 +1217,57 @@ select.field-select.filled {
       }
     });
 
-    // Validar dívidas: se nome preenchido, valor obrigatório e vice-versa
-    document.querySelectorAll('.divida-row').forEach((row, i) => {
+    document.querySelectorAll('.divida-row').forEach(row => {
       const nome = row.querySelector('.divida-nome');
-      const val  = row.querySelector('.divida-valor');
+      const val = row.querySelector('.divida-valor');
+
       if (nome.value.trim() && !val.value.trim()) {
         valid = false;
         val.closest('.field').classList.add('has-error');
       }
+
       if (!nome.value.trim() && val.value.trim()) {
         valid = false;
         nome.closest('.field').classList.add('has-error');
       }
     });
 
-if (valid) {
-  const user = getUsuarioLogado();
-  if (!isAdmin(user)) {
-    document.getElementById('funcionario').value = String(user?.nome || '').trim();
-  }
+    if (valid) {
+      const user = getUsuarioLogado();
 
-  const dados = {};
-  requiredFields.forEach(f => { dados[f.id] = document.getElementById(f.id).value; });
+      if (!isAdmin(user)) {
+        document.getElementById('funcionario').value = String(user?.nome || '').trim();
+      }
 
-  dados.dividas = [];
-  document.querySelectorAll('.divida-row').forEach(row => {
-    const nome = row.querySelector('.divida-nome').value.trim();
-    const val  = row.querySelector('.divida-valor').value;
-    if (nome) dados.dividas.push({ nome, valor: parseFloat(val) || 0 });
-  });
+      const dados = {};
+      requiredFields.forEach(f => {
+        dados[f.id] = document.getElementById(f.id).value;
+      });
 
-  sessionStorage.setItem('tela1', JSON.stringify(dados));
+      dados.dividas = [];
+      document.querySelectorAll('.divida-row').forEach(row => {
+        const nome = row.querySelector('.divida-nome').value.trim();
+        const val = row.querySelector('.divida-valor').value;
+        if (nome) {
+          dados.dividas.push({ nome, valor: parseFloat(val) || 0 });
+        }
+      });
 
-  const btn = document.querySelector('.btn-next');
-  btn.innerHTML = '✓ Dados salvos! Carregando...';
-  btn.style.background = '#00e8ad';
-  setTimeout(() => {
-    window.location.href = 'viabrasil-tela2.html';
-  }, 800);
- 
- } else {
+      sessionStorage.setItem('tela1', JSON.stringify(dados));
+
+      const btn = document.querySelector('.btn-next');
+      btn.innerHTML = '✓ Dados salvos! Carregando...';
+      btn.style.background = '#00e8ad';
+
+      setTimeout(() => {
+        window.location.href = 'viabrasil-tela2.html';
+      }, 800);
+    } else {
       const firstError = document.querySelector('.field.has-error input, .field.has-error select');
       if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   });
 
-  // ── Validação do select de funcionário ──
   function onSelectFunc() {
     const sel = document.getElementById('funcionario');
     const fld = document.getElementById('field-funcionario');
@@ -1118,97 +1278,94 @@ if (valid) {
       sel.classList.remove('filled');
     }
   }
+
+  function aplicarFuncionarioPorPerfil(sel, funcionarios) {
+    const user = getUsuarioLogado();
+    const admin = isAdmin(user);
+    const nomeUsuario = String(user?.nome || '').trim();
+
+    sel.innerHTML = '<option value="">Selecione o funcionário...</option>';
+
+    if (admin) {
+      (funcionarios || []).forEach(nome => {
+        const opt = document.createElement('option');
+        opt.value = nome;
+        opt.textContent = nome;
+        sel.appendChild(opt);
+      });
+
+      sel.disabled = false;
+      sel.removeAttribute('data-fixed-user');
+      return;
+    }
+
+    const opt = document.createElement('option');
+    opt.value = nomeUsuario;
+    opt.textContent = nomeUsuario || 'Usuário logado';
+    sel.appendChild(opt);
+    sel.value = nomeUsuario;
+    sel.disabled = true;
+    sel.classList.add('filled');
+    sel.setAttribute('data-fixed-user', '1');
+
+    const fld = document.getElementById('field-funcionario');
+    if (fld) fld.classList.remove('has-error');
+  }
 </script>
 
 <script src="config-loterias.js"></script>
 <script>
+  (function() {
+    const user = getUsuarioLogado();
+    const loteriaConfig = getLoteria();
+    const sel = document.getElementById('funcionario');
+    const prev = JSON.parse(sessionStorage.getItem('tela1') || '{}');
 
- function getUsuarioLogado() {
-  try {
-    return JSON.parse(sessionStorage.getItem('sislot_user') || '{}');
-  } catch {
-    return {};
-  }
-}
+    const nomeLoteriaSessao = String(user?.loteria || '').trim();
+    const nomeLoteriaConfig = String(loteriaConfig?.nome || '').trim();
+    const nomeLoteriaFinal = nomeLoteriaSessao || nomeLoteriaConfig;
 
-function isAdmin(user) {
-  const perfil = String(user?.perfil || '').trim().toUpperCase();
-  return perfil === 'ADMIN' || perfil === 'ADM';
-}
+    if (nomeLoteriaFinal) {
+      document.getElementById('chip-loteria').style.display = 'flex';
+      document.getElementById('chip-loteria-nome').textContent = nomeLoteriaFinal;
+    } else {
+      document.getElementById('chip-loteria-erro').style.display = 'flex';
+    }
 
-function aplicarFuncionarioPorPerfil(sel, funcionarios) {
-  const user = getUsuarioLogado();
-  const admin = isAdmin(user);
-  const nomeUsuario = String(user?.nome || '').trim();
+    const funcionarios = loteriaConfig?.funcionarios || [];
+    aplicarFuncionarioPorPerfil(sel, funcionarios);
 
-  // limpa opções mantendo a primeira
-  sel.innerHTML = '<option value="">Selecione o funcionário...</option>';
+    if (prev.funcionario && isAdmin(user)) {
+      sel.value = prev.funcionario;
+      if (sel.value) sel.classList.add('filled');
+    }
 
-  // admin pode escolher qualquer funcionário da loteria
-  if (admin) {
-    (funcionarios || []).forEach(nome => {
-      const opt = document.createElement('option');
-      opt.value = nome;
-      opt.textContent = nome;
-      sel.appendChild(opt);
-    });
+    if (!isAdmin(user)) {
+      sel.value = String(user?.nome || '').trim();
+      sel.classList.add('filled');
+    }
 
-    sel.disabled = false;
-    sel.removeAttribute('data-fixed-user');
-    return;
-  }
+    if (prev.data) setValue('data', prev.data);
+    if (prev.relatorio) setValue('relatorio', prev.relatorio);
+    if (prev.deposito) setValue('deposito', prev.deposito);
+    if (prev['troco-inicial']) setValue('troco-inicial', prev['troco-inicial']);
+    if (prev['troco-sobra']) setValue('troco-sobra', prev['troco-sobra']);
+    if (prev.pix) setValue('pix', prev.pix);
+    if (prev['pix-sistema']) setValue('pix-sistema', prev['pix-sistema']);
+    if (prev.raspadinha) setValue('raspadinha', prev.raspadinha);
+    if (prev.telesena) setValue('telesena', prev.telesena);
 
-  // usuário comum: fixa no próprio nome
-  const opt = document.createElement('option');
-  opt.value = nomeUsuario;
-  opt.textContent = nomeUsuario || 'Usuário logado';
-  sel.appendChild(opt);
-  sel.value = nomeUsuario;
-  sel.disabled = true;
-  sel.classList.add('filled');
-  sel.setAttribute('data-fixed-user', '1');
+    if (Array.isArray(prev.dividas)) {
+      preencherDividas(prev.dividas);
+    }
 
-  const fld = document.getElementById('field-funcionario');
-  if (fld) fld.classList.remove('has-error');
-}
-// ── Inicializar loteria e popular select de funcionários ──
-(function() {
-  const user = getUsuarioLogado();
-  const loteriaConfig = getLoteria();
-  const sel = document.getElementById('funcionario');
-  const prev = JSON.parse(sessionStorage.getItem('tela1') || '{}');
+    calcTroco();
+    calcPix();
+  })();
 
-  // Nome da loteria: prioriza sessão, depois config do arquivo
-  const nomeLoteriaSessao = String(user?.loteria || '').trim();
-  const nomeLoteriaConfig = String(loteriaConfig?.nome || '').trim();
-  const nomeLoteriaFinal = nomeLoteriaSessao || nomeLoteriaConfig;
-
-  if (nomeLoteriaFinal) {
-    document.getElementById('chip-loteria').style.display = 'flex';
-    document.getElementById('chip-loteria-nome').textContent = nomeLoteriaFinal;
-  } else {
-    document.getElementById('chip-loteria-erro').style.display = 'flex';
-  }
-
-  // Funcionários vindos da loteria configurada no HTML
-  const funcionarios = loteriaConfig?.funcionarios || [];
-
-  aplicarFuncionarioPorPerfil(sel, funcionarios);
-
-  // restaura seleção anterior só para admin
-  if (prev.funcionario && isAdmin(user)) {
-    sel.value = prev.funcionario;
-    if (sel.value) sel.classList.add('filled');
-  }
-
-  // usuário comum mantém o próprio nome mesmo que exista tela1 anterior
-  if (!isAdmin(user)) {
-    sel.value = String(user?.nome || '').trim();
-    sel.classList.add('filled');
-  }
-})();
+  document.getElementById('btn-buscar-fechamento').addEventListener('click', buscarFechamentoTela1);
 </script>
- <!-- Registrar Service Worker -->
+
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -1222,5 +1379,6 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+
 </body>
 </html>
