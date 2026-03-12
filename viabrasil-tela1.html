@@ -1079,47 +1079,139 @@
   }
 
   function preencherTela1ComFechamento(fechamento) {
-    if (!fechamento || !fechamento.grl) {
-      throw new Error('Dados do fechamento não encontrados.');
+  if (!fechamento || !fechamento.grl) {
+    throw new Error('Dados do fechamento não encontrados.');
+  }
+
+  const grl = fechamento.grl;
+
+  setValue('relatorio', Number(grl['Relatório'] || 0).toFixed(2));
+  setValue('deposito', Number(grl['Depósito'] || 0).toFixed(2));
+  setValue('troco-inicial', Number(grl['Troco_Inicial'] || 0).toFixed(2));
+  setValue('troco-sobra', Number(grl['Troco_Sobra'] || 0).toFixed(2));
+  setValue('pix', Number(grl['PIX_CNPJ'] || 0).toFixed(2));
+  setValue('pix-sistema', Number(grl['Diferença_PIX'] || 0).toFixed(2));
+  setValue('raspadinha', Number(grl['Premio_Raspadinha'] || 0).toFixed(2));
+  setValue('telesena', Number(grl['Resgate_Telesena'] || 0).toFixed(2));
+
+  const dividas = (fechamento.dividas || []).map(d => ({
+    nome: d.Cliente || '',
+    valor: Number(d.Valor || 0)
+  }));
+
+  preencherDividas(dividas);
+
+  const tela1 = {
+    funcionario: document.getElementById('funcionario').value,
+    data: document.getElementById('data').value,
+    relatorio: document.getElementById('relatorio').value,
+    deposito: document.getElementById('deposito').value,
+    'troco-inicial': document.getElementById('troco-inicial').value,
+    'troco-sobra': document.getElementById('troco-sobra').value,
+    pix: document.getElementById('pix').value,
+    'pix-sistema': document.getElementById('pix-sistema').value,
+    raspadinha: document.getElementById('raspadinha').value,
+    telesena: document.getElementById('telesena').value,
+    dividas: dividas
+  };
+
+  const tela2 = {
+    raspadinha: [],
+    telesena: null,
+    federais: []
+  };
+
+  (fechamento.produtos || []).forEach(p => {
+    const modalidade = String(p.Modalidade || '').trim().toUpperCase();
+
+    if (modalidade === 'RASPADINHA') {
+      tela2.raspadinha.push({
+        qtd: Number(p.Qtd_Vendida || 0),
+        preco: Number(p.Valor_Cota || 0),
+        sub: Number(p.Valor_Total || 0)
+      });
     }
 
-    const grl = fechamento.grl;
+    if (modalidade === 'TELESENA') {
+      tela2.telesena = {
+        qtd: Number(p.Qtd_Vendida || 0),
+        preco: Number(p.Valor_Cota || 0),
+        sub: Number(p.Valor_Total || 0)
+      };
+    }
+  });
 
-    setValue('relatorio', Number(grl['Relatório'] || 0).toFixed(2));
-    setValue('deposito', Number(grl['Depósito'] || 0).toFixed(2));
-    setValue('troco-inicial', Number(grl['Troco_Inicial'] || 0).toFixed(2));
-    setValue('troco-sobra', Number(grl['Troco_Sobra'] || 0).toFixed(2));
-    setValue('pix', Number(grl['PIX_CNPJ'] || 0).toFixed(2));
-    setValue('pix-sistema', Number(grl['Diferença_PIX'] || 0).toFixed(2));
-    setValue('raspadinha', Number(grl['Premio_Raspadinha'] || 0).toFixed(2));
-    setValue('telesena', Number(grl['Resgate_Telesena'] || 0).toFixed(2));
+  (fechamento.federais || []).forEach(f => {
+    tela2.federais.push({
+      modalidade: f.Modalidade || '',
+      concurso: f.Concurso || '',
+      dtSorteio: f.Dt_Concurso || '',
+      valorUnit: Number(f.Valor_Cota || 0),
+      qtdVendida: Number(f.Qtd_Vendida || 0),
+      subtotal: Number(f.Valor_Total || 0)
+    });
+  });
 
-    const dividas = (fechamento.dividas || []).map(d => ({
-      nome: d.Cliente || '',
-      valor: Number(d.Valor || 0)
-    }));
+  const tela3 = {
+    internosComuns: [],
+    internosEspeciais: [],
+    externosComuns: [],
+    externosEspeciais: []
+  };
 
-    preencherDividas(dividas);
+  const especiaisRegex = /(virada|independ|s[aã]o jo[aã]o|p[aá]scoa)/i;
 
-    const sessionTela1 = {
-      funcionario: document.getElementById('funcionario').value,
-      data: document.getElementById('data').value,
-      relatorio: document.getElementById('relatorio').value,
-      deposito: document.getElementById('deposito').value,
-      'troco-inicial': document.getElementById('troco-inicial').value,
-      'troco-sobra': document.getElementById('troco-sobra').value,
-      pix: document.getElementById('pix').value,
-      'pix-sistema': document.getElementById('pix-sistema').value,
-      raspadinha: document.getElementById('raspadinha').value,
-      telesena: document.getElementById('telesena').value,
-      dividas: dividas
+  (fechamento.internos || []).forEach(b => {
+    const item = {
+      key: b.KEY || '',
+      dtInicial: b.Dt_Inicial || '',
+      dtConcurso: b.Dt_Concurso || '',
+      modalidade: b.Modalidade || '',
+      concurso: b.Concurso || '',
+      qtdJogos: b.Qtd_de_Jogos || '',
+      qtdDezenas: b.Qtd_Dezenas || '',
+      valorCota: Number(b.Valor_Cota || 0),
+      qtdVendida: Number(b.Qtd_Cotas || 0),
+      origem: b.Origem || '',
+      destino: b.Destino || ''
     };
 
-    sessionStorage.setItem('tela1', JSON.stringify(sessionTela1));
+    if (especiaisRegex.test(String(item.modalidade))) {
+      tela3.internosEspeciais.push(item);
+    } else {
+      tela3.internosComuns.push(item);
+    }
+  });
 
-    calcTroco();
-    calcPix();
-  }
+  (fechamento.externos || []).forEach(b => {
+    const item = {
+      key: b.KEY || '',
+      dtInicial: b.Dt_Inicial || '',
+      dtConcurso: b.Dt_Concurso || '',
+      modalidade: b.Modalidade || '',
+      concurso: b.Concurso || '',
+      qtdJogos: b.Qtd_de_Jogos || '',
+      qtdDezenas: b.Qtd_Dezenas || '',
+      valorCota: Number(b.Valor_Cota || 0),
+      qtdVendida: Number(b.Qtd_Cotas || 0),
+      origem: b.Origem || '',
+      destino: b.Destino || ''
+    };
+
+    if (especiaisRegex.test(String(item.modalidade))) {
+      tela3.externosEspeciais.push(item);
+    } else {
+      tela3.externosComuns.push(item);
+    }
+  });
+
+  sessionStorage.setItem('tela1', JSON.stringify(tela1));
+  sessionStorage.setItem('tela2', JSON.stringify(tela2));
+  sessionStorage.setItem('tela3', JSON.stringify(tela3));
+
+  calcTroco();
+  calcPix();
+}
 
   async function buscarFechamentoTela1() {
     hideBuscaStatus();
