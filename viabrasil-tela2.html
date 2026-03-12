@@ -648,24 +648,25 @@
   }
 
   // ─── Restaurar qtd vendida dos federais após renderFed() ─────
-  function restaurarFederais(saved) {
-    if (!saved || !Array.isArray(saved.federais)) return;
+ function restaurarFederais(saved) {
+  if (!saved || !Array.isArray(saved.federais)) return;
 
-    saved.federais.forEach(sf => {
-      // Encontrar linha pelo concurso (chave mais confiável)
-      const idx = federais.findIndex(f =>
-        f.concurso === sf.concurso && f.modalidade === sf.modalidade
-      );
-      if (idx === -1) return;
+  saved.federais.forEach(sf => {
+    const qtd = parseInt(sf.qtdVendida) || 0;
+    if (qtd <= 0) return; // sem venda, não precisa restaurar
 
-      const inp = document.getElementById('fed-qtd-' + idx);
-      if (!inp) return;
+    const idx = federais.findIndex(f =>
+      f.concurso === sf.concurso && f.modalidade === sf.modalidade
+    );
+    if (idx === -1) return;
 
-      if (sf.qtdVendida > 0) {
-        inp.value = sf.qtdVendida;
-        onFed(idx); // recalcula sub + total
-      }
-    });
+    const inp = document.getElementById('fed-qtd-' + idx);
+    if (!inp) return;
+
+    inp.value = qtd;
+    onFed(idx);
+  });
+}
   }
 
   // ─── Raspadinha ───────────────────────────────────────────────
