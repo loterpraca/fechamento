@@ -575,19 +575,37 @@
 </main>
 
 <script>
-  // ─── Constantes ───────────────────────────────────────────────
-  const API_URL     = 'https://script.google.com/macros/s/AKfycbxrk-dqdtO8DTIoQ2PgYe8xrdmS7VbCClOBFQSdvXUcvgPg5z4hdx2cUDmHOTFlIi7_lg/exec';
-  const ABA_FEDERAL = 'Federal';
+  const API_URL      = 'https://script.google.com/macros/s/AKfycbxrk-dqdtO8DTIoQ2PgYe8xrdmS7VbCClOBFQSdvXUcvgPg5z4hdx2cUDmHOTFlIi7_lg/exec';
+  const ABA_FEDERAL  = 'Federal';
   const MAX_FEDERAIS = 24;
   const PRECOS_RASP  = [2.50, 5.00, 10.00, 20.00];
 
-  // ─── Estado global ────────────────────────────────────────────
-  let federais     = [];   // lista retornada pela API
+  let federais     = [];
   let dateFech     = null;
   let datePrimeiro = null;
-  let tela2Salva   = null; // dados previamente salvos em sessionStorage
+  let tela2Salva   = null;
 
-  // ─── Relógio ──────────────────────────────────────────────────
+  function fecharModal(id) {
+    document.getElementById(id).classList.remove('show');
+  }
+  function confirmarInicio() {
+    document.getElementById('modal-inicio').classList.add('show');
+  }
+  function confirmarSair() {
+    document.getElementById('modal-sair').classList.add('show');
+  }
+  function executarInicio() {
+    sessionStorage.removeItem('tela1');
+    sessionStorage.removeItem('tela2');
+    sessionStorage.removeItem('tela3');
+    sessionStorage.removeItem('fechamento_original');
+    window.location.href = 'viabrasil-tela1.html';
+  }
+  function executarSair() {
+    sessionStorage.clear();
+    window.location.href = 'login.html';
+  }
+
   function updateClock() {
     const now = new Date();
     document.getElementById('relogio').textContent =
@@ -597,9 +615,21 @@
   updateClock();
   setInterval(updateClock, 1000);
 
-  // ─── Build raspadinha (apenas DOM, sem valores) ───────────────
+  function fmtBR(d) {
+    return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+  }
+
+  function setFS(s) {
+    ['fs-inicial','fs-loading','fs-erro','fs-vazio','fs-lista'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+    document.getElementById('fs-' + s).style.display = s === 'lista' ? 'block' : 'flex';
+  }
+
   function buildRaspadinha() {
     const wrap = document.getElementById('faixas-rasp');
+    wrap.innerHTML = '';
     PRECOS_RASP.forEach((p, i) => {
       const div = document.createElement('div');
       div.className = 'faixa-row';
@@ -621,66 +651,92 @@
     });
   }
 
-  // ─── Restaurar valores de raspadinha/telesena salvos ─────────
   function restaurarProdutos(saved) {
     if (!saved) return;
 
-    // Raspadinha
     if (Array.isArray(saved.raspadinha)) {
       saved.raspadinha.forEach((f, i) => {
         const inpP = document.getElementById('rp-' + i);
         const inpQ = document.getElementById('rq-' + i);
         if (!inpP || !inpQ) return;
-        if (f.preco) inpP.value = Number(f.preco).toFixed(2);
-        if (f.qtd)  { inpQ.value = f.qtd; inpQ.classList.add('filled'); }
+
+        if (f.preco !== undefined && f.preco !== null) {
+          inpP.value = Number(f.preco).toFixed(2);
+        }
+        if (f.qtd !== undefined && f.qtd !== null) {
+          inpQ.value = Number(f.qtd) > 0 ? Number(f.qtd) : '';
+          inpQ.classList.toggle('filled', Number(f.qtd) > 0);
+        }
         recalcR(i);
       });
     }
 
-    // Telesena
     if (saved.telesena) {
       const inpP = document.getElementById('tele-preco');
       const inpQ = document.getElementById('tele-qtd');
-      if (saved.telesena.preco) inpP.value = Number(saved.telesena.preco).toFixed(2);
-      if (saved.telesena.qtd)   { inpQ.value = saved.telesena.qtd; inpQ.classList.add('filled'); }
+
+      if (saved.telesena.preco !== undefined && saved.telesena.preco !== null) {
+        inpP.value = Number(saved.telesena.preco).toFixed(2);
+      }
+      if (saved.telesena.qtd !== undefined && saved.telesena.qtd !== null) {
+        inpQ.value = Number(saved.telesena.qtd) > 0 ? Number(saved.telesena.qtd) : '';
+        inpQ.classList.toggle('filled', Number(saved.telesena.qtd) > 0);
+      }
       recalcTele();
     }
   }
 
-  // ─── Restaurar qtd vendida dos federais após renderFed() ─────
- function restaurarFederais(saved) {
-  if (!saved || !Array.isArray(saved.federais)) return;
+  function ordenarFederais(lista) {
+    return (lista || []).sort((a, b) => {
+      const ca = String(a.concurso || '').trim();
+      const cb = String(b.concurso || '').trim();
+      const na = parseInt(ca.replace(/\D/g, ''), 10) || 0;
+      const nb = parseInt(cb.replace(/\D/g, ''), 10) || 0;
+      if (na !== nb) return na - nb;
+      return ca.localeCompare(cb);
+    });
+  }
 
-  saved.federais.forEach(sf => {
-    const qtd = parseInt(sf.qtdVendida) || 0;
-    if (qtd <= 0) return; // sem venda, não precisa restaurar
+  function restaurarFederais(saved) {
+    if (!saved || !Array.isArray(saved.federais)) return;
 
-    const idx = federais.findIndex(f =>
-      f.concurso === sf.concurso && f.modalidade === sf.modalidade
-    );
-    if (idx === -1) return;
+    const mapaSalvo = {};
+    saved.federais.forEach(f => {
+      const concurso = String(f.concurso || '').trim();
+      const qtd = Number(f.qtdVendida || 0);
+      if (concurso && qtd > 0) {
+        mapaSalvo[concurso] = qtd;
+      }
+    });
 
-    const inp = document.getElementById('fed-qtd-' + idx);
-    if (!inp) return;
+    if (!Object.keys(mapaSalvo).length) return;
 
-    inp.value = qtd;
-    onFed(idx);
-  });
-}
-  
+    federais.forEach((f, i) => {
+      const concurso = String(f.concurso || '').trim();
+      const qtd = mapaSalvo[concurso];
+      if (!qtd) return;
 
-  // ─── Raspadinha ───────────────────────────────────────────────
+      const inp = document.getElementById('fed-qtd-' + i);
+      if (!inp) return;
+
+      inp.value = qtd;
+      onFed(i);
+    });
+  }
+
   function ajR(i, d) {
     const inp = document.getElementById('rq-' + i);
     inp.value = Math.max(0, (parseInt(inp.value) || 0) + d) || '';
     recalcR(i);
     inp.focus();
   }
+
   function recalcR(i) {
     const qtd = parseInt(document.getElementById('rq-' + i).value) || 0;
     const prc = parseFloat(document.getElementById('rp-' + i).value) || 0;
     const sub = document.getElementById('rs-' + i);
     const inp = document.getElementById('rq-' + i);
+
     if (qtd > 0) {
       sub.textContent = 'R$ ' + (qtd * prc).toFixed(2).replace('.', ',');
       sub.classList.add('on');
@@ -692,6 +748,7 @@
     }
     updRaspTot();
   }
+
   function updRaspTot() {
     let t = 0;
     PRECOS_RASP.forEach((_, i) => {
@@ -706,19 +763,20 @@
     updGeral();
   }
 
-  // ─── Telesena ─────────────────────────────────────────────────
   function ajTele(d) {
     const inp = document.getElementById('tele-qtd');
     inp.value = Math.max(0, (parseInt(inp.value) || 0) + d) || '';
     recalcTele();
     inp.focus();
   }
+
   function recalcTele() {
     const qtd = parseInt(document.getElementById('tele-qtd').value) || 0;
     const prc = parseFloat(document.getElementById('tele-preco').value) || 0;
     const tot = qtd * prc;
     const sub = document.getElementById('tele-sub');
     const inp = document.getElementById('tele-qtd');
+
     if (qtd > 0) {
       sub.textContent = 'R$ ' + tot.toFixed(2).replace('.', ',');
       sub.classList.add('on');
@@ -728,6 +786,7 @@
       sub.classList.remove('on');
       inp.classList.remove('filled');
     }
+
     const el = document.getElementById('tele-tot');
     el.textContent = 'R$ ' + tot.toFixed(2).replace('.', ',');
     el.classList.toggle('on', tot > 0);
@@ -741,7 +800,6 @@
     if (i && i.value === '0') i.value = '';
   }
 
-  // ─── Totais ───────────────────────────────────────────────────
   function getRaspTot() {
     let t = 0;
     PRECOS_RASP.forEach((_, i) =>
@@ -750,32 +808,29 @@
     );
     return t;
   }
+
   function getTeleTot() {
     return (parseInt(document.getElementById('tele-qtd').value) || 0)
          * (parseFloat(document.getElementById('tele-preco').value) || 0);
   }
+
   function getFedTot() {
     let t = 0;
     federais.forEach((f, i) => {
-      t += (parseInt(document.getElementById('fed-qtd-' + i)?.value) || 0) * f.valorUnit;
+      t += (parseInt(document.getElementById('fed-qtd-' + i)?.value) || 0) * Number(f.valorUnit || 0);
     });
     return t;
   }
+
   function updGeral() {
     const fed = getFedTot();
     const g   = getRaspTot() + getTeleTot() + fed;
-    document.getElementById('tot-fed').textContent   = 'R$ ' + fed.toFixed(2).replace('.', ',');
+    document.getElementById('tot-fed').textContent = 'R$ ' + fed.toFixed(2).replace('.', ',');
     const el = document.getElementById('tot-geral');
     el.textContent = 'R$ ' + g.toFixed(2).replace('.', ',');
     el.classList.toggle('cg', g > 0);
   }
 
-  // ─── Helpers data ─────────────────────────────────────────────
-  function fmtBR(d) {
-    return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
-  }
-
-  // ─── Buscar Federais ──────────────────────────────────────────
   async function buscarFederais() {
     if (!dateFech) {
       alert('Data de fechamento não encontrada. Volte para a Tela 1.');
@@ -821,19 +876,28 @@
       const data = await response.json();
       if (!data.ok) throw new Error(data.error || 'Erro ao buscar federais');
 
-      federais = data.federais || [];
+      federais = ordenarFederais((data.federais || []).map(f => ({
+        modalidade: String(f.modalidade || '').trim(),
+        concurso: String(f.concurso || '').trim(),
+        dtSorteio: String(f.dtSorteio || '').trim(),
+        valorUnit: Number(f.valorUnit || 0),
+        qtdFracoes: String(f.qtdFracoes || '').trim()
+      })));
 
       document.getElementById('data-badge').style.display = 'inline-flex';
       document.getElementById('periodo-label').textContent = `${fmtBR(dtIni)} → ${fmtBR(dtFim)}`;
 
       if (federais.length === 0) {
         setFS('vazio');
-      } else {
-        renderFed();
-        setFS('lista');
-        // ← Só restaura qtd vendida DEPOIS que a tabela foi criada no DOM
-        restaurarFederais(tela2Salva);
+        return;
       }
+
+      renderFed();
+      setFS('lista');
+
+      requestAnimationFrame(() => {
+        restaurarFederais(tela2Salva);
+      });
 
     } catch (e) {
       console.error(e);
@@ -842,11 +906,11 @@
     }
   }
 
-  // ─── Render tabela federais ───────────────────────────────────
   function renderFed() {
     const tb = document.getElementById('fed-tbody');
     tb.innerHTML = '';
     document.getElementById('fed-count').textContent = federais.length;
+
     federais.forEach((f, i) => {
       const tr = document.createElement('tr');
       tr.style.animationDelay = (i * 0.03) + 's';
@@ -854,7 +918,7 @@
         <td class="mono">${f.modalidade}</td>
         <td class="mono tc-conc">${f.concurso}</td>
         <td class="mono tc-sort">${f.dtSorteio}</td>
-        <td class="mono tc-val">R$ ${f.valorUnit.toFixed(2).replace('.', ',')}</td>
+        <td class="mono tc-val">R$ ${Number(f.valorUnit || 0).toFixed(2).replace('.', ',')}</td>
         <td class="mono" style="text-align:center;color:var(--text-mid)">${f.qtdFracoes}</td>
         <td class="tc-qtd">
           <div class="qtd-wrap" style="justify-content:center">
@@ -868,6 +932,7 @@
       `;
       tb.appendChild(tr);
     });
+
     updFedTot();
   }
 
@@ -877,13 +942,15 @@
     onFed(i);
     inp.focus();
   }
+
   function onFed(i) {
     const inp = document.getElementById('fed-qtd-' + i);
     const sub = document.getElementById('fed-sub-' + i);
     const qtd = parseInt(inp.value) || 0;
     const f   = federais[i];
+
     if (qtd > 0) {
-      sub.textContent = 'R$ ' + (qtd * f.valorUnit).toFixed(2).replace('.', ',');
+      sub.textContent = 'R$ ' + (qtd * Number(f.valorUnit || 0)).toFixed(2).replace('.', ',');
       sub.classList.add('on');
       inp.classList.add('filled');
       inp.closest('tr').classList.add('hv');
@@ -893,35 +960,31 @@
       inp.classList.remove('filled');
       inp.closest('tr').classList.remove('hv');
     }
+
     updFedTot();
   }
+
   function updFedTot() {
     const t = getFedTot();
     document.getElementById('fed-tot-label').textContent = 'R$ ' + t.toFixed(2).replace('.', ',');
     updGeral();
   }
 
-  function setFS(s) {
-    ['fs-inicial','fs-loading','fs-erro','fs-vazio','fs-lista'].forEach(id =>
-      document.getElementById(id).style.display = 'none'
-    );
-    document.getElementById('fs-' + s).style.display = s === 'lista' ? 'block' : 'flex';
+  function voltarTela1() {
+    window.location.href = 'viabrasil-tela1.html';
   }
-
-  // ─── Navegação ────────────────────────────────────────────────
-  function voltarTela1() { window.location.href = 'viabrasil-tela1.html'; }
 
   function avancarTela3() {
     const raspadinha = PRECOS_RASP.map((_, i) => ({
       preco: parseFloat(document.getElementById('rp-' + i).value) || 0,
-      qtd:   parseInt(document.getElementById('rq-' + i).value)   || 0,
+      qtd:   parseInt(document.getElementById('rq-' + i).value) || 0,
       sub:   (parseFloat(document.getElementById('rp-' + i).value) || 0)
-           * (parseInt(document.getElementById('rq-' + i).value)   || 0),
+           * (parseInt(document.getElementById('rq-' + i).value) || 0),
     }));
 
     const telesena = {
       preco: parseFloat(document.getElementById('tele-preco').value) || 0,
-      qtd:   parseInt(document.getElementById('tele-qtd').value)     || 0,
+      qtd:   parseInt(document.getElementById('tele-qtd').value) || 0,
       sub:   getTeleTot(),
     };
 
@@ -929,9 +992,10 @@
       modalidade: f.modalidade,
       concurso:   f.concurso,
       dtSorteio:  f.dtSorteio,
-      valorUnit:  f.valorUnit,
+      valorUnit:  Number(f.valorUnit || 0),
+      qtdFracoes: f.qtdFracoes || '',
       qtdVendida: parseInt(document.getElementById('fed-qtd-' + i)?.value) || 0,
-      subtotal:   (parseInt(document.getElementById('fed-qtd-' + i)?.value) || 0) * f.valorUnit,
+      subtotal:   (parseInt(document.getElementById('fed-qtd-' + i)?.value) || 0) * Number(f.valorUnit || 0),
     }));
 
     sessionStorage.setItem('tela2', JSON.stringify({ raspadinha, telesena, federais: feds }));
@@ -944,87 +1008,49 @@
   }
 </script>
 
-<!-- config-loterias.js e sheets-integracao.js carregados antes do init -->
 <script src="config-loterias.js"></script>
 <script src="sheets-integracao.js"></script>
 
 <script>
-  // ─── INIT — único ponto de entrada, executa após o DOM e os
-  //     scripts externos estarem prontos ─────────────────────────
   window.addEventListener('DOMContentLoaded', () => {
-
-// ── Botões Início / Sair ──────────────────────────────────────
-function fecharModal(id) {
-  document.getElementById(id).classList.remove('show');
-}
-function confirmarInicio() {
-  document.getElementById('modal-inicio').classList.add('show');
-}
-function confirmarSair() {
-  document.getElementById('modal-sair').classList.add('show');
-}
-function executarInicio() {
-  // Limpa dados das telas mas mantém sessão (token + usuário)
-  sessionStorage.removeItem('tela1');
-  sessionStorage.removeItem('tela2');
-  sessionStorage.removeItem('tela3');
-  sessionStorage.removeItem('fechamento_original');
-  window.location.href = 'viabrasil-tela1.html';
-}
-function executarSair() {
-  // Limpa tudo incluindo sessão
-  sessionStorage.clear();
-  window.location.href = 'login.html';
-}
-   
-    // 1. Validação de sessão
     const token = sessionStorage.getItem('sislot_token');
-    if (!token) { window.location.href = 'login.html'; return; }
+    if (!token) {
+      window.location.href = 'login.html';
+      return;
+    }
 
-    // 2. Validação de tela 1
     const tela1 = JSON.parse(sessionStorage.getItem('tela1') || '{}');
     if (!tela1.data || !tela1.funcionario) {
       window.location.href = 'viabrasil-tela1.html';
       return;
     }
 
-    // 3. Calcular datas a partir da tela1 (antes de qualquer fetch)
     const [y, m, dd] = tela1.data.split('-').map(Number);
     dateFech     = new Date(y, m - 1, dd);
     datePrimeiro = new Date(y, m - 1, 1);
 
-    // 4. Identificar loteria e preencher sheet-id
     const lot = getLoteria();
     if (!lot) {
       alert('Loteria não identificada. Verifique o nome do arquivo HTML.');
       return;
     }
+
     const si = document.getElementById('sheet-id');
     if (si) si.value = lot.sheetId || '';
 
-    // 5. Esconder banner de auth legado (não usado mais)
     const authBanner = document.getElementById('auth-banner');
     if (authBanner) authBanner.style.display = 'none';
 
-    // 6. Construir DOM da raspadinha
     buildRaspadinha();
 
-    // 7. Ler dados salvos da tela2 (se existirem — ex: voltou da tela3)
     tela2Salva = JSON.parse(sessionStorage.getItem('tela2') || 'null');
 
-    // 8. Restaurar raspadinha e telesena imediatamente (DOM já existe)
     restaurarProdutos(tela2Salva);
 
-    // 9. Buscar federais — ao terminar, restaurarFederais() é chamado
-    //    internamente, garantindo que os inputs já estejam no DOM
     buscarFederais();
-
-   
   });
 </script>
 
-
- 
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
