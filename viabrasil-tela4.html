@@ -8,8 +8,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SISLOT">
-
-<!-- Ícones para iOS -->
 <link rel="apple-touch-icon" href="/icons/icon-152.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72.png">
 <link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96.png">
@@ -19,8 +17,6 @@
 <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192.png">
 <link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384.png">
 <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512.png">
-
-<!-- Favicon -->
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png">
 <meta charset="UTF-8">
@@ -62,7 +58,6 @@
       repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(30,58,110,0.15) 39px, rgba(30,58,110,0.15) 40px);
   }
 
-  /* ── TOPBAR ── */
   .topbar {
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 32px; height: 56px;
@@ -79,7 +74,6 @@
   .brand-sub  { font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
   .topbar-right { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-mid); }
 
-  /* ── STEPS ── */
   .steps-bar { display: flex; align-items: center; justify-content: center; padding: 24px 32px 0; }
   .step { display: flex; align-items: center; gap: 8px; }
   .step-circle {
@@ -96,7 +90,6 @@
   .step-connector { width: 64px; height: 1px; background: var(--blue-border); margin: 0 4px; }
   .step-connector.done { background: var(--accent); opacity: 0.4; }
 
-  /* ── MAIN ── */
   .main { flex: 1; padding: 32px; max-width: 1040px; width: 100%; margin: 0 auto; }
 
   .page-header {
@@ -112,10 +105,46 @@
     padding: 4px 12px; border-radius: 20px; letter-spacing: 0.1em; text-transform: uppercase;
   }
 
-  /* ── INFO DO FECHAMENTO ── */
-  .info-bar {
-    display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;
+  /* ── BANNER DE MODO ── */
+  .modo-banner {
+    display: flex; align-items: flex-start; gap: 12px;
+    border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;
+    font-size: 12px; line-height: 1.5;
+    font-family: 'IBM Plex Mono', monospace;
+    border: 1px solid transparent;
   }
+  .modo-banner svg { flex-shrink: 0; margin-top: 1px; }
+
+  /* Modo: apenas visualização (sem alterações) */
+  .modo-banner.visualizacao {
+    background: rgba(56,189,248,0.06);
+    border-color: rgba(56,189,248,0.25);
+    color: var(--sky);
+  }
+  /* Modo: edição com alterações detectadas */
+  .modo-banner.edicao {
+    background: rgba(245,166,35,0.06);
+    border-color: rgba(245,166,35,0.25);
+    color: var(--amber);
+  }
+  /* Modo: novo fechamento */
+  .modo-banner.novo {
+    background: rgba(0,200,150,0.06);
+    border-color: rgba(0,200,150,0.2);
+    color: var(--accent);
+  }
+
+  .modo-banner .campos-list {
+    margin-top: 4px; display: flex; flex-wrap: wrap; gap: 5px;
+  }
+  .campo-tag {
+    font-size: 10px; padding: 1px 7px; border-radius: 4px;
+    background: rgba(245,166,35,0.12); border: 1px solid rgba(245,166,35,0.25);
+    color: var(--amber);
+  }
+
+  /* ── INFO BAR ── */
+  .info-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
   .info-chip {
     display: flex; align-items: center; gap: 7px;
     background: var(--blue-panel); border: 1px solid var(--blue-border);
@@ -125,135 +154,91 @@
   .info-chip strong { color: var(--text-bright); }
   .info-chip svg { width: 13px; height: 13px; opacity: 0.5; }
 
-  /* ── GRADE DEBITOS / CREDITOS ── */
-  .grade {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;
-  }
+  /* ── GRADE ── */
+  .grade { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
 
-  .bloco {
-    background: var(--blue-panel); border: 1px solid var(--blue-border);
-    border-radius: 12px; overflow: hidden;
-  }
+  .bloco { background: var(--blue-panel); border: 1px solid var(--blue-border); border-radius: 12px; overflow: hidden; }
   .bloco-head {
     display: flex; align-items: center; gap: 10px;
     padding: 14px 18px; border-bottom: 1px solid var(--blue-border);
   }
-  .bloco-head-icon {
-    width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  }
+  .bloco-head-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .bloco-head-title { font-size: 13px; font-weight: 600; letter-spacing: 0.04em; }
-  .bloco-head-total {
-    margin-left: auto; font-family: 'IBM Plex Mono', monospace;
-    font-size: 15px; font-weight: 600;
-  }
+  .bloco-head-total { margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600; }
 
-  /* Débitos — vermelho */
-  .bloco-deb .bloco-head { background: rgba(255,82,82,0.05); border-bottom-color: rgba(255,82,82,0.15); }
-  .bloco-deb .bloco-head-icon { background: rgba(255,82,82,0.1); }
+  .bloco-deb .bloco-head  { background: rgba(255,82,82,0.05); border-bottom-color: rgba(255,82,82,0.15); }
+  .bloco-deb .bloco-head-icon  { background: rgba(255,82,82,0.1); }
   .bloco-deb .bloco-head-title { color: var(--debito); }
   .bloco-deb .bloco-head-total { color: var(--debito); }
 
-  /* Créditos — verde */
-  .bloco-cred .bloco-head { background: rgba(0,200,150,0.05); border-bottom-color: rgba(0,200,150,0.15); }
-  .bloco-cred .bloco-head-icon { background: rgba(0,200,150,0.1); }
+  .bloco-cred .bloco-head  { background: rgba(0,200,150,0.05); border-bottom-color: rgba(0,200,150,0.15); }
+  .bloco-cred .bloco-head-icon  { background: rgba(0,200,150,0.1); }
   .bloco-cred .bloco-head-title { color: var(--credito); }
   .bloco-cred .bloco-head-total { color: var(--credito); }
 
-  /* Linhas */
   .linha {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 11px 18px; border-bottom: 1px solid rgba(30,58,110,0.5);
-    transition: background 0.15s;
+    padding: 11px 18px; border-bottom: 1px solid rgba(30,58,110,0.5); transition: background 0.15s;
   }
   .linha:last-child { border-bottom: none; }
   .linha:hover { background: rgba(255,255,255,0.02); }
-
-  .linha-label {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 13px; color: var(--text-mid);
-  }
+  .linha-label { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-mid); }
   .linha-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
   .bloco-deb  .linha-dot { background: rgba(255,82,82,0.5); }
   .bloco-cred .linha-dot { background: rgba(0,200,150,0.5); }
-
-  .linha-val {
-    font-family: 'IBM Plex Mono', monospace; font-size: 13px;
-    font-weight: 500; color: var(--text-bright);
-  }
+  .linha-val { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; color: var(--text-bright); }
   .linha-val.zero { color: var(--text-dim); }
 
-  /* Sub-itens (dívidas, raspadinha) */
-  .linha.sub {
-    padding-left: 36px; background: rgba(255,255,255,0.01);
-  }
+  /* Marca visualmente linhas que foram alteradas em relação ao original */
+  .linha.alterada .linha-label { color: var(--amber); }
+  .linha.alterada .linha-val   { color: var(--amber); }
+  .linha.alterada .linha-dot   { background: var(--amber) !important; }
+
+  .linha.sub { padding-left: 36px; background: rgba(255,255,255,0.01); }
   .linha.sub .linha-label { font-size: 11px; color: var(--text-dim); }
   .linha.sub .linha-val   { font-size: 11px; color: var(--text-dim); }
   .linha.sub:hover { background: rgba(255,255,255,0.015); }
 
-  .linha-expand {
-    cursor: pointer; user-select: none;
-  }
-  .linha-expand .expand-icon {
-    font-size: 10px; color: var(--text-dim); margin-left: 6px;
-    transition: transform 0.2s; display: inline-block;
-  }
+  .linha-expand { cursor: pointer; user-select: none; }
+  .linha-expand .expand-icon { font-size: 10px; color: var(--text-dim); margin-left: 6px; transition: transform 0.2s; display: inline-block; }
   .linha-expand.open .expand-icon { transform: rotate(90deg); }
-
   .sub-group { display: none; }
   .sub-group.open { display: block; }
 
-  /* ── CARD QUEBRA ── */
+  /* ── QUEBRA ── */
   .quebra-card {
     border-radius: 12px; padding: 24px 28px; margin-bottom: 20px;
     border: 2px solid; transition: all 0.4s ease;
     display: flex; align-items: center; gap: 24px;
   }
-  .quebra-card.equilibrado {
-    background: rgba(0,200,150,0.06); border-color: rgba(0,200,150,0.3);
-  }
-  .quebra-card.quebra-pos {
-    background: rgba(245,166,35,0.06); border-color: rgba(245,166,35,0.35);
-  }
-  .quebra-card.quebra-neg {
-    background: rgba(255,82,82,0.06); border-color: rgba(255,82,82,0.35);
-  }
+  .quebra-card.equilibrado { background: rgba(0,200,150,0.06); border-color: rgba(0,200,150,0.3); }
+  .quebra-card.quebra-pos  { background: rgba(245,166,35,0.06); border-color: rgba(245,166,35,0.35); }
+  .quebra-card.quebra-neg  { background: rgba(255,82,82,0.06);  border-color: rgba(255,82,82,0.35); }
 
-  .quebra-icon {
-    width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center;
-    justify-content: center; flex-shrink: 0; font-size: 28px;
-  }
-  .equilibrado  .quebra-icon { background: rgba(0,200,150,0.12); }
-  .quebra-pos   .quebra-icon { background: rgba(245,166,35,0.12); }
-  .quebra-neg   .quebra-icon { background: rgba(255,82,82,0.12); }
+  .quebra-icon { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 28px; }
+  .equilibrado .quebra-icon { background: rgba(0,200,150,0.12); }
+  .quebra-pos  .quebra-icon { background: rgba(245,166,35,0.12); }
+  .quebra-neg  .quebra-icon { background: rgba(255,82,82,0.12); }
 
   .quebra-info { flex: 1; }
-  .quebra-titulo {
-    font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px;
-  }
-  .equilibrado  .quebra-titulo { color: var(--accent); }
-  .quebra-pos   .quebra-titulo { color: var(--amber); }
-  .quebra-neg   .quebra-titulo { color: var(--error); }
+  .quebra-titulo { font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; }
+  .equilibrado .quebra-titulo { color: var(--accent); }
+  .quebra-pos  .quebra-titulo { color: var(--amber); }
+  .quebra-neg  .quebra-titulo { color: var(--error); }
 
   .quebra-desc { font-size: 12px; color: var(--text-mid); }
 
-  .quebra-valor {
-    font-family: 'IBM Plex Mono', monospace; font-size: 36px; font-weight: 600;
-    line-height: 1; text-align: right;
-  }
-  .equilibrado  .quebra-valor { color: var(--accent); }
-  .quebra-pos   .quebra-valor { color: var(--amber); }
-  .quebra-neg   .quebra-valor { color: var(--error); }
+  .quebra-valor { font-family: 'IBM Plex Mono', monospace; font-size: 36px; font-weight: 600; line-height: 1; text-align: right; }
+  .equilibrado .quebra-valor { color: var(--accent); }
+  .quebra-pos  .quebra-valor { color: var(--amber); }
+  .quebra-neg  .quebra-valor { color: var(--error); }
 
-  .quebra-detalhe {
-    font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-    color: var(--text-dim); text-align: right; margin-top: 4px;
-  }
+  .quebra-detalhe { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-dim); text-align: right; margin-top: 4px; }
 
   /* ── JUSTIFICATIVA ── */
   .justificativa-wrap {
     background: rgba(245,166,35,0.04); border: 1px solid rgba(245,166,35,0.25);
-    border-radius: 10px; padding: 18px 20px; margin-bottom: 20px;
-    display: none;
+    border-radius: 10px; padding: 18px 20px; margin-bottom: 20px; display: none;
   }
   .justificativa-wrap.show { display: block; animation: fadeIn 0.3s ease; }
   .justificativa-label {
@@ -267,13 +252,10 @@
     font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; color: var(--text-bright);
     outline: none; transition: border-color 0.2s, box-shadow 0.2s; line-height: 1.5;
   }
-  textarea#justificativa:focus {
-    border-color: var(--amber); box-shadow: 0 0 0 3px rgba(245,166,35,0.1);
-  }
+  textarea#justificativa:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(245,166,35,0.1); }
   textarea#justificativa::placeholder { color: var(--text-dim); }
   .justificativa-counter { font-size: 11px; color: var(--text-dim); text-align: right; margin-top: 5px; }
 
-  /* ── DÍVIDAS EXPANDIDAS ── */
   .dividas-badge {
     font-family: 'IBM Plex Mono', monospace; font-size: 10px;
     background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.2);
@@ -292,17 +274,45 @@
     transition: all 0.2s; font-family: 'IBM Plex Sans', sans-serif;
   }
   .btn-back:hover { border-color: var(--text-mid); color: var(--text-bright); }
+
   .btn-finalizar {
-    display: flex; align-items: center; gap: 10px; background: var(--accent);
-    color: var(--blue-deep); border: none; border-radius: 8px; padding: 12px 28px;
+    display: flex; align-items: center; gap: 10px;
+    border: none; border-radius: 8px; padding: 12px 28px;
     font-size: 14px; font-weight: 600; letter-spacing: 0.04em; cursor: pointer;
     transition: all 0.2s; text-transform: uppercase; font-family: 'IBM Plex Sans', sans-serif;
   }
-  .btn-finalizar:hover { background: #00e8ad; transform: translateY(-1px); box-shadow: 0 6px 24px rgba(0,200,150,0.25); }
-  .btn-finalizar:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+  /* Modo novo / edição com alterações → verde padrão */
+  .btn-finalizar.modo-salvar {
+    background: var(--accent); color: var(--blue-deep);
+  }
+  .btn-finalizar.modo-salvar:hover:not(:disabled) {
+    background: #00e8ad; transform: translateY(-1px); box-shadow: 0 6px 24px rgba(0,200,150,0.25);
+  }
+  /* Modo somente-visualização → azul discreto */
+  .btn-finalizar.modo-visualizar {
+    background: rgba(56,189,248,0.12); color: var(--sky);
+    border: 1px solid rgba(56,189,248,0.3);
+  }
+  .btn-finalizar.modo-visualizar:hover:not(:disabled) {
+    background: rgba(56,189,248,0.2);
+  }
+  .btn-finalizar:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
   .btn-finalizar svg, .btn-back svg { width: 15px; height: 15px; }
 
+  /* ── MODAIS ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(10,22,40,0.85); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-box {
+    background: var(--blue-panel); border-radius: 16px;
+    padding: 32px 36px; width: min(92vw, 420px);
+  }
+
   @keyframes fadeIn { from { opacity:0; transform: translateY(-8px); } to { opacity:1; transform: none; } }
+  @keyframes spin   { to { transform: rotate(360deg); } }
 
   @media (max-width: 700px) {
     .grade { grid-template-columns: 1fr; }
@@ -346,6 +356,9 @@
     <div class="step-badge">Tela 4 de 4</div>
   </div>
 
+  <!-- ★ Banner de modo — preenchido dinamicamente -->
+  <div class="modo-banner" id="modo-banner" style="display:none"></div>
+
   <!-- INFO BAR -->
   <div class="info-bar">
     <div class="info-chip">
@@ -361,104 +374,61 @@
       Loteria: <strong id="info-loteria">—</strong>
     </div>
     <div class="info-chip" id="chip-loteria-erro" style="display:none;border-color:rgba(255,82,82,0.3);color:#ff9090;">
-      ⚠️ Loteria não identificada — configure o ID da planilha
+      ⚠️ Loteria não identificada
     </div>
   </div>
 
-  <!-- MODAL DE PROGRESSO DE GRAVAÇÃO -->
-  <div id="modal-gravando" style="
-    display:none; position:fixed; inset:0; z-index:999;
-    background:rgba(10,22,40,0.85); backdrop-filter:blur(6px);
-    align-items:center; justify-content:center;
-  ">
-    <div style="
-      background:var(--blue-panel); border:1px solid var(--blue-border);
-      border-radius:16px; padding:36px 40px; min-width:340px; text-align:center;
-    ">
+  <!-- MODAL GRAVANDO -->
+  <div class="modal-overlay" id="modal-gravando">
+    <div class="modal-box" style="text-align:center;min-width:320px;">
       <div style="width:48px;height:48px;border-radius:50%;border:3px solid rgba(0,200,150,0.15);border-top-color:var(--accent);animation:spin 0.8s linear infinite;margin:0 auto 20px;"></div>
       <div style="font-size:15px;font-weight:600;color:var(--text-bright);margin-bottom:8px;" id="modal-titulo">Gravando fechamento...</div>
       <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-mid);" id="modal-sub">Aguarde</div>
       <div style="margin-top:18px;background:var(--blue-mid);border-radius:6px;height:4px;overflow:hidden;">
         <div id="modal-barra" style="height:100%;background:var(--accent);transition:width 0.4s ease;width:0%;border-radius:6px;"></div>
       </div>
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim);margin-top:8px;" id="modal-pct">0 / 4 abas</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim);margin-top:8px;" id="modal-pct">Processando...</div>
     </div>
   </div>
 
   <!-- MODAL SOBRESCREVER -->
-  <div id="modal-sobrescrever" style="
-    display:none; position:fixed; inset:0; z-index:999;
-    background:rgba(10,22,40,0.85); backdrop-filter:blur(6px);
-    align-items:center; justify-content:center;
-  ">
-    <div style="
-      background:var(--blue-panel); border:1px solid rgba(245,166,35,0.3);
-      border-radius:16px; padding:32px 36px; max-width:420px; text-align:center;
-    ">
+  <div class="modal-overlay" id="modal-sobrescrever">
+    <div class="modal-box" style="text-align:center;">
       <div style="font-size:28px;margin-bottom:12px;">⚠️</div>
       <div style="font-size:15px;font-weight:600;color:var(--amber);margin-bottom:8px;">Fechamento já registrado</div>
       <div style="font-size:13px;color:var(--text-mid);margin-bottom:24px;line-height:1.6;" id="modal-sob-msg">
         Já existe um fechamento para esta data. Deseja sobrescrever os dados?
       </div>
       <div style="display:flex;gap:12px;justify-content:center;">
-        <button onclick="responderSobrescrever(false)" style="
-          background:transparent;border:1px solid var(--blue-border);color:var(--text-mid);
-          border-radius:8px;padding:10px 22px;font-size:13px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;
-        ">Cancelar</button>
-        <button onclick="responderSobrescrever(true)" style="
-          background:var(--amber);color:var(--blue-deep);border:none;
-          border-radius:8px;padding:10px 22px;font-size:13px;font-weight:600;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;
-        ">Sim, sobrescrever</button>
+        <button onclick="responderSobrescrever(false)" style="background:transparent;border:1px solid var(--blue-border);color:var(--text-mid);border-radius:8px;padding:10px 22px;font-size:13px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;">Cancelar</button>
+        <button onclick="responderSobrescrever(true)"  style="background:var(--amber);color:var(--blue-deep);border:none;border-radius:8px;padding:10px 22px;font-size:13px;font-weight:600;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;">Sim, sobrescrever</button>
       </div>
     </div>
   </div>
- 
-  <div id="modal-admin" style="
-  display:none; position:fixed; inset:0; z-index:1000;
-  background:rgba(10,22,40,0.85); backdrop-filter:blur(6px);
-  align-items:center; justify-content:center;
-">
-  <div style="
-    background:var(--blue-panel); border:1px solid rgba(245,166,35,0.3);
-    border-radius:16px; padding:32px 36px; width:min(92vw,420px);
-  ">
-    <div style="font-size:15px;font-weight:600;color:var(--amber);margin-bottom:8px;">
-      Autenticação de administrador
-    </div>
-    <div style="font-size:13px;color:var(--text-mid);margin-bottom:18px;line-height:1.5;">
-      Para sobrescrever um fechamento existente, informe usuário e senha de administrador.
-    </div>
 
-    <div style="display:flex;flex-direction:column;gap:12px;">
-      <input type="text" id="admin-login" placeholder="Usuário administrador" style="
-        width:100%; background:var(--input-bg); border:1px solid var(--input-border);
-        border-radius:8px; padding:12px 14px; color:var(--text-bright);
-      ">
-      <input type="password" id="admin-senha" placeholder="Senha" style="
-        width:100%; background:var(--input-bg); border:1px solid var(--input-border);
-        border-radius:8px; padding:12px 14px; color:var(--text-bright);
-      ">
-      <div id="admin-erro" style="display:none;font-size:12px;color:var(--error);"></div>
-    </div>
-
-    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:22px;">
-      <button type="button" onclick="fecharModalAdmin(false)" style="
-        background:transparent;border:1px solid var(--blue-border);color:var(--text-mid);
-        border-radius:8px;padding:10px 18px;cursor:pointer;
-      ">Cancelar</button>
-
-      <button type="button" onclick="confirmarAdminSobrescrita()" style="
-        background:var(--amber);color:var(--blue-deep);border:none;
-        border-radius:8px;padding:10px 18px;font-weight:600;cursor:pointer;
-      ">Confirmar</button>
+  <!-- MODAL ADMIN -->
+  <div class="modal-overlay" id="modal-admin">
+    <div class="modal-box">
+      <div style="font-size:15px;font-weight:600;color:var(--amber);margin-bottom:8px;">Autenticação de administrador</div>
+      <div style="font-size:13px;color:var(--text-mid);margin-bottom:18px;line-height:1.5;">
+        Para sobrescrever um fechamento existente, informe usuário e senha de administrador.
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <input type="text"     id="admin-login" placeholder="Usuário administrador" style="width:100%;background:var(--input-bg);border:1px solid var(--input-border);border-radius:8px;padding:12px 14px;color:var(--text-bright);outline:none;font-family:'IBM Plex Mono',monospace;">
+        <input type="password" id="admin-senha" placeholder="Senha"                 style="width:100%;background:var(--input-bg);border:1px solid var(--input-border);border-radius:8px;padding:12px 14px;color:var(--text-bright);outline:none;font-family:'IBM Plex Mono',monospace;">
+        <div id="admin-erro" style="display:none;font-size:12px;color:var(--error);"></div>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:22px;">
+        <button type="button" onclick="fecharModalAdmin(false)" style="background:transparent;border:1px solid var(--blue-border);color:var(--text-mid);border-radius:8px;padding:10px 18px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;">Cancelar</button>
+        <button type="button" onclick="confirmarAdminSobrescrita()" style="background:var(--amber);color:var(--blue-deep);border:none;border-radius:8px;padding:10px 18px;font-weight:600;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;">Confirmar</button>
+      </div>
     </div>
   </div>
-</div>
- 
+
   <!-- GRADE DÉBITOS / CRÉDITOS -->
   <div class="grade">
 
-    <!-- ── DÉBITOS ── -->
+    <!-- DÉBITOS -->
     <div class="bloco bloco-deb">
       <div class="bloco-head">
         <div class="bloco-head-icon">
@@ -467,30 +437,14 @@
         <span class="bloco-head-title">Débitos</span>
         <span class="bloco-head-total" id="tot-deb">R$ 0,00</span>
       </div>
-
-      <div class="linha">
-        <div class="linha-label"><div class="linha-dot"></div>Troco Inicial</div>
-        <div class="linha-val" id="l-troco-ini">R$ 0,00</div>
-      </div>
-      <div class="linha">
-        <div class="linha-label"><div class="linha-dot"></div>Total de Produtos</div>
-        <div class="linha-val" id="l-produtos">R$ 0,00</div>
-      </div>
-      <div class="linha">
-        <div class="linha-label"><div class="linha-dot"></div>Total de Federais</div>
-        <div class="linha-val" id="l-federais">R$ 0,00</div>
-      </div>
-      <div class="linha">
-        <div class="linha-label"><div class="linha-dot"></div>Total de Bolões</div>
-        <div class="linha-val" id="l-boloes">R$ 0,00</div>
-      </div>
-      <div class="linha">
-        <div class="linha-label"><div class="linha-dot"></div>Valor do Relatório Diário</div>
-        <div class="linha-val" id="l-relatorio">R$ 0,00</div>
-      </div>
+      <div class="linha" id="row-troco-ini"><div class="linha-label"><div class="linha-dot"></div>Troco Inicial</div><div class="linha-val" id="l-troco-ini">R$ 0,00</div></div>
+      <div class="linha" id="row-produtos">  <div class="linha-label"><div class="linha-dot"></div>Total de Produtos</div><div class="linha-val" id="l-produtos">R$ 0,00</div></div>
+      <div class="linha" id="row-federais">  <div class="linha-label"><div class="linha-dot"></div>Total de Federais</div><div class="linha-val" id="l-federais">R$ 0,00</div></div>
+      <div class="linha" id="row-boloes">    <div class="linha-label"><div class="linha-dot"></div>Total de Bolões</div><div class="linha-val" id="l-boloes">R$ 0,00</div></div>
+      <div class="linha" id="row-relatorio"> <div class="linha-label"><div class="linha-dot"></div>Valor do Relatório Diário</div><div class="linha-val" id="l-relatorio">R$ 0,00</div></div>
     </div>
 
-    <!-- ── CRÉDITOS ── -->
+    <!-- CRÉDITOS -->
     <div class="bloco bloco-cred">
       <div class="bloco-head">
         <div class="bloco-head-icon">
@@ -499,33 +453,12 @@
         <span class="bloco-head-title">Créditos</span>
         <span class="bloco-head-total" id="tot-cred">R$ 0,00</span>
       </div>
-
-      <div class="linha">
-        <div class="linha-label"><div class="linha-dot"></div>Troco Sobra</div>
-        <div class="linha-val" id="l-troco-sob">R$ 0,00</div>
-      </div>
-      <div class="linha">
-        <div class="linha-label"><div class="linha-dot"></div>Depósito Bancário</div>
-        <div class="linha-val" id="l-deposito">R$ 0,00</div>
-      </div>
-      <div class="linha">
-        <div class="linha-label"><div class="linha-dot"></div>PIX CNPJ</div>
-        <div class="linha-val" id="l-pix">R$ 0,00</div>
-      </div>
-      <div class="linha">
-        <div class="linha-label"><div class="linha-dot"></div>Diferença de PIX</div>
-        <div class="linha-val" id="l-pix-dif">R$ 0,00</div>
-      </div>
-      <div class="linha">
-        <div class="linha-label"><div class="linha-dot"></div>Prêmio Raspadinha</div>
-        <div class="linha-val" id="l-raspadinha">R$ 0,00</div>
-      </div>
-      <div class="linha">
-        <div class="linha-label"><div class="linha-dot"></div>Resgate Telesena</div>
-        <div class="linha-val" id="l-telesena">R$ 0,00</div>
-      </div>
-
-      <!-- Dívidas expansível -->
+      <div class="linha" id="row-troco-sob">  <div class="linha-label"><div class="linha-dot"></div>Troco Sobra</div><div class="linha-val" id="l-troco-sob">R$ 0,00</div></div>
+      <div class="linha" id="row-deposito">   <div class="linha-label"><div class="linha-dot"></div>Depósito Bancário</div><div class="linha-val" id="l-deposito">R$ 0,00</div></div>
+      <div class="linha" id="row-pix">        <div class="linha-label"><div class="linha-dot"></div>PIX CNPJ</div><div class="linha-val" id="l-pix">R$ 0,00</div></div>
+      <div class="linha" id="row-pix-dif">    <div class="linha-label"><div class="linha-dot"></div>Diferença de PIX</div><div class="linha-val" id="l-pix-dif">R$ 0,00</div></div>
+      <div class="linha" id="row-raspadinha"> <div class="linha-label"><div class="linha-dot"></div>Prêmio Raspadinha</div><div class="linha-val" id="l-raspadinha">R$ 0,00</div></div>
+      <div class="linha" id="row-telesena">   <div class="linha-label"><div class="linha-dot"></div>Resgate Telesena</div><div class="linha-val" id="l-telesena">R$ 0,00</div></div>
       <div class="linha linha-expand" id="dividas-toggle" onclick="toggleDividas()">
         <div class="linha-label">
           <div class="linha-dot"></div>
@@ -537,10 +470,9 @@
       </div>
       <div class="sub-group" id="dividas-sub"></div>
     </div>
-
   </div>
 
-  <!-- ── CARD QUEBRA ── -->
+  <!-- CARD QUEBRA -->
   <div class="quebra-card equilibrado" id="quebra-card">
     <div class="quebra-icon" id="quebra-icon">✓</div>
     <div class="quebra-info">
@@ -553,7 +485,7 @@
     </div>
   </div>
 
-  <!-- ── JUSTIFICATIVA (só aparece se houver quebra) ── -->
+  <!-- JUSTIFICATIVA -->
   <div class="justificativa-wrap" id="justificativa-wrap">
     <div class="justificativa-label">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -570,522 +502,620 @@
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7 12l-4-4 4-4"/></svg>
       Voltar
     </button>
-    <button class="btn-finalizar" id="btn-finalizar" onclick="finalizar()">
+    <button class="btn-finalizar modo-salvar" id="btn-finalizar" onclick="finalizar()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
-      Finalizar Fechamento
+      <span id="btn-finalizar-texto">Finalizar Fechamento</span>
     </button>
   </div>
 </main>
 
 <script src="config-loterias.js"></script>
-
 <script>
-let resolverAdmin = null;
+  // ─── Constantes ───────────────────────────────────────────────
+  const API_URL = 'https://script.google.com/macros/s/AKfycbxrk-dqdtO8DTIoQ2PgYe8xrdmS7VbCClOBFQSdvXUcvgPg5z4hdx2cUDmHOTFlIi7_lg/exec';
 
-function abrirModalAdmin() {
-  return new Promise(resolve => {
-    resolverAdmin = resolve;
-    document.getElementById('admin-login').value = '';
-    document.getElementById('admin-senha').value = '';
-    document.getElementById('admin-erro').style.display = 'none';
-    document.getElementById('admin-erro').textContent = '';
-    document.getElementById('modal-admin').style.display = 'flex';
-    document.getElementById('admin-login').focus();
-  });
-}
+  // ─── Estado global ────────────────────────────────────────────
+  let dadosQuebra  = 0;
+  let loteriaAtiva = null;
+  let modoAtual    = 'novo'; // 'novo' | 'edicao' | 'visualizacao'
 
-function fecharModalAdmin(resultado) {
-  document.getElementById('modal-admin').style.display = 'none';
-  if (resolverAdmin) {
-    resolverAdmin(resultado);
-    resolverAdmin = null;
+  // Promises para modais
+  let resolverSob   = null;
+  let resolverAdmin = null;
+
+  // ─── Helpers ──────────────────────────────────────────────────
+  function getUsuarioLogado() {
+    try { return JSON.parse(sessionStorage.getItem('sislot_user') || '{}'); }
+    catch { return {}; }
   }
-}
-
-async function confirmarAdminSobrescrita() {
-  const login = String(document.getElementById('admin-login').value || '').trim();
-  const senha = String(document.getElementById('admin-senha').value || '').trim();
-  const erro = document.getElementById('admin-erro');
-
-  if (!login || !senha) {
-    erro.textContent = 'Informe usuário e senha do administrador.';
-    erro.style.display = 'block';
-    return;
+  function isAdmin(user) {
+    return ['ADMIN','ADM'].includes(String(user?.perfil || '').trim().toUpperCase());
   }
 
-  try {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        action: 'validarAdminSobrescrita',
-        token,
-        login,
-        senha
-      })
+  const fmt  = v => 'R$ ' + Math.abs(v).toFixed(2).replace('.', ',');
+  const fmtS = v => Number(v).toFixed(2).replace('.', ',');
+
+  function set(id, val) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = fmt(val);
+    el.classList.toggle('zero', val === 0);
+  }
+
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('relogio').textContent =
+      now.toLocaleTimeString('pt-BR') + ' — ' +
+      now.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'2-digit', year:'numeric' });
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // ─── ★ DETECÇÃO DE ALTERAÇÕES ────────────────────────────────
+  // Compara o estado atual das telas 1/2/3 com o snapshot original
+  // salvo no momento da busca na tela 1.
+  // Retorna: { modo: 'novo'|'edicao'|'visualizacao', camposAlterados: [] }
+  function detectarAlteracoes(t1, t2, t3) {
+    const raw = sessionStorage.getItem('fechamento_original');
+
+    // Sem snapshot → fechamento novo, sempre salva
+    if (!raw) return { modo: 'novo', camposAlterados: [] };
+
+    let original;
+    try { original = JSON.parse(raw); }
+    catch { return { modo: 'novo', camposAlterados: [] }; }
+
+    const grl = original.grl || {};
+    const camposAlterados = [];
+
+    // ── Campos numéricos da tela1 ──
+    const camposNum = [
+      { label: 'Relatório',        t1key: 'relatorio',     grlKey: 'Relatório' },
+      { label: 'Depósito',         t1key: 'deposito',      grlKey: 'Depósito' },
+      { label: 'Troco Inicial',    t1key: 'troco-inicial', grlKey: 'Troco_Inicial' },
+      { label: 'Troco Sobra',      t1key: 'troco-sobra',   grlKey: 'Troco_Sobra' },
+      { label: 'PIX CNPJ',         t1key: 'pix',           grlKey: 'PIX_CNPJ' },
+      { label: 'Diferença PIX',    t1key: 'pix-sistema',   grlKey: 'Diferença_PIX' },
+      { label: 'Prêmio Raspadinha',t1key: 'raspadinha',    grlKey: 'Premio_Raspadinha' },
+      { label: 'Resgate Telesena', t1key: 'telesena',      grlKey: 'Resgate_Telesena' },
+    ];
+    camposNum.forEach(({ label, t1key, grlKey }) => {
+      const atual    = Math.round((parseFloat(t1[t1key])      || 0) * 100);
+      const original = Math.round((parseFloat(grl[grlKey])    || 0) * 100);
+      if (atual !== original) camposAlterados.push(label);
     });
 
-    const data = await response.json();
+    // ── Dívidas ──
+    const divOrig = (original.dividas || [])
+      .map(d => `${String(d.Cliente||'').trim()}:${Math.round((parseFloat(d.Valor)||0)*100)}`)
+      .sort().join('|');
+    const divAtual = (t1.dividas || [])
+      .map(d => `${String(d.nome||'').trim()}:${Math.round((parseFloat(d.valor)||0)*100)}`)
+      .sort().join('|');
+    if (divOrig !== divAtual) camposAlterados.push('Dívidas');
 
-    if (!data.ok) {
-      erro.textContent = data.error || 'Credenciais inválidas.';
+    // ── Federais (t2) ──
+    const fedOrig = (original.federais || [])
+      .map(f => `${f.Modalidade}:${f.Concurso}:${Math.round((parseFloat(f.Qtd_Vendida)||0)*100)}`)
+      .sort().join('|');
+    const fedAtual = (t2.federais || [])
+      .map(f => `${f.modalidade}:${f.concurso}:${Math.round((parseFloat(f.qtdVendida)||0)*100)}`)
+      .sort().join('|');
+    if (fedOrig !== fedAtual) camposAlterados.push('Federais');
+
+    // ── Produtos (t2) — raspadinha + telesena ──
+    const prodOrig = (original.produtos || [])
+      .map(p => `${String(p.Modalidade||'').toUpperCase()}:${Math.round((parseFloat(p.Qtd_Vendida)||0)*100)}`)
+      .sort().join('|');
+    const prodAtual = [
+      ...(t2.raspadinha || []).map(r => `RASPADINHA:${Math.round((parseFloat(r.qtd)||0)*100)}`),
+      t2.telesena ? `TELESENA:${Math.round((parseFloat(t2.telesena.qtd)||0)*100)}` : null
+    ].filter(Boolean).sort().join('|');
+    if (prodOrig !== prodAtual) camposAlterados.push('Produtos');
+
+    // ── Bolões (t3) ──
+    const boloesOrig = [
+      ...(original.internos || []),
+      ...(original.externos || [])
+    ].map(b => `${String(b.KEY||'').trim()}:${Math.round((parseFloat(b.Qtd_Cotas)||0)*100)}`)
+     .sort().join('|');
+
+    const boloesAtual = [
+      ...(t3.internosComuns    || []),
+      ...(t3.internosEspeciais || []),
+      ...(t3.externosComuns    || []),
+      ...(t3.externosEspeciais || [])
+    ].map(b => `${String(b.key||'').trim()}:${Math.round((parseFloat(b.qtdVendida)||0)*100)}`)
+     .sort().join('|');
+    if (boloesOrig !== boloesAtual) camposAlterados.push('Bolões');
+
+    const modo = camposAlterados.length > 0 ? 'edicao' : 'visualizacao';
+    return { modo, camposAlterados };
+  }
+
+  // ─── Renderizar banner de modo e configurar botão ─────────────
+  function aplicarModo(resultado) {
+    modoAtual = resultado.modo;
+    const banner = document.getElementById('modo-banner');
+    const btn    = document.getElementById('btn-finalizar');
+    const btnTxt = document.getElementById('btn-finalizar-texto');
+
+    banner.style.display = 'flex';
+    banner.className = `modo-banner ${resultado.modo}`;
+
+    if (resultado.modo === 'novo') {
+      banner.innerHTML = `
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>Novo fechamento — será gravado na planilha ao finalizar.</span>
+      `;
+      btn.className = 'btn-finalizar modo-salvar';
+      btnTxt.textContent = 'Finalizar Fechamento';
+
+    } else if (resultado.modo === 'edicao') {
+      const tags = resultado.camposAlterados
+        .map(c => `<span class="campo-tag">${c}</span>`).join('');
+      banner.innerHTML = `
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        <div>
+          <div>Modo <strong>edição</strong> — ${resultado.camposAlterados.length} campo(s) alterado(s) em relação ao fechamento original. Ao finalizar, o registro será sobrescrito.</div>
+          <div class="campos-list">${tags}</div>
+        </div>
+      `;
+      btn.className = 'btn-finalizar modo-salvar';
+      btnTxt.textContent = 'Salvar Alterações';
+
+    } else {
+      // visualizacao
+      banner.innerHTML = `
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span>Modo <strong>visualização</strong> — nenhuma alteração detectada. O fechamento não será regravado se você finalizar.</span>
+      `;
+      btn.className = 'btn-finalizar modo-visualizar';
+      btnTxt.textContent = 'Fechar sem Salvar';
+    }
+  }
+
+  // ─── Marcar linhas alteradas visualmente ──────────────────────
+  // Compara campo a campo e adiciona classe .alterada nas linhas
+  function marcarLinhasAlteradas(t1, t2, t3, original) {
+    if (!original) return;
+    const grl = original.grl || {};
+
+    const mapaLinhas = [
+      { rowId: 'row-troco-ini', atual: parseFloat(t1['troco-inicial'])||0, orig: parseFloat(grl['Troco_Inicial'])||0 },
+      { rowId: 'row-relatorio',  atual: parseFloat(t1.relatorio)||0,        orig: parseFloat(grl['Relatório'])||0 },
+      { rowId: 'row-troco-sob',  atual: parseFloat(t1['troco-sobra'])||0,   orig: parseFloat(grl['Troco_Sobra'])||0 },
+      { rowId: 'row-deposito',   atual: parseFloat(t1.deposito)||0,          orig: parseFloat(grl['Depósito'])||0 },
+      { rowId: 'row-pix',        atual: parseFloat(t1.pix)||0,               orig: parseFloat(grl['PIX_CNPJ'])||0 },
+      { rowId: 'row-pix-dif',    atual: parseFloat(t1['pix-sistema'])||0,    orig: parseFloat(grl['Diferença_PIX'])||0 },
+      { rowId: 'row-raspadinha', atual: parseFloat(t1.raspadinha)||0,         orig: parseFloat(grl['Premio_Raspadinha'])||0 },
+      { rowId: 'row-telesena',   atual: parseFloat(t1.telesena)||0,           orig: parseFloat(grl['Resgate_Telesena'])||0 },
+    ];
+
+    mapaLinhas.forEach(({ rowId, atual, orig }) => {
+      const row = document.getElementById(rowId);
+      if (!row) return;
+      const diferente = Math.round(atual * 100) !== Math.round(orig * 100);
+      row.classList.toggle('alterada', diferente);
+    });
+
+    // Federais — marca a linha de total se houver diferença
+    const fedOrig  = (original.federais || []).map(f => `${f.Modalidade}:${f.Concurso}:${Math.round((parseFloat(f.Qtd_Vendida)||0)*100)}`).sort().join('|');
+    const fedAtual = (t2.federais || []).map(f => `${f.modalidade}:${f.concurso}:${Math.round((parseFloat(f.qtdVendida)||0)*100)}`).sort().join('|');
+    document.getElementById('row-federais')?.classList.toggle('alterada', fedOrig !== fedAtual);
+
+    // Produtos
+    const prodOrig  = (original.produtos || []).map(p => `${String(p.Modalidade||'').toUpperCase()}:${Math.round((parseFloat(p.Qtd_Vendida)||0)*100)}`).sort().join('|');
+    const prodAtual = [
+      ...(t2.raspadinha || []).map(r => `RASPADINHA:${Math.round((parseFloat(r.qtd)||0)*100)}`),
+      t2.telesena ? `TELESENA:${Math.round((parseFloat(t2.telesena.qtd)||0)*100)}` : null
+    ].filter(Boolean).sort().join('|');
+    document.getElementById('row-produtos')?.classList.toggle('alterada', prodOrig !== prodAtual);
+
+    // Bolões
+    const boloesOrig  = [...(original.internos||[]),...(original.externos||[])].map(b=>`${String(b.KEY||'').trim()}:${Math.round((parseFloat(b.Qtd_Cotas)||0)*100)}`).sort().join('|');
+    const boloesAtual = [...(t3.internosComuns||[]),...(t3.internosEspeciais||[]),...(t3.externosComuns||[]),...(t3.externosEspeciais||[])].map(b=>`${String(b.key||'').trim()}:${Math.round((parseFloat(b.qtdVendida)||0)*100)}`).sort().join('|');
+    document.getElementById('row-boloes')?.classList.toggle('alterada', boloesOrig !== boloesAtual);
+  }
+
+  // ─── Renderizar quebra ────────────────────────────────────────
+  function renderQuebra(quebra, cred, deb) {
+    const card     = document.getElementById('quebra-card');
+    const icon     = document.getElementById('quebra-icon');
+    const titulo   = document.getElementById('quebra-titulo');
+    const desc     = document.getElementById('quebra-desc');
+    const valor    = document.getElementById('quebra-valor');
+    const detalhe  = document.getElementById('quebra-detalhe');
+    const justWrap = document.getElementById('justificativa-wrap');
+    const btn      = document.getElementById('btn-finalizar');
+
+    card.className = 'quebra-card';
+    const abs    = Math.abs(quebra);
+    const fmtAbs = 'R$ ' + abs.toFixed(2).replace('.', ',');
+    detalhe.textContent = `Créditos (R$ ${fmtS(cred)}) − Débitos (R$ ${fmtS(deb)})`;
+
+    if (abs < 0.005) {
+      card.classList.add('equilibrado');
+      icon.textContent  = '✓';
+      titulo.textContent= 'Caixa Equilibrado';
+      desc.textContent  = 'Créditos e débitos estão perfeitamente balanceados.';
+      valor.textContent = 'R$ 0,00';
+      justWrap.classList.remove('show');
+      // Libera botão apenas se modo permite salvar (ou é visualização)
+      if (modoAtual !== 'visualizacao') btn.disabled = false;
+    } else if (quebra > 0) {
+      card.classList.add('quebra-pos');
+      icon.textContent  = '↑';
+      titulo.textContent= 'Quebra — Sobra de Caixa';
+      desc.textContent  = `O caixa apresenta uma sobra de ${fmtAbs}.`;
+      valor.textContent = '+' + fmtAbs;
+      justWrap.classList.add('show');
+      btn.disabled = true; // liberado pelo listener da justificativa
+    } else {
+      card.classList.add('quebra-neg');
+      icon.textContent  = '↓';
+      titulo.textContent= 'Quebra — Falta de Caixa';
+      desc.textContent  = `O caixa apresenta uma falta de ${fmtAbs}.`;
+      valor.textContent = '−' + fmtAbs;
+      justWrap.classList.add('show');
+      btn.disabled = true;
+    }
+  }
+
+  // ─── Dívidas toggle ───────────────────────────────────────────
+  function toggleDividas() {
+    const sub = document.getElementById('dividas-sub');
+    const tog = document.getElementById('dividas-toggle');
+    tog.classList.toggle('open', sub.classList.toggle('open'));
+  }
+
+  // ─── Modais ───────────────────────────────────────────────────
+  function perguntarSobrescrever(funcionario, dataStr) {
+    return new Promise(resolve => {
+      resolverSob = resolve;
+      document.getElementById('modal-sob-msg').textContent =
+        `Já existe um fechamento de "${funcionario}" para ${dataStr}. Deseja sobrescrever os dados anteriores?`;
+      document.getElementById('modal-sobrescrever').classList.add('show');
+    });
+  }
+  function responderSobrescrever(sim) {
+    document.getElementById('modal-sobrescrever').classList.remove('show');
+    if (resolverSob) { resolverSob(sim); resolverSob = null; }
+  }
+
+  function abrirModalAdmin() {
+    return new Promise(resolve => {
+      resolverAdmin = resolve;
+      document.getElementById('admin-login').value = '';
+      document.getElementById('admin-senha').value = '';
+      document.getElementById('admin-erro').style.display = 'none';
+      document.getElementById('modal-admin').classList.add('show');
+      document.getElementById('admin-login').focus();
+    });
+  }
+  function fecharModalAdmin(resultado) {
+    document.getElementById('modal-admin').classList.remove('show');
+    if (resolverAdmin) { resolverAdmin(resultado); resolverAdmin = null; }
+  }
+
+  async function confirmarAdminSobrescrita() {
+    const login = String(document.getElementById('admin-login').value || '').trim();
+    const senha = String(document.getElementById('admin-senha').value || '').trim();
+    const erro  = document.getElementById('admin-erro');
+
+    if (!login || !senha) {
+      erro.textContent = 'Informe usuário e senha do administrador.';
       erro.style.display = 'block';
       return;
     }
 
-    fecharModalAdmin(data.admin);
-
-  } catch (e) {
-    erro.textContent = 'Erro ao validar administrador.';
-    erro.style.display = 'block';
-  }
-}
- 
-// ── Relógio ──
-function updateClock() {
-  const now = new Date();
-  document.getElementById('relogio').textContent =
-    now.toLocaleTimeString('pt-BR') + ' — ' +
-    now.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'2-digit', year:'numeric' });
-}
-updateClock(); setInterval(updateClock, 1000);
-
-const fmt  = v => 'R$ ' + Math.abs(v).toFixed(2).replace('.', ',');
-const API_URL = 'https://script.google.com/macros/s/AKfycbxrk-dqdtO8DTIoQ2PgYe8xrdmS7VbCClOBFQSdvXUcvgPg5z4hdx2cUDmHOTFlIi7_lg/exec';
-const fmtS = v => v.toFixed(2).replace('.', ',');
-
-const token = sessionStorage.getItem('sislot_token');
-if (!token) {
-  window.location.href = 'login.html';
-}
-
-// ══════════════════════════════════════════
-// CARREGAR DADOS DAS TELAS ANTERIORES
-// ══════════════════════════════════════════
-let dadosQuebra = 0;
-
-function set(id, val) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = fmt(val);
-  el.classList.toggle('zero', val === 0);
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-  const token = sessionStorage.getItem('sislot_token');
-  if (!token) {
-    window.location.href = 'login.html';
-    return;
-  }
-
-  const t1 = JSON.parse(sessionStorage.getItem('tela1') || '{}');
-  const t2 = JSON.parse(sessionStorage.getItem('tela2') || '{}');
-  const t3 = JSON.parse(sessionStorage.getItem('tela3') || '{}');
-
-  if (!t1.data || !t1.funcionario) {
-    window.location.href = 'viabrasil-tela1.html';
-    return;
-  }
-
-  const tela2Ok =
-    Array.isArray(t2.raspadinha) &&
-    !!t2.telesena &&
-    Array.isArray(t2.federais);
-
-  if (!tela2Ok) {
-    window.location.href = 'viabrasil-tela2.html';
-    return;
-  }
-
-  const tela3Ok =
-    Array.isArray(t3.internosComuns) &&
-    Array.isArray(t3.internosEspeciais) &&
-    Array.isArray(t3.externosComuns) &&
-    Array.isArray(t3.externosEspeciais);
-
-  if (!tela3Ok) {
-    window.location.href = 'viabrasil-tela3.html';
-    return;
-  }
-
-  if (t1.funcionario) document.getElementById('info-func').textContent = t1.funcionario;
-
-  if (t1.data) {
-    const [y, m, d] = t1.data.split('-');
-    document.getElementById('info-data').textContent = `${d}/${m}/${y}`;
-  }
-
-  const trocoIni = parseFloat(t1['troco-inicial']) || 0;
-  set('l-troco-ini', trocoIni);
-
-  let totalRasp = 0;
-  if (t2.raspadinha) t2.raspadinha.forEach(f => totalRasp += f.sub || 0);
-
-  const totalTele = t2.telesena?.sub || 0;
-  const totalProd = totalRasp + totalTele;
-  set('l-produtos', totalProd);
-
-  let totalFed = 0;
-  if (t2.federais) t2.federais.forEach(f => totalFed += f.subtotal || 0);
-  set('l-federais', totalFed);
-
-  let totalBoloes = 0;
-  ['internosComuns','internosEspeciais','externosComuns','externosEspeciais'].forEach(k => {
-    if (t3[k]) t3[k].forEach(b => totalBoloes += b.subtotal || 0);
-  });
-  set('l-boloes', totalBoloes);
-
-  const relatorio = parseFloat(t1.relatorio) || 0;
-  set('l-relatorio', relatorio);
-
-  const totalDebitos = trocoIni + totalProd + totalFed + totalBoloes + relatorio;
-  set('tot-deb', totalDebitos);
-
-  const trocoSob   = parseFloat(t1['troco-sobra']) || 0;
-  const deposito   = parseFloat(t1.deposito) || 0;
-  const pix        = parseFloat(t1.pix) || 0;
-  const pixDif     = parseFloat(t1['pix-sistema']) || 0;
-  const raspadinha = parseFloat(t1.raspadinha) || 0;
-  const telesena   = parseFloat(t1.telesena) || 0;
-
-  set('l-troco-sob', trocoSob);
-  set('l-deposito', deposito);
-  set('l-pix', pix);
-  set('l-pix-dif', pixDif);
-  set('l-raspadinha', raspadinha);
-  set('l-telesena', telesena);
-
-  const dividas = t1.dividas || [];
-  let totalDividas = 0;
-  dividas.forEach(d => totalDividas += parseFloat(d.valor) || 0);
-  set('l-dividas', totalDividas);
-  document.getElementById('dividas-badge').textContent = dividas.length;
-
-  const subWrap = document.getElementById('dividas-sub');
-  subWrap.innerHTML = '';
-
-  if (dividas.length > 0) {
-    dividas.forEach(d => {
-      const linha = document.createElement('div');
-      linha.className = 'linha sub';
-      linha.innerHTML = `
-        <div class="linha-label"><div class="linha-dot"></div>${d.nome}</div>
-        <div class="linha-val">R$ ${parseFloat(d.valor).toFixed(2).replace('.', ',')}</div>
-      `;
-      subWrap.appendChild(linha);
-    });
-    document.getElementById('dividas-toggle').style.cursor = 'pointer';
-  } else {
-    document.getElementById('dividas-toggle').style.cursor = 'default';
-    document.getElementById('dividas-toggle').querySelector('.expand-icon').style.display = 'none';
-  }
-
-  const totalCreditos = trocoSob + deposito + pix + pixDif + raspadinha + telesena + totalDividas;
-  set('tot-cred', totalCreditos);
-
-  const quebra = totalCreditos - totalDebitos;
-  dadosQuebra = quebra;
-  renderQuebra(quebra, totalCreditos, totalDebitos);
-});
-
-function renderQuebra(quebra, cred, deb) {
-  const card    = document.getElementById('quebra-card');
-  const icon    = document.getElementById('quebra-icon');
-  const titulo  = document.getElementById('quebra-titulo');
-  const desc    = document.getElementById('quebra-desc');
-  const valor   = document.getElementById('quebra-valor');
-  const detalhe = document.getElementById('quebra-detalhe');
-  const justWrap= document.getElementById('justificativa-wrap');
-  const btnFin  = document.getElementById('btn-finalizar');
-
-  // Remove classes anteriores
-  card.className = 'quebra-card';
-
-  const abs = Math.abs(quebra);
-  const fmtAbs = 'R$ ' + abs.toFixed(2).replace('.', ',');
-
-  detalhe.textContent = `Créditos (R$ ${fmtS(cred)}) − Débitos (R$ ${fmtS(deb)})`;
-
-  if (Math.abs(quebra) < 0.005) {
-    // EQUILIBRADO
-    card.classList.add('equilibrado');
-    icon.textContent = '✓';
-    titulo.textContent = 'Caixa Equilibrado';
-    desc.textContent = 'Créditos e débitos estão perfeitamente balanceados.';
-    valor.textContent = 'R$ 0,00';
-    justWrap.classList.remove('show');
-    btnFin.disabled = false;
-  } else if (quebra > 0) {
-    // SOBRA
-    card.classList.add('quebra-pos');
-    icon.textContent = '↑';
-    titulo.textContent = 'Quebra — Sobra de Caixa';
-    desc.textContent = `O caixa apresenta uma sobra de ${fmtAbs}. Créditos superiores aos débitos.`;
-    valor.textContent = '+' + fmtAbs;
-    justWrap.classList.add('show');
-    btnFin.disabled = true;
-  } else {
-    // FALTA
-    card.classList.add('quebra-neg');
-    icon.textContent = '↓';
-    titulo.textContent = 'Quebra — Falta de Caixa';
-    desc.textContent = `O caixa apresenta uma falta de ${fmtAbs}. Créditos inferiores aos débitos.`;
-    valor.textContent = '−' + fmtAbs;
-    justWrap.classList.add('show');
-    btnFin.disabled = true;
-  }
-}
-
-// ── Dívidas toggle ──
-function toggleDividas() {
-  const sub = document.getElementById('dividas-sub');
-  const tog = document.getElementById('dividas-toggle');
-  const aberto = sub.classList.toggle('open');
-  tog.classList.toggle('open', aberto);
-}
-
-// ── Justificativa: contador + liberar botão ──
-document.addEventListener('DOMContentLoaded', () => {
-  const ta  = document.getElementById('justificativa');
-  const cnt = document.getElementById('just-count');
-  const btn = document.getElementById('btn-finalizar');
-
-  ta.addEventListener('input', () => {
-    const len = ta.value.trim().length;
-    cnt.textContent = ta.value.length;
-    // Libera o botão se justificativa preenchida (mín. 10 chars)
-    if (Math.abs(dadosQuebra) >= 0.005) {
-      btn.disabled = len < 10;
-    }
-  });
-});
-
-// ══════════════════════════════════════
-// INTEGRAÇÃO GOOGLE SHEETS
-// ══════════════════════════════════════
-
-let loteriaAtiva = null;
-let resolverSob    = null; // promise resolver do modal sobrescrever
-
-// Detecta loteria ao carregar
-window.addEventListener('DOMContentLoaded', () => {
-  const user = JSON.parse(sessionStorage.getItem('sislot_user') || '{}');
-  const lotConfig = getLoteria();
-
-  const nomeLoteriaSessao = String(user?.loteria || '').trim();
-  const nomeLoteriaConfig = String(lotConfig?.nome || '').trim();
-
-  loteriaAtiva = {
-    nome: nomeLoteriaSessao || nomeLoteriaConfig || ''
-  };
-
-  if (loteriaAtiva.nome) {
-    document.getElementById('info-loteria').textContent = loteriaAtiva.nome;
-    document.getElementById('chip-loteria').style.display = 'flex';
-  } else {
-    document.getElementById('chip-loteria-erro').style.display = 'flex';
-  }
-});
-
-// Modal sobrescrever — retorna Promise<boolean>
-function perguntarSobrescrever(funcionario, dataStr) {
-  return new Promise(resolve => {
-    resolverSob = resolve;
-    document.getElementById('modal-sob-msg').textContent =
-      `Já existe um fechamento de "${funcionario}" para ${dataStr}. Deseja sobrescrever os dados anteriores?`;
-    document.getElementById('modal-sobrescrever').style.display = 'flex';
-  });
-}
-function responderSobrescrever(sim) {
-  document.getElementById('modal-sobrescrever').style.display = 'none';
-  if (resolverSob) { resolverSob(sim); resolverSob = null; }
-}
-
-// Progresso do modal de gravação
-function setProgresso(label, feito, total) {
-  document.getElementById('modal-sub').textContent   = label;
-  document.getElementById('modal-pct').textContent   = `${feito} / ${total} abas`;
-  document.getElementById('modal-barra').style.width = `${Math.round((feito/total)*100)}%`;
-}
-
-// ══════════════════════════════════════
-// FINALIZAR
-// ══════════════════════════════════════
-async function finalizar() {
-  if (!loteriaAtiva || !loteriaAtiva.nome) {
-    alert('⚠️ Loteria não identificada. Verifique o arquivo HTML que está usando.');
-    return;
-  }
-
-  const t1 = JSON.parse(sessionStorage.getItem('tela1') || '{}');
-  const t2 = JSON.parse(sessionStorage.getItem('tela2') || '{}');
-  const t3 = JSON.parse(sessionStorage.getItem('tela3') || '{}');
-  const justificativa = document.getElementById('justificativa').value.trim();
-
-  let dataStr = t1.data || '';
-  if (dataStr.includes('-')) {
-    const [y, m, d] = dataStr.split('-');
-    dataStr = `${d}/${m}/${y}`;
-  }
-
-  sessionStorage.setItem('fechamento-final', JSON.stringify({
-    funcionario: t1.funcionario,
-    data: dataStr,
-    quebra: dadosQuebra,
-    justificativa: justificativa || null,
-    tela1: t1,
-    tela2: t2,
-    tela3: t3,
-  }));
-
-  const btn = document.getElementById('btn-finalizar');
-  btn.disabled = true;
-
-  try {
-    let sobrescrever = false;
-    let adminAprovador = null;
-
-    const jaExiste = await verificarFechamentoExistenteBackend(token, t1.funcionario, dataStr);
-
-    if (jaExiste) {
-      const confirmou = await perguntarSobrescrever(t1.funcionario, dataStr);
-      if (!confirmou) {
-        btn.disabled = false;
+    try {
+      const token = sessionStorage.getItem('sislot_token');
+      const resp  = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'validarAdminSobrescrita', token, login, senha })
+      });
+      const data = await resp.json();
+      if (!data.ok) {
+        erro.textContent = data.error || 'Credenciais inválidas.';
+        erro.style.display = 'block';
         return;
       }
-
-      adminAprovador = await abrirModalAdmin();
-      if (!adminAprovador) {
-        btn.disabled = false;
-        return;
-      }
-
-      sobrescrever = true;
+      fecharModalAdmin(data.admin);
+    } catch (e) {
+      erro.textContent = 'Erro ao validar administrador.';
+      erro.style.display = 'block';
     }
+  }
 
-    document.getElementById('modal-gravando').style.display = 'flex';
-    document.getElementById('modal-titulo').textContent = `Gravando fechamento de ${t1.funcionario}...`;
-    setProgresso('Enviando dados ao servidor', 1, 1);
+  function setProgresso(label, feito, total) {
+    document.getElementById('modal-sub').textContent   = label;
+    document.getElementById('modal-pct').textContent   = `${feito} / ${total}`;
+    document.getElementById('modal-barra').style.width = `${Math.round((feito/total)*100)}%`;
+  }
 
-    const user = getUsuarioLogado();
+  // ─── Verificar existência no backend ─────────────────────────
+  async function verificarFechamentoExistenteBackend(token, funcionario, dataStr) {
+    try {
+      const resp = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'verificarFechamentoExistente',
+          token,
+          payload: { funcionario, data: dataStr }
+        })
+      });
+      const data = await resp.json();
+      return data.ok && !!data.existe;
+    } catch { return false; }
+  }
 
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        action: 'salvarFechamento',
-        token,
-        payload: {
-          funcionario: t1.funcionario,
-          data: dataStr,
-          quebra: dadosQuebra,
-          justificativa,
-          sobrescrever,
-          usuarioLogado: {
-            userid: user.userid || '',
-            nome: user.nome || '',
-            perfil: user.perfil || '',
-            loteria: user.loteria || ''
-          },
-          adminSobrescrita: adminAprovador ? {
-            userid: adminAprovador.userid || '',
-            nome: adminAprovador.nome || '',
-            perfil: adminAprovador.perfil || '',
-            loteria: adminAprovador.loteria || ''
-          } : null,
-          tela1: t1,
-          tela2: t2,
-          tela3: t3
-        }
-      })
-    });
-
-    const data = await response.json();
-
-    document.getElementById('modal-gravando').style.display = 'none';
-
-    if (!data.ok) {
-      btn.disabled = false;
-      alert(data.error || 'Erro ao gravar fechamento.');
+  // ─── FINALIZAR ────────────────────────────────────────────────
+  async function finalizar() {
+    // Modo visualização: apenas sair sem salvar
+    if (modoAtual === 'visualizacao') {
+      sessionStorage.removeItem('fechamento_original');
+      sessionStorage.removeItem('tela1');
+      sessionStorage.removeItem('tela2');
+      sessionStorage.removeItem('tela3');
+      window.location.href = 'viabrasil-tela1.html';
       return;
     }
 
-    btn.innerHTML = '✓ Fechamento Gravado!';
-    btn.style.background = '#00e8ad';
+    if (!loteriaAtiva?.nome) {
+      alert('⚠️ Loteria não identificada. Verifique o arquivo HTML que está usando.');
+      return;
+    }
 
-    setTimeout(() => {
-      alert(
-        `✅ Fechamento gravado com sucesso!\n\n` +
-        `Funcionário: ${t1.funcionario}\n` +
-        `Loteria: ${loteriaAtiva.nome}\n` +
-        `Data: ${dataStr}\n` +
-        `Quebra: R$ ${dadosQuebra.toFixed(2).replace('.', ',')}\n` +
-        (justificativa ? `\nJustificativa registrada.` : '')
-      );
-    }, 300);
+    const token = sessionStorage.getItem('sislot_token');
+    const t1 = JSON.parse(sessionStorage.getItem('tela1') || '{}');
+    const t2 = JSON.parse(sessionStorage.getItem('tela2') || '{}');
+    const t3 = JSON.parse(sessionStorage.getItem('tela3') || '{}');
+    const justificativa = document.getElementById('justificativa').value.trim();
 
-  } catch (e) {
-    document.getElementById('modal-gravando').style.display = 'none';
-    btn.disabled = false;
-    console.error(e);
-    alert(`❌ Erro ao gravar:\n\n${e.message || 'Erro desconhecido'}`);
-  }
-}
+    let dataStr = t1.data || '';
+    if (dataStr.includes('-')) {
+      const [y, m, d] = dataStr.split('-');
+      dataStr = `${d}/${m}/${y}`;
+    }
 
- function getUsuarioLogado() {
-  try {
-    return JSON.parse(sessionStorage.getItem('sislot_user') || '{}');
-  } catch {
-    return {};
-  }
-}
+    const btn = document.getElementById('btn-finalizar');
+    btn.disabled = true;
 
-function isAdmin(user) {
-  const perfil = String(user?.perfil || '').trim().toUpperCase();
-  return perfil === 'ADMIN' || perfil === 'ADM';
-}
- 
-async function verificarFechamentoExistenteBackend(token, funcionario, dataStr) {
-  try {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        action: 'verificarFechamentoExistente',
-        token,
-        payload: {
-          funcionario,
-          data: dataStr
+    try {
+      let sobrescrever    = false;
+      let adminAprovador  = null;
+
+      // No modo edição, já sabemos que há alterações.
+      // Mesmo assim verificamos no backend se o registro existe
+      // (segurança extra: outro usuário pode ter gravado entre telas).
+      if (modoAtual === 'edicao') {
+        // Edição detectada localmente → sempre sobrescreve, mas exige admin
+        adminAprovador = await abrirModalAdmin();
+        if (!adminAprovador) { btn.disabled = false; return; }
+        sobrescrever = true;
+
+      } else {
+        // Modo novo → verifica se já existe no backend
+        const jaExiste = await verificarFechamentoExistenteBackend(token, t1.funcionario, dataStr);
+        if (jaExiste) {
+          const confirmou = await perguntarSobrescrever(t1.funcionario, dataStr);
+          if (!confirmou) { btn.disabled = false; return; }
+          adminAprovador = await abrirModalAdmin();
+          if (!adminAprovador) { btn.disabled = false; return; }
+          sobrescrever = true;
         }
-      })
-    });
+      }
 
-    const data = await response.json();
-    if (!data.ok) return false;
-    return !!data.existe;
-  } catch (e) {
-    console.error('Erro ao verificar fechamento existente:', e);
-    return false;
+      document.getElementById('modal-gravando').classList.add('show');
+      document.getElementById('modal-titulo').textContent = `Gravando fechamento de ${t1.funcionario}...`;
+      setProgresso('Enviando dados ao servidor', 0, 1);
+
+      const user = getUsuarioLogado();
+
+      const resp = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'salvarFechamento',
+          token,
+          payload: {
+            funcionario: t1.funcionario,
+            data: dataStr,
+            quebra: dadosQuebra,
+            justificativa,
+            sobrescrever,
+            usuarioLogado: {
+              userid: user.userid || '', nome: user.nome || '',
+              perfil: user.perfil || '', loteria: user.loteria || ''
+            },
+            adminSobrescrita: adminAprovador ? {
+              userid: adminAprovador.userid || '', nome: adminAprovador.nome || '',
+              perfil: adminAprovador.perfil || '', loteria: adminAprovador.loteria || ''
+            } : null,
+            tela1: t1, tela2: t2, tela3: t3
+          }
+        })
+      });
+
+      setProgresso('Processando resposta', 1, 1);
+      const data = await resp.json();
+
+      document.getElementById('modal-gravando').classList.remove('show');
+
+      if (!data.ok) {
+        btn.disabled = false;
+        alert(data.error || 'Erro ao gravar fechamento.');
+        return;
+      }
+
+      // ★ Limpa snapshot após gravação bem-sucedida
+      sessionStorage.removeItem('fechamento_original');
+
+      const btnTxt = document.getElementById('btn-finalizar-texto');
+      btnTxt.textContent = '✓ Gravado com sucesso!';
+      btn.style.background = '#00e8ad';
+
+      setTimeout(() => {
+        alert(
+          `✅ Fechamento gravado com sucesso!\n\n` +
+          `Funcionário: ${t1.funcionario}\n` +
+          `Loteria: ${loteriaAtiva.nome}\n` +
+          `Data: ${dataStr}\n` +
+          `Quebra: R$ ${dadosQuebra.toFixed(2).replace('.', ',')}\n` +
+          (justificativa ? `\nJustificativa registrada.` : '')
+        );
+      }, 300);
+
+    } catch (e) {
+      document.getElementById('modal-gravando').classList.remove('show');
+      btn.disabled = false;
+      console.error(e);
+      alert(`❌ Erro ao gravar:\n\n${e.message || 'Erro desconhecido'}`);
+    }
   }
-}
 
-function voltarTela3() { window.location.href = 'viabrasil-tela3.html'; }
+  function voltarTela3() { window.location.href = 'viabrasil-tela3.html'; }
+
+  // ─── INIT ─────────────────────────────────────────────────────
+  window.addEventListener('DOMContentLoaded', () => {
+    const token = sessionStorage.getItem('sislot_token');
+    if (!token) { window.location.href = 'login.html'; return; }
+
+    // Validação das telas anteriores
+    const t1 = JSON.parse(sessionStorage.getItem('tela1') || '{}');
+    const t2 = JSON.parse(sessionStorage.getItem('tela2') || '{}');
+    const t3 = JSON.parse(sessionStorage.getItem('tela3') || '{}');
+
+    if (!t1.data || !t1.funcionario) { window.location.href = 'viabrasil-tela1.html'; return; }
+    if (!Array.isArray(t2.raspadinha) || !t2.telesena || !Array.isArray(t2.federais)) { window.location.href = 'viabrasil-tela2.html'; return; }
+    if (!Array.isArray(t3.internosComuns)) { window.location.href = 'viabrasil-tela3.html'; return; }
+
+    // ★ 1. Detectar modo (novo / edicao / visualizacao)
+    const resultado = detectarAlteracoes(t1, t2, t3);
+    aplicarModo(resultado);
+
+    // ★ 2. Marcar linhas alteradas (apenas se há snapshot)
+    const originalRaw = sessionStorage.getItem('fechamento_original');
+    if (originalRaw) {
+      try { marcarLinhasAlteradas(t1, t2, t3, JSON.parse(originalRaw)); }
+      catch {}
+    }
+
+    // Loteria
+    const user      = getUsuarioLogado();
+    const lotConfig = getLoteria();
+    const nomeLot   = String(user?.loteria || lotConfig?.nome || '').trim();
+    loteriaAtiva    = { nome: nomeLot };
+
+    if (nomeLot) {
+      document.getElementById('info-loteria').textContent = nomeLot;
+      document.getElementById('chip-loteria').style.display = 'flex';
+    } else {
+      document.getElementById('chip-loteria-erro').style.display = 'flex';
+    }
+
+    // Info bar
+    document.getElementById('info-func').textContent = t1.funcionario;
+    if (t1.data) {
+      const [y, m, d] = t1.data.split('-');
+      document.getElementById('info-data').textContent = `${d}/${m}/${y}`;
+    }
+
+    // ── Débitos ──
+    const trocoIni = parseFloat(t1['troco-inicial']) || 0;
+    set('l-troco-ini', trocoIni);
+
+    let totalRasp = 0;
+    (t2.raspadinha || []).forEach(f => totalRasp += f.sub || 0);
+    const totalTele = t2.telesena?.sub || 0;
+    const totalProd = totalRasp + totalTele;
+    set('l-produtos', totalProd);
+
+    let totalFed = 0;
+    (t2.federais || []).forEach(f => totalFed += f.subtotal || 0);
+    set('l-federais', totalFed);
+
+    let totalBoloes = 0;
+    ['internosComuns','internosEspeciais','externosComuns','externosEspeciais'].forEach(k => {
+      (t3[k] || []).forEach(b => totalBoloes += b.subtotal || 0);
+    });
+    set('l-boloes', totalBoloes);
+
+    const relatorio = parseFloat(t1.relatorio) || 0;
+    set('l-relatorio', relatorio);
+
+    const totalDebitos = trocoIni + totalProd + totalFed + totalBoloes + relatorio;
+    set('tot-deb', totalDebitos);
+
+    // ── Créditos ──
+    const trocoSob   = parseFloat(t1['troco-sobra'])  || 0;
+    const deposito   = parseFloat(t1.deposito)         || 0;
+    const pix        = parseFloat(t1.pix)              || 0;
+    const pixDif     = parseFloat(t1['pix-sistema'])   || 0;
+    const raspadinha = parseFloat(t1.raspadinha)        || 0;
+    const telesena   = parseFloat(t1.telesena)          || 0;
+
+    set('l-troco-sob',  trocoSob);
+    set('l-deposito',   deposito);
+    set('l-pix',        pix);
+    set('l-pix-dif',    pixDif);
+    set('l-raspadinha', raspadinha);
+    set('l-telesena',   telesena);
+
+    const dividas = t1.dividas || [];
+    let totalDividas = 0;
+    dividas.forEach(d => totalDividas += parseFloat(d.valor) || 0);
+    set('l-dividas', totalDividas);
+    document.getElementById('dividas-badge').textContent = dividas.length;
+
+    const subWrap = document.getElementById('dividas-sub');
+    subWrap.innerHTML = '';
+    if (dividas.length > 0) {
+      dividas.forEach(d => {
+        const linha = document.createElement('div');
+        linha.className = 'linha sub';
+        linha.innerHTML = `
+          <div class="linha-label"><div class="linha-dot"></div>${d.nome}</div>
+          <div class="linha-val">R$ ${parseFloat(d.valor).toFixed(2).replace('.', ',')}</div>
+        `;
+        subWrap.appendChild(linha);
+      });
+    } else {
+      document.getElementById('dividas-toggle').style.cursor = 'default';
+      document.getElementById('dividas-toggle').querySelector('.expand-icon').style.display = 'none';
+    }
+
+    const totalCreditos = trocoSob + deposito + pix + pixDif + raspadinha + telesena + totalDividas;
+    set('tot-cred', totalCreditos);
+
+    const quebra = totalCreditos - totalDebitos;
+    dadosQuebra  = quebra;
+    renderQuebra(quebra, totalCreditos, totalDebitos);
+
+    // Listener justificativa
+    const ta  = document.getElementById('justificativa');
+    const cnt = document.getElementById('just-count');
+    const btn = document.getElementById('btn-finalizar');
+    ta.addEventListener('input', () => {
+      cnt.textContent = ta.value.length;
+      if (Math.abs(dadosQuebra) >= 0.005 && modoAtual !== 'visualizacao') {
+        btn.disabled = ta.value.trim().length < 10;
+      }
+    });
+  });
 </script>
 
-
- <!-- Registrar Service Worker -->
 <script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then((registration) => {
-        console.log('✅ Service Worker registrado:', registration.scope);
-      })
-      .catch((error) => {
-        console.log('❌ Falha ao registrar Service Worker:', error);
-      });
-  });
-}
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(r  => console.log('✅ Service Worker registrado:', r.scope))
+        .catch(e => console.log('❌ Falha ao registrar Service Worker:', e));
+    });
+  }
 </script>
 </body>
 </html>
