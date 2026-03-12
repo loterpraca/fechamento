@@ -411,7 +411,66 @@ select.field-select.filled {
     width: 16px;
     height: 16px;
   }
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid rgba(0,200,150,0.35);
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  min-height: 44px;
+}
 
+.btn-secondary:hover {
+  background: rgba(0,200,150,0.08);
+  border-color: var(--accent);
+  box-shadow: 0 6px 24px rgba(0,200,150,0.12);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.status-chip {
+  display: none;
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  border: 1px solid transparent;
+}
+
+.status-chip.show {
+  display: block;
+}
+
+.status-chip.info {
+  background: rgba(0,200,150,0.08);
+  border-color: rgba(0,200,150,0.2);
+  color: var(--text-bright);
+}
+
+.status-chip.error {
+  background: rgba(255,82,82,0.08);
+  border-color: rgba(255,82,82,0.2);
+  color: #ffb3b3;
+}
+
+ 
   /* VALIDATION */
   .field-error {
     font-size: 11px;
@@ -667,21 +726,30 @@ select.field-select.filled {
         ⚠️ Loteria não identificada — verifique o nome do arquivo HTML
       </div>
 
-      <div class="grid-2">
-        <div class="field" id="field-funcionario">
-          <label class="field-label field-required">Funcionário</label>
-          <select id="funcionario" name="funcionario" class="field-select" onchange="onSelectFunc()">
-            <option value="">Selecione o funcionário...</option>
-          </select>
-          <div class="field-error">Selecione o funcionário</div>
-        </div>
-        <div class="field" id="field-data">
-          <label class="field-label field-required">Data do Fechamento</label>
-          <input type="date" id="data" name="data">
-          <div class="field-error">Campo obrigatório</div>
-        </div>
-      </div>
-    </div>
+     <div class="grid-3">
+  <div class="field" id="field-funcionario">
+    <label class="field-label field-required">Funcionário</label>
+    <select id="funcionario" name="funcionario" class="field-select" onchange="onSelectFunc()">
+      <option value="">Selecione o funcionário...</option>
+    </select>
+    <div class="field-error">Selecione o funcionário</div>
+  </div>
+
+  <div class="field" id="field-data">
+    <label class="field-label field-required">Data do Fechamento</label>
+    <input type="date" id="data" name="data">
+    <div class="field-error">Campo obrigatório</div>
+  </div>
+
+  <div class="field">
+    <label class="field-label">&nbsp;</label>
+    <button type="button" id="btn-buscar-fechamento" class="btn-secondary">
+      Buscar Fechamento
+    </button>
+  </div>
+</div>
+
+<div id="status-busca-fechamento" class="status-chip"></div>
 
     <!-- RELATÓRIO E DEPÓSITO -->
     <div class="section">
@@ -797,6 +865,7 @@ select.field-select.filled {
       </button>
     </div>
 
+     
     <!-- FOOTER -->
     <div class="form-footer">
       <div class="required-note"><span>*</span> Campos obrigatórios</div>
@@ -812,6 +881,8 @@ select.field-select.filled {
 </main>
 
 <script>
+
+ 
   // Relógio
   function updateClock() {
     const now = new Date();
@@ -936,7 +1007,7 @@ select.field-select.filled {
           <div class="field">
             <div class="input-wrapper">
               <span class="input-prefix">R$</span>
-              <input type="number" class="divida-valor has-prefix" placeholder="0,00" step="0.01" min="0">
+              <input type="number" class="divida-valor has-prefix" placeholder="0,00" step="0.01">
             </div>
           </div>
         </div>
