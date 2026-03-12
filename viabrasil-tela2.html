@@ -8,8 +8,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SISLOT">
-
-<!-- Ícones para iOS -->
 <link rel="apple-touch-icon" href="/icons/icon-152.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72.png">
 <link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96.png">
@@ -19,8 +17,6 @@
 <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192.png">
 <link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384.png">
 <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512.png">
-
-<!-- Favicon -->
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png">
 <meta charset="UTF-8">
@@ -120,36 +116,6 @@
   }
   .label-badge.federal { background: rgba(167,139,250,0.08); border-color: rgba(167,139,250,0.2); color: var(--purple); }
 
-  /* ── AUTH ── */
-  .auth-banner {
-    display: flex; align-items: center; gap: 16px;
-    background: var(--blue-panel); border: 1px solid var(--blue-border);
-    border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; transition: all 0.3s;
-  }
-  .auth-banner.connected { border-color: rgba(0,200,150,0.3); background: rgba(0,200,150,0.04); }
-  .auth-icon { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); }
-  .auth-info { flex: 1; }
-  .auth-title { font-size: 13px; font-weight: 600; }
-  .auth-sub   { font-size: 11px; color: var(--text-mid); margin-top: 2px; }
-  .btn-auth {
-    display: flex; align-items: center; gap: 8px; background: #fff; color: #1a1a2e;
-    border: none; border-radius: 6px; padding: 8px 16px; font-size: 13px; font-weight: 600;
-    cursor: pointer; white-space: nowrap; transition: all 0.2s; font-family: 'IBM Plex Sans', sans-serif;
-  }
-  .btn-auth:hover { background: #f0f4ff; }
-  .btn-auth-connected {
-    background: transparent; color: var(--text-dim); border: 1px solid var(--blue-border);
-    border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer;
-    font-family: 'IBM Plex Sans', sans-serif; transition: all 0.2s;
-  }
-  .btn-auth-connected:hover { border-color: var(--error); color: var(--error); }
-  .dot-connected {
-    width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
-    box-shadow: 0 0 6px rgba(0,200,150,0.6); animation: pulse 2s infinite; display: inline-block;
-  }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-  /* ── INPUTS ── */
   .field-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-mid); margin-bottom: 6px; display: block; }
   input[type="text"], input[type="number"] {
     width: 100%; background: var(--input-bg); border: 1px solid var(--input-border);
@@ -167,7 +133,6 @@
   .pfx-wrap .pfx { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-dim); pointer-events: none; }
   .pfx-wrap input { padding-left: 34px; }
 
-  /* ── PRODUTOS ── */
   .produto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .produto-card { background: var(--blue-panel); border: 1px solid var(--blue-border); border-radius: 10px; padding: 16px; transition: border-color 0.2s; }
   .produto-card.has-value { border-color: rgba(0,200,150,0.3); }
@@ -177,7 +142,6 @@
   .badge-r { background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.25); color: var(--amber); }
   .badge-t { background: rgba(0,200,150,0.08); border: 1px solid rgba(0,200,150,0.2); color: var(--accent); }
 
-  /* Faixas raspadinha */
   .faixas { display: flex; flex-direction: column; gap: 10px; }
   .faixa-row { display: grid; grid-template-columns: 96px 1fr 80px; gap: 8px; align-items: center; }
   .preco-faixa { display: flex; align-items: center; gap: 4px; }
@@ -204,7 +168,6 @@
   .faixa-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-dim); text-align: right; transition: color 0.2s; white-space: nowrap; }
   .faixa-sub.on { color: var(--accent); }
 
-  /* Telesena */
   .tele-body { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
   .tele-note { font-size: 10px; color: var(--text-dim); font-style: italic; margin-top: 4px; }
   .tele-sub  { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-dim); margin-top: 4px; transition: color 0.2s; }
@@ -218,8 +181,6 @@
   .prod-tot-val { font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; color: var(--text-dim); transition: color 0.2s; }
   .prod-tot-val.on { color: var(--accent); }
 
-  /* ── FEDERAL ── */
-  /* sheet-config removido — ID da planilha vem do config-loterias.js */
   .btn-buscar {
     display: flex; align-items: center; gap: 8px;
     background: var(--blue-panel); border: 1px solid var(--blue-border);
@@ -248,7 +209,6 @@
   .spinner { width: 32px; height: 32px; border-radius: 50%; border: 3px solid rgba(167,139,250,0.15); border-top-color: var(--purple); animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Tabela */
   .fed-table-wrap { border-radius: 10px; border: 1px solid var(--blue-border); overflow: hidden; }
   table.fed-table { width: 100%; border-collapse: collapse; }
   table.fed-table thead tr { background: var(--blue-mid); }
@@ -291,7 +251,6 @@
   .fed-count strong { color: var(--purple); }
   .fed-total-chip { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--purple); }
 
-  /* ── TOTAIS BAR ── */
   .totais-bar {
     display: flex; background: var(--blue-panel); border: 1px solid var(--blue-border);
     border-radius: 10px; overflow: hidden; margin-top: 28px; margin-bottom: 8px;
@@ -305,7 +264,6 @@
   .tot-val.cp { color: var(--purple); }
   .tot-val.cb { color: var(--text-bright); font-size: 18px; }
 
-  /* ── FOOTER ── */
   .form-footer {
     display: flex; align-items: center; justify-content: space-between;
     padding-top: 20px; border-top: 1px solid var(--blue-border); margin-top: 8px;
@@ -333,7 +291,6 @@
     .step-connector { width: 32px; }
     .main { padding: 16px; }
     .produto-grid { grid-template-columns: 1fr; }
-
     .totais-bar { flex-wrap: wrap; }
     .tele-body { grid-template-columns: 1fr; }
     .faixa-row { grid-template-columns: 96px 1fr 70px; }
@@ -372,7 +329,7 @@
     <div class="step-badge">Tela 2 de 4</div>
   </div>
 
-  <!-- ═══════════ PRODUTOS FIXOS ═══════════ -->
+  <!-- PRODUTOS FIXOS -->
   <div class="section">
     <div class="section-label">Produtos Físicos <span class="label-badge">Lista fixa</span></div>
     <div class="produto-grid">
@@ -383,9 +340,7 @@
           <div class="produto-nome">Raspadinha</div>
           <span class="produto-badge badge-r">4 faixas de preço</span>
         </div>
-        <div class="faixas" id="faixas-rasp">
-          <!-- gerado via JS -->
-        </div>
+        <div class="faixas" id="faixas-rasp"></div>
         <div class="prod-footer">
           <span class="prod-tot-lbl">Total Raspadinha</span>
           <span class="prod-tot-val" id="rasp-tot">R$ 0,00</span>
@@ -427,34 +382,13 @@
     </div>
   </div>
 
-  <!-- ═══════════ FEDERAIS ═══════════ -->
+  <!-- FEDERAIS -->
   <div class="section">
     <div class="section-label">Bilhetes Federais <span class="label-badge federal">Google Sheets</span></div>
 
-    <div class="auth-banner" id="auth-banner">
-      <div class="auth-icon">
-        <svg viewBox="0 0 24 24" width="22" height="22">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-        </svg>
-      </div>
-      <div class="auth-info">
-        <div class="auth-title" id="auth-title">Conectar ao Google Sheets</div>
-        <div class="auth-sub"  id="auth-sub">Necessário para buscar os bilhetes federais vigentes no período</div>
-      </div>
-      <button class="btn-auth" id="btn-auth" onclick="iniciarAuth()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15">
-          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/>
-        </svg>
-        Entrar com Google
-      </button>
-    </div>
-
-    <!-- ID da planilha vem do config-loterias.js — sem campo manual -->
     <input type="hidden" id="sheet-id" value="">
-    <button class="btn-buscar" id="btn-buscar" onclick="buscarFederais()" disabled style="margin-bottom:16px;">
+
+    <button class="btn-buscar" id="btn-buscar" onclick="buscarFederais()" style="margin-bottom:16px;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15">
         <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
       </svg>
@@ -470,11 +404,12 @@
 
     <div id="fs-inicial" class="state-box">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
         <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
       </svg>
-      <div class="state-title">Aguardando autenticação</div>
-      <div class="state-sub">Conecte sua conta Google para carregar os bilhetes federais</div>
+      <div class="state-title">Carregando federais...</div>
+      <div class="state-sub">Aguarde enquanto os dados são buscados automaticamente</div>
     </div>
     <div id="fs-loading" class="state-box" style="display:none;">
       <div class="spinner"></div>
@@ -539,343 +474,436 @@
 </main>
 
 <script>
-// CLIENT_ID vem do config-loterias.js
-const API_URL = 'https://script.google.com/macros/s/AKfycbxrk-dqdtO8DTIoQ2PgYe8xrdmS7VbCClOBFQSdvXUcvgPg5z4hdx2cUDmHOTFlIi7_lg/exec';
-const ABA_FEDERAL = 'Federal';
-const MAX_FEDERAIS = 24;
- 
-// Preços iniciais raspadinha
-const PRECOS_RASP = [2.50, 5.00, 10.00, 20.00];
+  // ─── Constantes ───────────────────────────────────────────────
+  const API_URL     = 'https://script.google.com/macros/s/AKfycbxrk-dqdtO8DTIoQ2PgYe8xrdmS7VbCClOBFQSdvXUcvgPg5z4hdx2cUDmHOTFlIi7_lg/exec';
+  const ABA_FEDERAL = 'Federal';
+  const MAX_FEDERAIS = 24;
+  const PRECOS_RASP  = [2.50, 5.00, 10.00, 20.00];
 
-let federais    = [];
-let dateFech    = null;
-let datePrimeiro= null;
+  // ─── Estado global ────────────────────────────────────────────
+  let federais     = [];   // lista retornada pela API
+  let dateFech     = null;
+  let datePrimeiro = null;
+  let tela2Salva   = null; // dados previamente salvos em sessionStorage
 
-// ── Relógio ──
-function updateClock() {
-  const now = new Date();
-  document.getElementById('relogio').textContent =
-    now.toLocaleTimeString('pt-BR') + ' — ' +
-    now.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'2-digit', year:'numeric' });
-}
-updateClock(); setInterval(updateClock, 1000);
-
-// ── Carregar data da Tela 1 ──
-(function() {
-  const raw = sessionStorage.getItem('tela1');
-  if (!raw) return;
-  const d = JSON.parse(raw);
-  if (d.data) {
-    const [y,m,dd] = d.data.split('-').map(Number);
-    dateFech      = new Date(y, m-1, dd);
-    datePrimeiro  = new Date(y, m-1, 1);
+  // ─── Relógio ──────────────────────────────────────────────────
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('relogio').textContent =
+      now.toLocaleTimeString('pt-BR') + ' — ' +
+      now.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'2-digit', year:'numeric' });
   }
-})();
+  updateClock();
+  setInterval(updateClock, 1000);
 
-// ── Build raspadinha faixas ──
-(function() {
-  const wrap = document.getElementById('faixas-rasp');
-  PRECOS_RASP.forEach((p, i) => {
-    const div = document.createElement('div');
-    div.className = 'faixa-row';
-    div.innerHTML = `
-      <div class="preco-faixa">
-        <span>R$</span>
-        <input type="number" class="inp-preco" id="rp-${i}" value="${p.toFixed(2)}"
-          step="0.50" min="0.01" onchange="recalcR(${i})" title="Edite o preço se houver reajuste">
-      </div>
-      <div class="qtd-wrap">
-        <button type="button" class="btn-q" onclick="ajR(${i},-1)">−</button>
-        <input type="number" class="inp-qtd" id="rq-${i}" placeholder="0" min="0"
-          oninput="recalcR(${i})" onblur="blurQ('rq-${i}')">
-        <button type="button" class="btn-q" onclick="ajR(${i},+1)">+</button>
-      </div>
-      <div class="faixa-sub" id="rs-${i}">—</div>
-    `;
-    wrap.appendChild(div);
-  });
-})();
-
-// ── Raspadinha ──
-function ajR(i, d) {
-  const inp = document.getElementById('rq-'+i);
-  inp.value = Math.max(0,(parseInt(inp.value)||0)+d)||'';
-  recalcR(i); inp.focus();
-}
-function recalcR(i) {
-  const qtd = parseInt(document.getElementById('rq-'+i).value)||0;
-  const prc = parseFloat(document.getElementById('rp-'+i).value)||0;
-  const sub = document.getElementById('rs-'+i);
-  const inp = document.getElementById('rq-'+i);
-  if (qtd>0) { sub.textContent='R$ '+(qtd*prc).toFixed(2).replace('.',','); sub.classList.add('on'); inp.classList.add('filled'); }
-  else        { sub.textContent='—'; sub.classList.remove('on'); inp.classList.remove('filled'); }
-  updRaspTot();
-}
-function updRaspTot() {
-  let t=0;
-  PRECOS_RASP.forEach((_,i)=>{ t+=(parseInt(document.getElementById('rq-'+i).value)||0)*(parseFloat(document.getElementById('rp-'+i).value)||0); });
-  const el=document.getElementById('rasp-tot');
-  el.textContent='R$ '+t.toFixed(2).replace('.',',');
-  el.classList.toggle('on',t>0);
-  document.getElementById('card-rasp').classList.toggle('has-value',t>0);
-  document.getElementById('tot-rasp').textContent='R$ '+t.toFixed(2).replace('.',',');
-  updGeral();
-}
-
-// ── Telesena ──
-function ajTele(d) {
-  const inp=document.getElementById('tele-qtd');
-  inp.value=Math.max(0,(parseInt(inp.value)||0)+d)||'';
-  recalcTele(); inp.focus();
-}
-function recalcTele() {
-  const qtd=parseInt(document.getElementById('tele-qtd').value)||0;
-  const prc=parseFloat(document.getElementById('tele-preco').value)||0;
-  const tot=qtd*prc;
-  const sub=document.getElementById('tele-sub');
-  const inp=document.getElementById('tele-qtd');
-  if (qtd>0){sub.textContent='R$ '+tot.toFixed(2).replace('.',',');sub.classList.add('on');inp.classList.add('filled');}
-  else{sub.textContent='—';sub.classList.remove('on');inp.classList.remove('filled');}
-  const el=document.getElementById('tele-tot');
-  el.textContent='R$ '+tot.toFixed(2).replace('.',',');
-  el.classList.toggle('on',tot>0);
-  document.getElementById('card-tele').classList.toggle('has-value',tot>0);
-  document.getElementById('tot-tele').textContent='R$ '+tot.toFixed(2).replace('.',',');
-  updGeral();
-}
-
-function blurQ(id){ const i=document.getElementById(id); if(i.value==='0')i.value=''; }
-
-// ── Total geral ──
-function getRaspTot(){ let t=0; PRECOS_RASP.forEach((_,i)=>t+=(parseInt(document.getElementById('rq-'+i).value)||0)*(parseFloat(document.getElementById('rp-'+i).value)||0)); return t; }
-function getTeleTot(){ return (parseInt(document.getElementById('tele-qtd').value)||0)*(parseFloat(document.getElementById('tele-preco').value)||0); }
-function getFedTot(){ let t=0; federais.forEach((_,i)=>{ t+=(parseInt(document.getElementById('fed-qtd-'+i)?.value)||0)*federais[i].valorUnit; }); return t; }
-
-function updGeral(){
-  const fed=getFedTot();
-  const g=getRaspTot()+getTeleTot()+fed;
-  document.getElementById('tot-fed').textContent='R$ '+fed.toFixed(2).replace('.',',');
-  const el=document.getElementById('tot-geral');
-  el.textContent='R$ '+g.toFixed(2).replace('.',',');
-  el.classList.toggle('cg',g>0);
-}
-
-// ── Google Auth ──
-// ── Buscar Federais ──
-function fmtBR(d){ return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
-
-async function buscarFederais() {
-  if (!dateFech) {
-    alert('Data de fechamento não encontrada. Volte para a Tela 1.');
-    return;
-  }
-
-  const token = sessionStorage.getItem('sislot_token');
-  if (!token) {
-    window.location.href = 'login.html';
-    return;
-  }
-
-  const sid = document.getElementById('sheet-id').value.trim();
-  if (!sid) {
-    alert('Planilha não configurada. Verifique o config-loterias.js.');
-    return;
-  }
-
-  setFS('loading');
-
-  const dtIni = datePrimeiro;
-  const dtFim = new Date(dateFech.getTime() + 80 * 86400000);
-  document.getElementById('fs-loading-sub').textContent =
-    `Período: ${fmtBR(dtIni)} até ${fmtBR(dtFim)}`;
-
-  try {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        action: 'buscarFederais',
-        token,
-        payload: {
-          sheetId: sid,
-          aba: ABA_FEDERAL,
-          dataInicial: fmtBR(dtIni),
-          dataFinal: fmtBR(dtFim),
-          max: MAX_FEDERAIS
-        }
-      })
+  // ─── Build raspadinha (apenas DOM, sem valores) ───────────────
+  function buildRaspadinha() {
+    const wrap = document.getElementById('faixas-rasp');
+    PRECOS_RASP.forEach((p, i) => {
+      const div = document.createElement('div');
+      div.className = 'faixa-row';
+      div.innerHTML = `
+        <div class="preco-faixa">
+          <span>R$</span>
+          <input type="number" class="inp-preco" id="rp-${i}" value="${p.toFixed(2)}"
+            step="0.50" min="0.01" onchange="recalcR(${i})" title="Edite o preço se houver reajuste">
+        </div>
+        <div class="qtd-wrap">
+          <button type="button" class="btn-q" onclick="ajR(${i},-1)">−</button>
+          <input type="number" class="inp-qtd" id="rq-${i}" placeholder="0" min="0"
+            oninput="recalcR(${i})" onblur="blurQ('rq-${i}')">
+          <button type="button" class="btn-q" onclick="ajR(${i},+1)">+</button>
+        </div>
+        <div class="faixa-sub" id="rs-${i}">—</div>
+      `;
+      wrap.appendChild(div);
     });
+  }
 
-    const data = await response.json();
+  // ─── Restaurar valores de raspadinha/telesena salvos ─────────
+  function restaurarProdutos(saved) {
+    if (!saved) return;
 
-    if (!data.ok) {
-      throw new Error(data.error || 'Erro ao buscar federais');
+    // Raspadinha
+    if (Array.isArray(saved.raspadinha)) {
+      saved.raspadinha.forEach((f, i) => {
+        const inpP = document.getElementById('rp-' + i);
+        const inpQ = document.getElementById('rq-' + i);
+        if (!inpP || !inpQ) return;
+        if (f.preco) inpP.value = Number(f.preco).toFixed(2);
+        if (f.qtd)  { inpQ.value = f.qtd; inpQ.classList.add('filled'); }
+        recalcR(i);
+      });
     }
 
-    federais = data.federais || [];
-
-    document.getElementById('data-badge').style.display = 'inline-flex';
-    document.getElementById('periodo-label').textContent = `${fmtBR(dtIni)} → ${fmtBR(dtFim)}`;
-
-    federais.length === 0 ? setFS('vazio') : (renderFed(), setFS('lista'));
-  } catch (e) {
-    console.error(e);
-    document.getElementById('fs-erro-msg').textContent = e.message || 'Erro desconhecido';
-    setFS('erro');
+    // Telesena
+    if (saved.telesena) {
+      const inpP = document.getElementById('tele-preco');
+      const inpQ = document.getElementById('tele-qtd');
+      if (saved.telesena.preco) inpP.value = Number(saved.telesena.preco).toFixed(2);
+      if (saved.telesena.qtd)   { inpQ.value = saved.telesena.qtd; inpQ.classList.add('filled'); }
+      recalcTele();
+    }
   }
-}
 
-function parseDS(v){
-  if(!v) return null;
-  const s=String(v).trim();
-  let m;
-  m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if(m) return new Date(+m[3],+m[2]-1,+m[1]);
-  m=s.match(/^(\d{4})-(\d{2})-(\d{2})$/);        if(m) return new Date(+m[1],+m[2]-1,+m[3]);
-  if(/^\d+(\.\d+)?$/.test(s)) return new Date(Date.UTC(1899,11,30)+parseFloat(s)*86400000);
-  return null;
-}
+  // ─── Restaurar qtd vendida dos federais após renderFed() ─────
+  function restaurarFederais(saved) {
+    if (!saved || !Array.isArray(saved.federais)) return;
 
-function renderFed(){
-  const tb=document.getElementById('fed-tbody');
-  tb.innerHTML='';
-  document.getElementById('fed-count').textContent=federais.length;
-  federais.forEach((f,i)=>{
-    const tr=document.createElement('tr');
-    tr.style.animationDelay=(i*0.03)+'s';
-    tr.innerHTML=`
-      <td class="mono">${f.modalidade}</td>
-      <td class="mono tc-conc">${f.concurso}</td>
-      <td class="mono tc-sort">${f.dtSorteio}</td>
-      <td class="mono tc-val">R$ ${f.valorUnit.toFixed(2).replace('.',',')}</td>
-      <td class="mono" style="text-align:center;color:var(--text-mid)">${f.qtdFracoes}</td>
-      <td class="tc-qtd">
-        <div class="qtd-wrap" style="justify-content:center">
-          <button type="button" class="btn-qf" onclick="ajFed(${i},-1)">−</button>
-          <input type="number" class="inp-fed" id="fed-qtd-${i}" min="0" placeholder="0"
-            oninput="onFed(${i})" onblur="blurQ('fed-qtd-${i}')">
-          <button type="button" class="btn-qf" onclick="ajFed(${i},+1)">+</button>
-        </div>
-        <div class="fed-sub" id="fed-sub-${i}">—</div>
-      </td>
-    `;
-    tb.appendChild(tr);
-  });
-  updFedTot();
-}
+    saved.federais.forEach(sf => {
+      // Encontrar linha pelo concurso (chave mais confiável)
+      const idx = federais.findIndex(f =>
+        f.concurso === sf.concurso && f.modalidade === sf.modalidade
+      );
+      if (idx === -1) return;
 
-function ajFed(i,d){
-  const inp=document.getElementById('fed-qtd-'+i);
-  inp.value=Math.max(0,(parseInt(inp.value)||0)+d)||'';
-  onFed(i); inp.focus();
-}
-function onFed(i){
-  const inp=document.getElementById('fed-qtd-'+i);
-  const sub=document.getElementById('fed-sub-'+i);
-  const qtd=parseInt(inp.value)||0;
-  const f=federais[i];
-  if(qtd>0){sub.textContent='R$ '+(qtd*f.valorUnit).toFixed(2).replace('.',',');sub.classList.add('on');inp.classList.add('filled');inp.closest('tr').classList.add('hv');}
-  else{sub.textContent='—';sub.classList.remove('on');inp.classList.remove('filled');inp.closest('tr').classList.remove('hv');}
-  updFedTot();
-}
-function updFedTot(){
-  const t=getFedTot();
-  document.getElementById('fed-tot-label').textContent='R$ '+t.toFixed(2).replace('.',',');
-  updGeral();
-}
+      const inp = document.getElementById('fed-qtd-' + idx);
+      if (!inp) return;
 
-function setFS(s){
-  ['fs-inicial','fs-loading','fs-erro','fs-vazio','fs-lista'].forEach(id=>document.getElementById(id).style.display='none');
-  document.getElementById('fs-'+s).style.display=s==='lista'?'block':'flex';
-}
+      if (sf.qtdVendida > 0) {
+        inp.value = sf.qtdVendida;
+        onFed(idx); // recalcula sub + total
+      }
+    });
+  }
 
-// ── Navegação ──
-function voltarTela1(){ window.location.href='viabrasil-tela1.html'; }
+  // ─── Raspadinha ───────────────────────────────────────────────
+  function ajR(i, d) {
+    const inp = document.getElementById('rq-' + i);
+    inp.value = Math.max(0, (parseInt(inp.value) || 0) + d) || '';
+    recalcR(i);
+    inp.focus();
+  }
+  function recalcR(i) {
+    const qtd = parseInt(document.getElementById('rq-' + i).value) || 0;
+    const prc = parseFloat(document.getElementById('rp-' + i).value) || 0;
+    const sub = document.getElementById('rs-' + i);
+    const inp = document.getElementById('rq-' + i);
+    if (qtd > 0) {
+      sub.textContent = 'R$ ' + (qtd * prc).toFixed(2).replace('.', ',');
+      sub.classList.add('on');
+      inp.classList.add('filled');
+    } else {
+      sub.textContent = '—';
+      sub.classList.remove('on');
+      inp.classList.remove('filled');
+    }
+    updRaspTot();
+  }
+  function updRaspTot() {
+    let t = 0;
+    PRECOS_RASP.forEach((_, i) => {
+      t += (parseInt(document.getElementById('rq-' + i).value) || 0)
+         * (parseFloat(document.getElementById('rp-' + i).value) || 0);
+    });
+    const el = document.getElementById('rasp-tot');
+    el.textContent = 'R$ ' + t.toFixed(2).replace('.', ',');
+    el.classList.toggle('on', t > 0);
+    document.getElementById('card-rasp').classList.toggle('has-value', t > 0);
+    document.getElementById('tot-rasp').textContent = 'R$ ' + t.toFixed(2).replace('.', ',');
+    updGeral();
+  }
 
-function avancarTela3(){
-  const raspadinha=PRECOS_RASP.map((_,i)=>({
-    preco: parseFloat(document.getElementById('rp-'+i).value)||0,
-    qtd:   parseInt(document.getElementById('rq-'+i).value)||0,
-    sub:   (parseFloat(document.getElementById('rp-'+i).value)||0)*(parseInt(document.getElementById('rq-'+i).value)||0),
-  }));
+  // ─── Telesena ─────────────────────────────────────────────────
+  function ajTele(d) {
+    const inp = document.getElementById('tele-qtd');
+    inp.value = Math.max(0, (parseInt(inp.value) || 0) + d) || '';
+    recalcTele();
+    inp.focus();
+  }
+  function recalcTele() {
+    const qtd = parseInt(document.getElementById('tele-qtd').value) || 0;
+    const prc = parseFloat(document.getElementById('tele-preco').value) || 0;
+    const tot = qtd * prc;
+    const sub = document.getElementById('tele-sub');
+    const inp = document.getElementById('tele-qtd');
+    if (qtd > 0) {
+      sub.textContent = 'R$ ' + tot.toFixed(2).replace('.', ',');
+      sub.classList.add('on');
+      inp.classList.add('filled');
+    } else {
+      sub.textContent = '—';
+      sub.classList.remove('on');
+      inp.classList.remove('filled');
+    }
+    const el = document.getElementById('tele-tot');
+    el.textContent = 'R$ ' + tot.toFixed(2).replace('.', ',');
+    el.classList.toggle('on', tot > 0);
+    document.getElementById('card-tele').classList.toggle('has-value', tot > 0);
+    document.getElementById('tot-tele').textContent = 'R$ ' + tot.toFixed(2).replace('.', ',');
+    updGeral();
+  }
 
-  const telesena={
-    preco: parseFloat(document.getElementById('tele-preco').value)||0,
-    qtd:   parseInt(document.getElementById('tele-qtd').value)||0,
-    sub:   getTeleTot(),
-  };
+  function blurQ(id) {
+    const i = document.getElementById(id);
+    if (i && i.value === '0') i.value = '';
+  }
 
-  const feds=federais.map((f,i)=>({
-    modalidade:f.modalidade,
-    concurso:f.concurso,
-    dtSorteio:f.dtSorteio,
-    valorUnit:f.valorUnit,
-    qtdVendida:parseInt(document.getElementById('fed-qtd-'+i)?.value)||0,
-    subtotal:(parseInt(document.getElementById('fed-qtd-'+i)?.value)||0)*f.valorUnit,
-  }));
+  // ─── Totais ───────────────────────────────────────────────────
+  function getRaspTot() {
+    let t = 0;
+    PRECOS_RASP.forEach((_, i) =>
+      t += (parseInt(document.getElementById('rq-' + i).value) || 0)
+         * (parseFloat(document.getElementById('rp-' + i).value) || 0)
+    );
+    return t;
+  }
+  function getTeleTot() {
+    return (parseInt(document.getElementById('tele-qtd').value) || 0)
+         * (parseFloat(document.getElementById('tele-preco').value) || 0);
+  }
+  function getFedTot() {
+    let t = 0;
+    federais.forEach((f, i) => {
+      t += (parseInt(document.getElementById('fed-qtd-' + i)?.value) || 0) * f.valorUnit;
+    });
+    return t;
+  }
+  function updGeral() {
+    const fed = getFedTot();
+    const g   = getRaspTot() + getTeleTot() + fed;
+    document.getElementById('tot-fed').textContent   = 'R$ ' + fed.toFixed(2).replace('.', ',');
+    const el = document.getElementById('tot-geral');
+    el.textContent = 'R$ ' + g.toFixed(2).replace('.', ',');
+    el.classList.toggle('cg', g > 0);
+  }
 
-  const dados={raspadinha,telesena,federais:feds};
-  sessionStorage.setItem('tela2',JSON.stringify(dados));
+  // ─── Helpers data ─────────────────────────────────────────────
+  function fmtBR(d) {
+    return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+  }
 
-  const btn=document.getElementById('btn-next');
-  btn.innerHTML='✓ Salvando...';
-  btn.style.background='#00e8ad';
+  // ─── Buscar Federais ──────────────────────────────────────────
+  async function buscarFederais() {
+    if (!dateFech) {
+      alert('Data de fechamento não encontrada. Volte para a Tela 1.');
+      return;
+    }
 
-  setTimeout(() => {
-    window.location.href='viabrasil-tela3.html';
-  }, 600);
-}
+    const token = sessionStorage.getItem('sislot_token');
+    if (!token) {
+      window.location.href = 'login.html';
+      return;
+    }
+
+    const sid = document.getElementById('sheet-id').value.trim();
+    if (!sid) {
+      alert('Planilha não configurada. Verifique o config-loterias.js.');
+      return;
+    }
+
+    setFS('loading');
+
+    const dtIni = datePrimeiro;
+    const dtFim = new Date(dateFech.getTime() + 80 * 86400000);
+    document.getElementById('fs-loading-sub').textContent =
+      `Período: ${fmtBR(dtIni)} até ${fmtBR(dtFim)}`;
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'buscarFederais',
+          token,
+          payload: {
+            sheetId: sid,
+            aba: ABA_FEDERAL,
+            dataInicial: fmtBR(dtIni),
+            dataFinal: fmtBR(dtFim),
+            max: MAX_FEDERAIS
+          }
+        })
+      });
+
+      const data = await response.json();
+      if (!data.ok) throw new Error(data.error || 'Erro ao buscar federais');
+
+      federais = data.federais || [];
+
+      document.getElementById('data-badge').style.display = 'inline-flex';
+      document.getElementById('periodo-label').textContent = `${fmtBR(dtIni)} → ${fmtBR(dtFim)}`;
+
+      if (federais.length === 0) {
+        setFS('vazio');
+      } else {
+        renderFed();
+        setFS('lista');
+        // ← Só restaura qtd vendida DEPOIS que a tabela foi criada no DOM
+        restaurarFederais(tela2Salva);
+      }
+
+    } catch (e) {
+      console.error(e);
+      document.getElementById('fs-erro-msg').textContent = e.message || 'Erro desconhecido';
+      setFS('erro');
+    }
+  }
+
+  // ─── Render tabela federais ───────────────────────────────────
+  function renderFed() {
+    const tb = document.getElementById('fed-tbody');
+    tb.innerHTML = '';
+    document.getElementById('fed-count').textContent = federais.length;
+    federais.forEach((f, i) => {
+      const tr = document.createElement('tr');
+      tr.style.animationDelay = (i * 0.03) + 's';
+      tr.innerHTML = `
+        <td class="mono">${f.modalidade}</td>
+        <td class="mono tc-conc">${f.concurso}</td>
+        <td class="mono tc-sort">${f.dtSorteio}</td>
+        <td class="mono tc-val">R$ ${f.valorUnit.toFixed(2).replace('.', ',')}</td>
+        <td class="mono" style="text-align:center;color:var(--text-mid)">${f.qtdFracoes}</td>
+        <td class="tc-qtd">
+          <div class="qtd-wrap" style="justify-content:center">
+            <button type="button" class="btn-qf" onclick="ajFed(${i},-1)">−</button>
+            <input type="number" class="inp-fed" id="fed-qtd-${i}" min="0" placeholder="0"
+              oninput="onFed(${i})" onblur="blurQ('fed-qtd-${i}')">
+            <button type="button" class="btn-qf" onclick="ajFed(${i},+1)">+</button>
+          </div>
+          <div class="fed-sub" id="fed-sub-${i}">—</div>
+        </td>
+      `;
+      tb.appendChild(tr);
+    });
+    updFedTot();
+  }
+
+  function ajFed(i, d) {
+    const inp = document.getElementById('fed-qtd-' + i);
+    inp.value = Math.max(0, (parseInt(inp.value) || 0) + d) || '';
+    onFed(i);
+    inp.focus();
+  }
+  function onFed(i) {
+    const inp = document.getElementById('fed-qtd-' + i);
+    const sub = document.getElementById('fed-sub-' + i);
+    const qtd = parseInt(inp.value) || 0;
+    const f   = federais[i];
+    if (qtd > 0) {
+      sub.textContent = 'R$ ' + (qtd * f.valorUnit).toFixed(2).replace('.', ',');
+      sub.classList.add('on');
+      inp.classList.add('filled');
+      inp.closest('tr').classList.add('hv');
+    } else {
+      sub.textContent = '—';
+      sub.classList.remove('on');
+      inp.classList.remove('filled');
+      inp.closest('tr').classList.remove('hv');
+    }
+    updFedTot();
+  }
+  function updFedTot() {
+    const t = getFedTot();
+    document.getElementById('fed-tot-label').textContent = 'R$ ' + t.toFixed(2).replace('.', ',');
+    updGeral();
+  }
+
+  function setFS(s) {
+    ['fs-inicial','fs-loading','fs-erro','fs-vazio','fs-lista'].forEach(id =>
+      document.getElementById(id).style.display = 'none'
+    );
+    document.getElementById('fs-' + s).style.display = s === 'lista' ? 'block' : 'flex';
+  }
+
+  // ─── Navegação ────────────────────────────────────────────────
+  function voltarTela1() { window.location.href = 'viabrasil-tela1.html'; }
+
+  function avancarTela3() {
+    const raspadinha = PRECOS_RASP.map((_, i) => ({
+      preco: parseFloat(document.getElementById('rp-' + i).value) || 0,
+      qtd:   parseInt(document.getElementById('rq-' + i).value)   || 0,
+      sub:   (parseFloat(document.getElementById('rp-' + i).value) || 0)
+           * (parseInt(document.getElementById('rq-' + i).value)   || 0),
+    }));
+
+    const telesena = {
+      preco: parseFloat(document.getElementById('tele-preco').value) || 0,
+      qtd:   parseInt(document.getElementById('tele-qtd').value)     || 0,
+      sub:   getTeleTot(),
+    };
+
+    const feds = federais.map((f, i) => ({
+      modalidade: f.modalidade,
+      concurso:   f.concurso,
+      dtSorteio:  f.dtSorteio,
+      valorUnit:  f.valorUnit,
+      qtdVendida: parseInt(document.getElementById('fed-qtd-' + i)?.value) || 0,
+      subtotal:   (parseInt(document.getElementById('fed-qtd-' + i)?.value) || 0) * f.valorUnit,
+    }));
+
+    sessionStorage.setItem('tela2', JSON.stringify({ raspadinha, telesena, federais: feds }));
+
+    const btn = document.getElementById('btn-next');
+    btn.innerHTML = '✓ Salvando...';
+    btn.style.background = '#00e8ad';
+
+    setTimeout(() => { window.location.href = 'viabrasil-tela3.html'; }, 600);
+  }
 </script>
 
+<!-- config-loterias.js e sheets-integracao.js carregados antes do init -->
 <script src="config-loterias.js"></script>
 <script src="sheets-integracao.js"></script>
+
 <script>
-window.addEventListener('DOMContentLoaded', () => {
-  const lot = getLoteria();
-  if (!lot) {
-    alert('Loteria não identificada. Verifique o nome do arquivo HTML.');
-    return;
-  }
+  // ─── INIT — único ponto de entrada, executa após o DOM e os
+  //     scripts externos estarem prontos ─────────────────────────
+  window.addEventListener('DOMContentLoaded', () => {
 
-  const si = document.getElementById('sheet-id');
-  if (si) si.value = lot.sheetId || '';
+    // 1. Validação de sessão
+    const token = sessionStorage.getItem('sislot_token');
+    if (!token) { window.location.href = 'login.html'; return; }
 
-  const token = sessionStorage.getItem('sislot_token');
-  if (!token) {
-    window.location.href = 'login.html';
-    return;
-  }
+    // 2. Validação de tela 1
+    const tela1 = JSON.parse(sessionStorage.getItem('tela1') || '{}');
+    if (!tela1.data || !tela1.funcionario) {
+      window.location.href = 'viabrasil-tela1.html';
+      return;
+    }
 
-  const tela1 = JSON.parse(sessionStorage.getItem('tela1') || '{}');
-  if (!tela1.data || !tela1.funcionario) {
-    window.location.href = 'viabrasil-tela1.html';
-    return;
-  }
+    // 3. Calcular datas a partir da tela1 (antes de qualquer fetch)
+    const [y, m, dd] = tela1.data.split('-').map(Number);
+    dateFech     = new Date(y, m - 1, dd);
+    datePrimeiro = new Date(y, m - 1, 1);
 
-  // Esconde a autenticação antiga
-  const authBanner = document.getElementById('auth-banner');
-  if (authBanner) authBanner.style.display = 'none';
+    // 4. Identificar loteria e preencher sheet-id
+    const lot = getLoteria();
+    if (!lot) {
+      alert('Loteria não identificada. Verifique o nome do arquivo HTML.');
+      return;
+    }
+    const si = document.getElementById('sheet-id');
+    if (si) si.value = lot.sheetId || '';
 
-  const btnBuscar = document.getElementById('btn-buscar');
-  if (btnBuscar) btnBuscar.style.display = 'none';
+    // 5. Esconder banner de auth legado (não usado mais)
+    const authBanner = document.getElementById('auth-banner');
+    if (authBanner) authBanner.style.display = 'none';
 
-  // Carrega automático
-  buscarFederais();
-});
-</script>
+    // 6. Construir DOM da raspadinha
+    buildRaspadinha();
 
- <!-- Registrar Service Worker -->
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then((registration) => {
-        console.log('✅ Service Worker registrado:', registration.scope);
-      })
-      .catch((error) => {
-        console.log('❌ Falha ao registrar Service Worker:', error);
-      });
+    // 7. Ler dados salvos da tela2 (se existirem — ex: voltou da tela3)
+    tela2Salva = JSON.parse(sessionStorage.getItem('tela2') || 'null');
+
+    // 8. Restaurar raspadinha e telesena imediatamente (DOM já existe)
+    restaurarProdutos(tela2Salva);
+
+    // 9. Buscar federais — ao terminar, restaurarFederais() é chamado
+    //    internamente, garantindo que os inputs já estejam no DOM
+    buscarFederais();
   });
-}
 </script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(r  => console.log('✅ Service Worker registrado:', r.scope))
+        .catch(e => console.log('❌ Falha ao registrar Service Worker:', e));
+    });
+  }
+</script>
+
 </body>
 </html>
