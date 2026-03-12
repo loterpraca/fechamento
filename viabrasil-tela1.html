@@ -869,7 +869,7 @@
 </main>
 
 <script>
-  const API_URL = localStorage.getItem('sislot_api_url') || sessionStorage.getItem('sislot_api_url') || '';
+  const API_URL = sessionStorage.getItem('sislot_api_url') || localStorage.getItem('sislot_api_url') || '';
 
   function getUsuarioLogado() {
     try {
@@ -1124,7 +1124,7 @@
   async function buscarFechamentoTela1() {
     hideBuscaStatus();
 
-    const token = sessionStorage.getItem('sislot_token') || localStorage.getItem('sislot_token') || '';
+    const token = sessionStorage.getItem('sislot_token') || '';
     const funcionario = String(document.getElementById('funcionario').value || '').trim();
     const dataIso = String(document.getElementById('data').value || '').trim();
 
