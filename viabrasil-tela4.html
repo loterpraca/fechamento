@@ -25,7 +25,65 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── Botões topbar (Início / Sair) ── */
+.topbar-actions { display: flex; align-items: center; gap: 8px; }
 
+.btn-topbar {
+  display: flex; align-items: center; gap: 6px;
+  background: transparent; border: 1px solid var(--blue-border);
+  border-radius: 6px; padding: 6px 12px;
+  font-family: 'IBM Plex Sans', sans-serif; font-size: 12px;
+  font-weight: 500; cursor: pointer; transition: all 0.2s;
+  color: var(--text-mid); white-space: nowrap;
+}
+.btn-topbar svg { width: 13px; height: 13px; flex-shrink: 0; }
+.btn-topbar:hover { color: var(--text-bright); border-color: var(--text-mid); }
+
+.btn-topbar-inicio:hover {
+  color: var(--accent); border-color: rgba(0,200,150,0.4);
+  background: rgba(0,200,150,0.05);
+}
+.btn-topbar-sair:hover {
+  color: var(--error); border-color: rgba(255,82,82,0.4);
+  background: rgba(255,82,82,0.05);
+}
+
+/* Modal de confirmação */
+.confirm-overlay {
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: rgba(10,22,40,0.88); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center;
+}
+.confirm-overlay.show { display: flex; }
+.confirm-box {
+  background: var(--blue-panel); border: 1px solid var(--blue-border);
+  border-radius: 14px; padding: 28px 32px; width: min(90vw, 380px);
+  text-align: center;
+}
+.confirm-icon { font-size: 32px; margin-bottom: 12px; }
+.confirm-title { font-size: 15px; font-weight: 600; color: var(--text-bright); margin-bottom: 8px; }
+.confirm-desc  { font-size: 13px; color: var(--text-mid); line-height: 1.6; margin-bottom: 22px; }
+.confirm-btns  { display: flex; gap: 10px; justify-content: center; }
+.confirm-btn-cancel {
+  background: transparent; border: 1px solid var(--blue-border);
+  color: var(--text-mid); border-radius: 8px; padding: 10px 20px;
+  font-size: 13px; cursor: pointer; font-family: 'IBM Plex Sans', sans-serif;
+  transition: all 0.2s;
+}
+.confirm-btn-cancel:hover { border-color: var(--text-mid); color: var(--text-bright); }
+.confirm-btn-ok {
+  border: none; border-radius: 8px; padding: 10px 20px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: 'IBM Plex Sans', sans-serif; transition: all 0.2s;
+}
+.confirm-btn-ok.verde {
+  background: var(--accent); color: var(--blue-deep);
+}
+.confirm-btn-ok.verde:hover { background: #00e8ad; }
+.confirm-btn-ok.vermelho {
+  background: var(--error); color: #fff;
+}
+.confirm-btn-ok.vermelho:hover { background: #ff3333; }
   :root {
     --blue-deep:   #0a1628;
     --blue-mid:    #0f2244;
