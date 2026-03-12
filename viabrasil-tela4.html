@@ -834,7 +834,29 @@
     document.getElementById('modal-pct').textContent   = `${feito} / ${total}`;
     document.getElementById('modal-barra').style.width = `${Math.round((feito/total)*100)}%`;
   }
-
+// ── Botões Início / Sair ──────────────────────────────────────
+function fecharModal(id) {
+  document.getElementById(id).classList.remove('show');
+}
+function confirmarInicio() {
+  document.getElementById('modal-inicio').classList.add('show');
+}
+function confirmarSair() {
+  document.getElementById('modal-sair').classList.add('show');
+}
+function executarInicio() {
+  // Limpa dados das telas mas mantém sessão (token + usuário)
+  sessionStorage.removeItem('tela1');
+  sessionStorage.removeItem('tela2');
+  sessionStorage.removeItem('tela3');
+  sessionStorage.removeItem('fechamento_original');
+  window.location.href = 'viabrasil-tela1.html';
+}
+function executarSair() {
+  // Limpa tudo incluindo sessão
+  sessionStorage.clear();
+  window.location.href = 'login.html';
+}
   // ─── Verificar existência no backend ─────────────────────────
   async function verificarFechamentoExistenteBackend(token, funcionario, dataStr) {
     try {
