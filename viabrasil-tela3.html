@@ -8,8 +8,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SISLOT">
-
-<!-- Ícones para iOS -->
 <link rel="apple-touch-icon" href="/icons/icon-152.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72.png">
 <link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96.png">
@@ -19,8 +17,6 @@
 <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192.png">
 <link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384.png">
 <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512.png">
-
-<!-- Favicon -->
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png">
 <meta charset="UTF-8">
@@ -42,7 +38,6 @@
     --input-bg:    #0d1e3a;
     --input-border:#1e3a6e;
     --error:       #ff5252;
-
     --c-ic: #00c896;
     --c-ie: #f5a623;
     --c-ec: #38bdf8;
@@ -107,12 +102,6 @@
     font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent);
     background: rgba(0,200,150,0.08); border: 1px solid rgba(0,200,150,0.2);
     padding: 4px 12px; border-radius: 20px; letter-spacing: 0.1em; text-transform: uppercase;
-  }
-
-  .auth-banner {
-    display: flex; align-items: center; gap: 16px;
-    background: var(--blue-panel); border: 1px solid var(--blue-border);
-    border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; transition: all 0.3s;
   }
 
   .data-badge {
@@ -332,48 +321,39 @@
     <div class="step-badge">Tela 3 de 4</div>
   </div>
 
-  <div class="auth-banner" id="auth-banner">
-    <div>Carregando bolões...</div>
-  </div>
-
-  <input type="hidden" id="id-mestra" value="">
+  <!-- Campos ocultos preenchidos no init -->
+  <input type="hidden" id="id-mestra"   value="">
   <input type="hidden" id="id-controle" value="">
-
-  <div id="config-wrap">
-    <button class="btn-next" id="btn-buscar" onclick="buscarTodos()" style="width:100%;justify-content:center;">
-      Buscar Todos os Bolões
-    </button>
-  </div>
 
   <div class="data-badge" id="data-badge" style="display:none;">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+      <rect x="3" y="4" width="18" height="18" rx="2"/>
+      <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
     </svg>
     Data de referência: <strong id="data-ref">—</strong>
   </div>
 
+  <!-- Estados -->
   <div id="st-inicial" class="state-box">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
-    </svg>
-    <div class="state-title">Aguardando carregamento</div>
-    <div class="state-sub">Os bolões serão carregados automaticamente.</div>
+    <div class="spinner"></div>
+    <div class="state-title">Carregando bolões...</div>
+    <div class="state-sub">Aguarde enquanto os dados são buscados automaticamente.</div>
   </div>
-
   <div id="st-loading" class="state-box" style="display:none;">
     <div class="spinner"></div>
     <div class="state-title">Buscando bolões vigentes...</div>
     <div class="state-sub" id="st-loading-sub">Consultando planilhas</div>
   </div>
-
   <div id="st-erro" class="state-box" style="display:none;">
     <svg viewBox="0 0 24 24" fill="none" stroke="#ff5252" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.8">
       <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
     </svg>
     <div class="state-title" style="color:var(--error)">Erro ao buscar bolões</div>
     <div class="state-sub" id="st-erro-msg">Verifique os IDs e tente novamente.</div>
+    <button class="btn-next" style="margin-top:8px;font-size:13px;padding:10px 20px;" onclick="buscarTodos()">
+      Tentar novamente
+    </button>
   </div>
-
   <div id="st-vazio" class="state-box" style="display:none;">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3" y="3" width="18" height="18" rx="2"/>
@@ -382,6 +362,7 @@
     <div class="state-sub">Não foram encontrados bolões ativos para a data informada.</div>
   </div>
 
+  <!-- Lista de bolões -->
   <div id="st-lista" style="display:none;">
     <div id="boloes-wrap"></div>
 
@@ -389,8 +370,7 @@
       display:flex; align-items:center; justify-content:space-between;
       background: linear-gradient(135deg, rgba(0,200,150,0.1) 0%, rgba(0,200,150,0.04) 100%);
       border: 1px solid rgba(0,200,150,0.3); border-radius: 10px;
-      padding: 18px 24px; margin-top: 24px; margin-bottom: 12px;
-      gap: 20px;
+      padding: 18px 24px; margin-top: 24px; margin-bottom: 12px; gap: 20px;
     ">
       <div style="display:flex;align-items:center;gap:14px;">
         <div style="width:44px;height:44px;background:rgba(0,200,150,0.12);border:1px solid rgba(0,200,150,0.25);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -431,441 +411,428 @@
 </main>
 
 <script src="config-loterias.js"></script>
+
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbxrk-dqdtO8DTIoQ2PgYe8xrdmS7VbCClOBFQSdvXUcvgPg5z4hdx2cUDmHOTFlIi7_lg/exec';
-const lot = getLoteria();
-const ABA_MESTRA = 'Boloes';
-const ABA_CONTROLE = (lot && lot.abaExternos) ? lot.abaExternos : 'D.Centro';
+  // ─── Constantes ───────────────────────────────────────────────
+  const API_URL = 'https://script.google.com/macros/s/AKfycbxrk-dqdtO8DTIoQ2PgYe8xrdmS7VbCClOBFQSdvXUcvgPg5z4hdx2cUDmHOTFlIi7_lg/exec';
 
-let dateFech = null;
-let dataTela1 = null;
+  // ─── Estado global ────────────────────────────────────────────
+  let lot        = null;   // preenchido no init (após DOMContentLoaded)
+  let ABA_CONTROLE = 'D.Centro'; // sobrescrito no init se lot.abaExternos existir
 
-let lstIC = [];
-let lstIE = [];
-let lstEC = [];
-let lstEE = [];
-let allBoloes = [];
+  let dateFech   = null;
+  let lstIC = [], lstIE = [], lstEC = [], lstEE = [];
+  let allBoloes  = [];     // [{seg, data, idx}] — reconstruído a cada renderBoloes()
+  let tela3Salva = null;   // dados de tela3 do sessionStorage (para restaurar ao voltar)
 
-function updateClock() {
-  const now = new Date();
-  document.getElementById('relogio').textContent =
-    now.toLocaleTimeString('pt-BR') + ' — ' +
-    now.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'2-digit', year:'numeric' });
-}
-updateClock();
-setInterval(updateClock, 1000);
+  // ─── Relógio ──────────────────────────────────────────────────
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('relogio').textContent =
+      now.toLocaleTimeString('pt-BR') + ' — ' +
+      now.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'2-digit', year:'numeric' });
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
 
-function fmt(v) {
-  return 'R$ ' + Number(v || 0).toFixed(2).replace('.', ',');
-}
-
-function setEstado(s) {
-  ['st-inicial','st-loading','st-erro','st-vazio','st-lista'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = 'none';
-  });
-  document.getElementById('st-' + s).style.display = s === 'lista' ? 'block' : 'flex';
-}
-
-function showErro(msg) {
-  document.getElementById('st-erro-msg').textContent = msg;
-  setEstado('erro');
-}
-
-function ordenarBoloes(lista) {
-  return (lista || []).sort((a, b) => {
-    const modA = String(a.modalidade || '').toLowerCase().trim();
-    const modB = String(b.modalidade || '').toLowerCase().trim();
-    if (modA < modB) return -1;
-    if (modA > modB) return 1;
-
-    const valA = Number(a.valorCota || 0);
-    const valB = Number(b.valorCota || 0);
-    if (valA !== valB) return valA - valB;
-
-    const orgA = String(a.origem || '').toLowerCase().trim();
-    const orgB = String(b.origem || '').toLowerCase().trim();
-    if (orgA < orgB) return -1;
-    if (orgA > orgB) return 1;
-
-    return 0;
-  });
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-  const token = sessionStorage.getItem('sislot_token');
-  if (!token) {
-    window.location.href = 'login.html';
-    return;
+  // ─── Helpers ──────────────────────────────────────────────────
+  function fmt(v) {
+    return 'R$ ' + Number(v || 0).toFixed(2).replace('.', ',');
   }
 
-  const raw1 = sessionStorage.getItem('tela1');
-  if (!raw1) {
-    window.location.href = 'viabrasil-tela1.html';
-    return;
+  function setEstado(s) {
+    ['st-inicial','st-loading','st-erro','st-vazio','st-lista'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+    document.getElementById('st-' + s).style.display = s === 'lista' ? 'block' : 'flex';
   }
 
-  const raw2 = sessionStorage.getItem('tela2');
-  if (!raw2) {
-    window.location.href = 'viabrasil-tela2.html';
-    return;
+  function showErro(msg) {
+    document.getElementById('st-erro-msg').textContent = msg;
+    setEstado('erro');
   }
 
-  const t1 = JSON.parse(raw1 || '{}');
-  const t2 = JSON.parse(raw2 || '{}');
-
-  const tela2Ok =
-    Array.isArray(t2.raspadinha) &&
-    !!t2.telesena &&
-    Array.isArray(t2.federais);
-
-  if (!tela2Ok) {
-    window.location.href = 'viabrasil-tela2.html';
-    return;
+  function ordenarBoloes(lista) {
+    return (lista || []).sort((a, b) => {
+      const modA = String(a.modalidade || '').toLowerCase().trim();
+      const modB = String(b.modalidade || '').toLowerCase().trim();
+      if (modA !== modB) return modA < modB ? -1 : 1;
+      const valA = Number(a.valorCota || 0);
+      const valB = Number(b.valorCota || 0);
+      if (valA !== valB) return valA - valB;
+      const orgA = String(a.origem || '').toLowerCase().trim();
+      const orgB = String(b.origem || '').toLowerCase().trim();
+      return orgA < orgB ? -1 : orgA > orgB ? 1 : 0;
+    });
   }
 
-  if (!lot) {
-    alert('Loteria não identificada. Verifique o nome do arquivo HTML.');
-    return;
-  }
+  // ─── Restaurar qtd vendida após renderBoloes() ────────────────
+  // Cruza por seg+key — mais robusto que posição, já que a API pode
+  // retornar os bolões em ordens diferentes entre visitas.
+  function restaurarBoloes(saved) {
+    if (!saved) return;
 
-  dataTela1 = t1;
-
-  if (!t1.data) {
-    window.location.href = 'viabrasil-tela1.html';
-    return;
-  }
-
-  const [y, m, d] = t1.data.split('-').map(Number);
-  dateFech = new Date(y, m - 1, d);
-
-  document.getElementById('data-ref').textContent =
-    `${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}/${y}`;
-  document.getElementById('data-badge').style.display = 'inline-flex';
-
-  const idMestra = document.getElementById('id-mestra');
-  const idControle = document.getElementById('id-controle');
-
-  if (idMestra) idMestra.value = lot.sheetId || '';
-  if (idControle) idControle.value = lot.controleId || '';
-
-  const authBanner = document.getElementById('auth-banner');
-  if (authBanner) authBanner.style.display = 'none';
-
-  const btnBuscar = document.getElementById('btn-buscar');
-  if (btnBuscar) btnBuscar.style.display = 'none';
-
-  buscarTodos();
-});
-
-async function buscarTodos() {
-  const token = sessionStorage.getItem('sislot_token');
-  if (!token) {
-    window.location.href = 'login.html';
-    return;
-  }
-
-  const idM = document.getElementById('id-mestra').value.trim();
-  const idC = document.getElementById('id-controle').value.trim();
-
-  if (!idM) {
-    alert('Planilha Mestra não configurada.');
-    return;
-  }
-
-  if (!idC) {
-    alert('Planilha Controle não configurada.');
-    return;
-  }
-
-  if (!dateFech || !dataTela1) {
-    window.location.href = 'viabrasil-tela1.html';
-    return;
-  }
-
-  setEstado('loading');
-
-  try {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        action: 'buscarBoloes',
-        token,
-        payload: {
-          mestraId: idM,
-          controleId: idC,
-          abaMestra: ABA_MESTRA,
-          abaControle: ABA_CONTROLE,
-          dataRef: document.getElementById('data-ref').textContent
+    const mapaSalvo = {};   // chave: "seg|key"
+    ['internosComuns','internosEspeciais','externosComuns','externosEspeciais'].forEach(prop => {
+      const segMap = { internosComuns:'ic', internosEspeciais:'ie', externosComuns:'ec', externosEspeciais:'ee' };
+      const seg = segMap[prop];
+      (saved[prop] || []).forEach(b => {
+        if (b.qtdVendida > 0) {
+          mapaSalvo[`${seg}|${b.key}`] = b.qtdVendida;
         }
-      })
+      });
     });
 
-    const data = await response.json();
+    if (!Object.keys(mapaSalvo).length) return;
 
-    if (!data.ok) {
-      throw new Error(data.error || 'Erro ao buscar bolões');
+    allBoloes.forEach(({ seg, data, idx }) => {
+      const chave = `${seg}|${data.key}`;
+      const qtd = mapaSalvo[chave];
+      if (!qtd) return;
+
+      const inp = document.getElementById('qtd-' + idx);
+      if (!inp) return;
+
+      inp.value = qtd;
+      onQtd(idx); // dispara recálculo do subtotal e totais
+    });
+  }
+
+  // ─── Buscar bolões ────────────────────────────────────────────
+  async function buscarTodos() {
+    const token = sessionStorage.getItem('sislot_token');
+    if (!token) { window.location.href = 'login.html'; return; }
+
+    const idM = document.getElementById('id-mestra').value.trim();
+    const idC = document.getElementById('id-controle').value.trim();
+
+    if (!idM) { alert('Planilha Mestra não configurada.'); return; }
+    if (!idC) { alert('Planilha Controle não configurada.'); return; }
+    if (!dateFech) { window.location.href = 'viabrasil-tela1.html'; return; }
+
+    setEstado('loading');
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'buscarBoloes',
+          token,
+          payload: {
+            mestraId: idM,
+            controleId: idC,
+            abaMestra: 'Boloes',
+            abaControle: ABA_CONTROLE,
+            dataRef: document.getElementById('data-ref').textContent
+          }
+        })
+      });
+
+      const data = await response.json();
+      if (!data.ok) throw new Error(data.error || 'Erro ao buscar bolões');
+
+      lstIC = ordenarBoloes(data.internosComuns    || []);
+      lstIE = ordenarBoloes(data.internosEspeciais || []);
+      lstEC = ordenarBoloes(data.externosComuns    || []);
+      lstEE = ordenarBoloes(data.externosEspeciais || []);
+
+      const total = lstIC.length + lstIE.length + lstEC.length + lstEE.length;
+      if (total === 0) { setEstado('vazio'); return; }
+
+      renderBoloes();
+      setEstado('lista');
+
+      // ← Só restaura DEPOIS que os inputs existem no DOM
+      restaurarBoloes(tela3Salva);
+
+    } catch (e) {
+      console.error(e);
+      showErro(e.message || 'Erro ao buscar bolões');
+    }
+  }
+
+  // ─── Render ───────────────────────────────────────────────────
+  function renderBoloes() {
+    const wrap = document.getElementById('boloes-wrap');
+    wrap.innerHTML = '';
+    allBoloes = [];
+
+    const blocos = [
+      {
+        label: 'Internos', cls: 'bloco-internos', totId: 'bloco-tot-int',
+        secoes: [
+          { seg: 'ic', label: 'Internos Comuns',    lista: lstIC, sCls: 's-ic', cCls: 'c-ic' },
+          { seg: 'ie', label: 'Internos Especiais', lista: lstIE, sCls: 's-ie', cCls: 'c-ie' }
+        ]
+      },
+      {
+        label: 'Externos', cls: 'bloco-externos', totId: 'bloco-tot-ext',
+        secoes: [
+          { seg: 'ec', label: 'Externos Comuns',    lista: lstEC, sCls: 's-ec', cCls: 'c-ec' },
+          { seg: 'ee', label: 'Externos Especiais', lista: lstEE, sCls: 's-ee', cCls: 'c-ee' }
+        ]
+      }
+    ];
+
+    blocos.forEach(bloco => {
+      const totalBloco = bloco.secoes.reduce((a, s) => a + s.lista.length, 0);
+      if (!totalBloco) return;
+
+      const bsep = document.createElement('div');
+      bsep.className = `bloco-sep ${bloco.cls}`;
+      bsep.innerHTML = `
+        <div class="bloco-sep-label">${bloco.label}</div>
+        <div class="bloco-sep-line"></div>
+        <div class="bloco-sep-tot" id="${bloco.totId}">R$ 0,00</div>
+      `;
+      wrap.appendChild(bsep);
+
+      bloco.secoes.forEach(sec => {
+        if (!sec.lista.length) return;
+
+        const shdr = document.createElement('div');
+        shdr.className = `secao-header ${sec.sCls}`;
+        shdr.innerHTML = `
+          <div class="secao-dot"></div>
+          <div class="secao-titulo">${sec.label}</div>
+          <div class="secao-count">${sec.lista.length}</div>
+          <div class="secao-line"></div>
+          <div class="secao-subtot" id="stot-${sec.seg}">R$ 0,00</div>
+        `;
+        wrap.appendChild(shdr);
+
+        sec.lista.forEach((b, i) => {
+          const gi = allBoloes.length;
+
+          const enriched = {
+            seg:        sec.seg,
+            key:        String(b.key        || '').trim(),
+            origem:     String(b.origem     || '').trim(),
+            destino:    String(b.destino    || '').trim(),
+            modalidade: String(b.modalidade || '').trim(),
+            concurso:   String(b.concurso   || '').trim(),
+            qtdJogos:   String(b.qtdJogos   || '').trim(),
+            qtdDezenas: String(b.qtdDezenas || '').trim(),
+            qtdCotas:   String(b.qtdCotas   || '').trim(),
+            valorCota:  Number(b.valorCota  || 0),
+            dtInicial:  String(b.dtInicial  || '').trim(),
+            dtConcurso: String(b.dtConcurso || '').trim()
+          };
+
+          allBoloes.push({ seg: sec.seg, data: enriched, idx: gi });
+
+          const partes = [];
+          if (enriched.origem)     partes.push(enriched.origem);
+          if (enriched.modalidade) partes.push(enriched.modalidade);
+          if (enriched.concurso)   partes.push(enriched.concurso);
+          const nome = partes.join(' · ') || enriched.key || `Bolão ${gi + 1}`;
+
+          const metas = [];
+          if (enriched.qtdJogos)   metas.push(`<span class="meta-tag">${enriched.qtdJogos} jogo(s)</span>`);
+          if (enriched.qtdDezenas) metas.push(`<span class="meta-tag">${enriched.qtdDezenas} dez.</span>`);
+          if (enriched.qtdCotas)   metas.push(`<span class="meta-tag">${enriched.qtdCotas} cotas</span>`);
+          if (enriched.destino)    metas.push(`<span class="meta-tag meta-dest">→ ${enriched.destino}</span>`);
+          if (enriched.valorCota)  metas.push(`<span class="meta-tag meta-val">R$ ${enriched.valorCota.toFixed(2).replace('.', ',')} / cota</span>`);
+
+          const card = document.createElement('div');
+          card.className = `bolao-card ${sec.cCls}`;
+          card.dataset.idx = gi;
+          card.style.animationDelay = (i * 0.04) + 's';
+          card.innerHTML = `
+            <div>
+              <div class="bolao-key">${enriched.key}</div>
+              <div class="bolao-nome">${nome}</div>
+              <div class="bolao-meta">${metas.join('')}</div>
+            </div>
+            <div class="qtd-block">
+              <div class="qtd-lbl">Cotas Vendidas</div>
+              <div class="qtd-wrap">
+                <button type="button" class="btn-q" onclick="ajQ(${gi},-1)">−</button>
+                <input type="number" class="inp-qtd" id="qtd-${gi}" min="0" placeholder="0"
+                  oninput="onQtd(${gi})" onblur="blurQ(${gi})">
+                <button type="button" class="btn-q" onclick="ajQ(${gi},+1)">+</button>
+              </div>
+              <div class="qtd-sub" id="sub-${gi}">—</div>
+            </div>
+          `;
+          wrap.appendChild(card);
+        });
+      });
+    });
+
+    updTotais();
+  }
+
+  // ─── Interação dos cards ──────────────────────────────────────
+  function ajQ(idx, d) {
+    const inp = document.getElementById('qtd-' + idx);
+    inp.value = Math.max(0, (parseInt(inp.value) || 0) + d) || '';
+    onQtd(idx);
+    inp.focus();
+  }
+
+  function onQtd(idx) {
+    const inp  = document.getElementById('qtd-' + idx);
+    const sub  = document.getElementById('sub-' + idx);
+    const card = inp.closest('.bolao-card');
+    const b    = allBoloes[idx].data;
+    const qtd  = parseInt(inp.value) || 0;
+
+    if (qtd > 0) {
+      sub.textContent = fmt(qtd * b.valorCota);
+      sub.classList.add('on');
+      inp.classList.add('filled');
+      card.classList.add('has-val');
+    } else {
+      sub.textContent = '—';
+      sub.classList.remove('on');
+      inp.classList.remove('filled');
+      card.classList.remove('has-val');
     }
 
-    lstIC = ordenarBoloes(data.internosComuns || []);
-    lstIE = ordenarBoloes(data.internosEspeciais || []);
-    lstEC = ordenarBoloes(data.externosComuns || []);
-    lstEE = ordenarBoloes(data.externosEspeciais || []);
+    updTotais();
+  }
 
-    const total = lstIC.length + lstIE.length + lstEC.length + lstEE.length;
-    if (total === 0) {
-      setEstado('vazio');
+  function blurQ(idx) {
+    const inp = document.getElementById('qtd-' + idx);
+    if (inp && inp.value === '0') inp.value = '';
+  }
+
+  function updTotais() {
+    const tots = { ic: 0, ie: 0, ec: 0, ee: 0 };
+    let totalCotas = 0;
+
+    allBoloes.forEach(({ seg, data, idx }) => {
+      const qtd = parseInt(document.getElementById('qtd-' + idx)?.value) || 0;
+      tots[seg] += qtd * data.valorCota;
+      totalCotas += qtd;
+    });
+
+    const totalGeral = tots.ic + tots.ie + tots.ec + tots.ee;
+
+    document.getElementById('tot-geral-destaque').textContent = fmt(totalGeral);
+    document.getElementById('tot-cotas-count').textContent    = totalCotas;
+    document.getElementById('tot-ic').textContent = fmt(tots.ic);
+    document.getElementById('tot-ie').textContent = fmt(tots.ie);
+    document.getElementById('tot-ec').textContent = fmt(tots.ec);
+    document.getElementById('tot-ee').textContent = fmt(tots.ee);
+    document.getElementById('tot-g').textContent  = fmt(totalGeral);
+
+    ['ic','ie','ec','ee'].forEach(s => {
+      const el = document.getElementById('stot-' + s);
+      if (el) el.textContent = fmt(tots[s]);
+    });
+    const elInt = document.getElementById('bloco-tot-int');
+    const elExt = document.getElementById('bloco-tot-ext');
+    if (elInt) elInt.textContent = fmt(tots.ic + tots.ie);
+    if (elExt) elExt.textContent = fmt(tots.ec + tots.ee);
+  }
+
+  // ─── Navegação ────────────────────────────────────────────────
+  function voltarTela2() { window.location.href = 'viabrasil-tela2.html'; }
+
+  function avancarTela4() {
+    const coleta = seg => allBoloes
+      .filter(b => b.seg === seg)
+      .map(({ data, idx }) => {
+        const qtdVendida = parseInt(document.getElementById('qtd-' + idx)?.value) || 0;
+        return {
+          key:        data.key,
+          origem:     data.origem,
+          destino:    data.destino,
+          modalidade: data.modalidade,
+          concurso:   data.concurso,
+          qtdJogos:   data.qtdJogos,
+          qtdDezenas: data.qtdDezenas,
+          qtdCotas:   data.qtdCotas,
+          dtInicial:  data.dtInicial,
+          dtConcurso: data.dtConcurso,
+          valorCota:  Number(data.valorCota || 0),
+          qtdVendida,
+          subtotal:   qtdVendida * Number(data.valorCota || 0)
+        };
+      });
+
+    const dados = {
+      internosComuns:    coleta('ic'),
+      internosEspeciais: coleta('ie'),
+      externosComuns:    coleta('ec'),
+      externosEspeciais: coleta('ee')
+    };
+
+    sessionStorage.setItem('tela3', JSON.stringify(dados));
+
+    const btn = document.getElementById('btn-next');
+    btn.innerHTML = '✓ Salvando...';
+    btn.style.background = '#00e8ad';
+
+    setTimeout(() => { window.location.href = 'viabrasil-tela4.html'; }, 500);
+  }
+
+  // ─── INIT ─────────────────────────────────────────────────────
+  window.addEventListener('DOMContentLoaded', () => {
+
+    // 1. Sessão
+    const token = sessionStorage.getItem('sislot_token');
+    if (!token) { window.location.href = 'login.html'; return; }
+
+    // 2. Tela 1 obrigatória
+    const raw1 = sessionStorage.getItem('tela1');
+    if (!raw1) { window.location.href = 'viabrasil-tela1.html'; return; }
+
+    // 3. Tela 2 obrigatória
+    const raw2 = sessionStorage.getItem('tela2');
+    if (!raw2) { window.location.href = 'viabrasil-tela2.html'; return; }
+
+    const t2 = JSON.parse(raw2);
+    if (!Array.isArray(t2.raspadinha) || !t2.telesena || !Array.isArray(t2.federais)) {
+      window.location.href = 'viabrasil-tela2.html';
       return;
     }
 
-    renderBoloes();
-    setEstado('lista');
-
-  } catch (e) {
-    console.error(e);
-    showErro(e.message || 'Erro ao buscar bolões');
-  }
-}
-
-function renderBoloes() {
-  const wrap = document.getElementById('boloes-wrap');
-  wrap.innerHTML = '';
-  allBoloes = [];
-
-  const blocos = [
-    {
-      id: 'internos',
-      label: 'Internos',
-      cls: 'bloco-internos',
-      totId: 'bloco-tot-int',
-      secoes: [
-        { seg: 'ic', label: 'Internos Comuns', lista: lstIC, sCls: 's-ic', cCls: 'c-ic' },
-        { seg: 'ie', label: 'Internos Especiais', lista: lstIE, sCls: 's-ie', cCls: 'c-ie' }
-      ]
-    },
-    {
-      id: 'externos',
-      label: 'Externos',
-      cls: 'bloco-externos',
-      totId: 'bloco-tot-ext',
-      secoes: [
-        { seg: 'ec', label: 'Externos Comuns', lista: lstEC, sCls: 's-ec', cCls: 'c-ec' },
-        { seg: 'ee', label: 'Externos Especiais', lista: lstEE, sCls: 's-ee', cCls: 'c-ee' }
-      ]
+    // 4. Identificar loteria (getLoteria() vem de config-loterias.js já carregado)
+    lot = getLoteria();
+    if (!lot) {
+      alert('Loteria não identificada. Verifique o nome do arquivo HTML.');
+      return;
     }
-  ];
+    ABA_CONTROLE = lot.abaExternos || 'D.Centro';
 
-  blocos.forEach(bloco => {
-    const totalBloco = bloco.secoes.reduce((a, s) => a + s.lista.length, 0);
-    if (totalBloco === 0) return;
+    // 5. Preencher sheet IDs
+    document.getElementById('id-mestra').value   = lot.sheetId    || '';
+    document.getElementById('id-controle').value = lot.controleId || '';
 
-    const bsep = document.createElement('div');
-    bsep.className = `bloco-sep ${bloco.cls}`;
-    bsep.innerHTML = `
-      <div class="bloco-sep-label">${bloco.label}</div>
-      <div class="bloco-sep-line"></div>
-      <div class="bloco-sep-tot" id="${bloco.totId}">R$ 0,00</div>
-    `;
-    wrap.appendChild(bsep);
+    // 6. Data de referência a partir da tela1
+    const t1 = JSON.parse(raw1);
+    if (!t1.data) { window.location.href = 'viabrasil-tela1.html'; return; }
 
-    bloco.secoes.forEach(sec => {
-      if (!sec.lista.length) return;
+    const [y, m, d] = t1.data.split('-').map(Number);
+    dateFech = new Date(y, m - 1, d);
 
-      const shdr = document.createElement('div');
-      shdr.className = `secao-header ${sec.sCls}`;
-      shdr.innerHTML = `
-        <div class="secao-dot"></div>
-        <div class="secao-titulo">${sec.label}</div>
-        <div class="secao-count">${sec.lista.length}</div>
-        <div class="secao-line"></div>
-        <div class="secao-subtot" id="stot-${sec.seg}">R$ 0,00</div>
-      `;
-      wrap.appendChild(shdr);
+    document.getElementById('data-ref').textContent =
+      `${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}/${y}`;
+    document.getElementById('data-badge').style.display = 'inline-flex';
 
-      sec.lista.forEach((b, i) => {
-        const gi = allBoloes.length;
+    // 7. Guardar dados salvos de tela3 (para restaurar ao voltar da tela 4)
+    tela3Salva = JSON.parse(sessionStorage.getItem('tela3') || 'null');
 
-        const enriched = {
-  seg: sec.seg,
-  key: String(b.key || '').trim(),
-  origem: String(b.origem || '').trim(),
-  destino: String(b.destino || '').trim(),
-  modalidade: String(b.modalidade || '').trim(),
-  concurso: String(b.concurso || '').trim(),
-  qtdJogos: String(b.qtdJogos || '').trim(),
-  qtdDezenas: String(b.qtdDezenas || '').trim(),
-  qtdCotas: String(b.qtdCotas || '').trim(),
-  valorCota: Number(b.valorCota || 0),
-  dtInicial: String(b.dtInicial || '').trim(),
-  dtConcurso: String(b.dtConcurso || '').trim()
-};
-
-        allBoloes.push({ seg: sec.seg, data: enriched, idx: gi });
-
-        const partes = [];
-        if (enriched.origem) partes.push(enriched.origem);
-        if (enriched.modalidade) partes.push(enriched.modalidade);
-        if (enriched.concurso) partes.push(enriched.concurso);
-        const nome = partes.join(' · ') || enriched.key || `Bolão ${gi + 1}`;
-
-        const metas = [];
-        if (enriched.qtdJogos) metas.push(`<span class="meta-tag">${enriched.qtdJogos} jogo(s)</span>`);
-        if (enriched.qtdDezenas) metas.push(`<span class="meta-tag">${enriched.qtdDezenas} dez.</span>`);
-        if (enriched.qtdCotas) metas.push(`<span class="meta-tag">${enriched.qtdCotas} cotas</span>`);
-        if (enriched.destino) metas.push(`<span class="meta-tag meta-dest">→ ${enriched.destino}</span>`);
-        if (enriched.valorCota) metas.push(`<span class="meta-tag meta-val">R$ ${enriched.valorCota.toFixed(2).replace('.', ',')} / cota</span>`);
-
-        const card = document.createElement('div');
-        card.className = `bolao-card ${sec.cCls}`;
-        card.dataset.idx = gi;
-        card.style.animationDelay = (i * 0.04) + 's';
-        card.innerHTML = `
-          <div>
-            <div class="bolao-key">${enriched.key}</div>
-            <div class="bolao-nome">${nome}</div>
-            <div class="bolao-meta">${metas.join('')}</div>
-          </div>
-          <div class="qtd-block">
-            <div class="qtd-lbl">Cotas Vendidas</div>
-            <div class="qtd-wrap">
-              <button type="button" class="btn-q" onclick="ajQ(${gi},-1)">−</button>
-              <input type="number" class="inp-qtd" id="qtd-${gi}" min="0" placeholder="0"
-                oninput="onQtd(${gi})" onblur="blurQ(${gi})">
-              <button type="button" class="btn-q" onclick="ajQ(${gi},+1)">+</button>
-            </div>
-            <div class="qtd-sub" id="sub-${gi}">—</div>
-          </div>
-        `;
-        wrap.appendChild(card);
-      });
-    });
+    // 8. Buscar bolões — restaurarBoloes() é chamado internamente
+    //    após renderBoloes(), quando os inputs já existem no DOM
+    buscarTodos();
   });
-
-  updTotais();
-}
-
-function ajQ(idx, d) {
-  const inp = document.getElementById('qtd-' + idx);
-  inp.value = Math.max(0, (parseInt(inp.value) || 0) + d) || '';
-  onQtd(idx);
-  inp.focus();
-}
-
-function onQtd(idx) {
-  const inp = document.getElementById('qtd-' + idx);
-  const sub = document.getElementById('sub-' + idx);
-  const card = inp.closest('.bolao-card');
-  const b = allBoloes[idx].data;
-  const qtd = parseInt(inp.value) || 0;
-
-  if (qtd > 0) {
-    sub.textContent = fmt(qtd * b.valorCota);
-    sub.classList.add('on');
-    inp.classList.add('filled');
-    card.classList.add('has-val');
-  } else {
-    sub.textContent = '—';
-    sub.classList.remove('on');
-    inp.classList.remove('filled');
-    card.classList.remove('has-val');
-  }
-
-  updTotais();
-}
-
-function blurQ(idx) {
-  const inp = document.getElementById('qtd-' + idx);
-  if (inp.value === '0') inp.value = '';
-}
-
-function updTotais() {
-  const tots = { ic: 0, ie: 0, ec: 0, ee: 0 };
-  let totalCotas = 0;
-
-  allBoloes.forEach(({ seg, data, idx }) => {
-    const qtd = parseInt(document.getElementById('qtd-' + idx)?.value) || 0;
-    tots[seg] += qtd * data.valorCota;
-    totalCotas += qtd;
-  });
-
-  const totalGeral = tots.ic + tots.ie + tots.ec + tots.ee;
-
-  document.getElementById('tot-geral-destaque').textContent = fmt(totalGeral);
-  document.getElementById('tot-cotas-count').textContent = totalCotas;
-
-  document.getElementById('tot-ic').textContent = fmt(tots.ic);
-  document.getElementById('tot-ie').textContent = fmt(tots.ie);
-  document.getElementById('tot-ec').textContent = fmt(tots.ec);
-  document.getElementById('tot-ee').textContent = fmt(tots.ee);
-  document.getElementById('tot-g').textContent = fmt(totalGeral);
-
-  if (document.getElementById('stot-ic')) document.getElementById('stot-ic').textContent = fmt(tots.ic);
-  if (document.getElementById('stot-ie')) document.getElementById('stot-ie').textContent = fmt(tots.ie);
-  if (document.getElementById('stot-ec')) document.getElementById('stot-ec').textContent = fmt(tots.ec);
-  if (document.getElementById('stot-ee')) document.getElementById('stot-ee').textContent = fmt(tots.ee);
-
-  if (document.getElementById('bloco-tot-int')) document.getElementById('bloco-tot-int').textContent = fmt(tots.ic + tots.ie);
-  if (document.getElementById('bloco-tot-ext')) document.getElementById('bloco-tot-ext').textContent = fmt(tots.ec + tots.ee);
-}
-
-function voltarTela2() {
-  window.location.href = 'viabrasil-tela2.html';
-}
-
-function avancarTela4() {
-  const coleta = seg => allBoloes
-    .filter(b => b.seg === seg)
-    .map(({ data, idx }) => {
-      const qtdVendida = parseInt(document.getElementById('qtd-' + idx)?.value) || 0;
-      return {
-        key: data.key || '',
-        origem: data.origem || '',
-        destino: data.destino || '',
-        modalidade: data.modalidade || '',
-        concurso: data.concurso || '',
-        qtdJogos: data.qtdJogos || '',
-        qtdDezenas: data.qtdDezenas || '',
-        qtdCotas: data.qtdCotas || '',
-        dtInicial: data.dtInicial || '',
-        dtConcurso: data.dtConcurso || '',
-        valorCota: Number(data.valorCota || 0),
-        qtdVendida: qtdVendida,
-        subtotal: qtdVendida * Number(data.valorCota || 0)
-      };
-    });
-
-  const dados = {
-    internosComuns: coleta('ic'),
-    internosEspeciais: coleta('ie'),
-    externosComuns: coleta('ec'),
-    externosEspeciais: coleta('ee')
-  };
-
-  sessionStorage.setItem('tela3', JSON.stringify(dados));
-
-  const btn = document.getElementById('btn-next');
-  btn.innerHTML = '✓ Salvando...';
-  btn.style.background = '#00e8ad';
-
-  setTimeout(() => {
-    window.location.href = 'viabrasil-tela4.html';
-  }, 500);
-}
 </script>
 
 <script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then((registration) => {
-        console.log('✅ Service Worker registrado:', registration.scope);
-      })
-      .catch((error) => {
-        console.log('❌ Falha ao registrar Service Worker:', error);
-      });
-  });
-}
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(r  => console.log('✅ Service Worker registrado:', r.scope))
+        .catch(e => console.log('❌ Falha ao registrar Service Worker:', e));
+    });
+  }
 </script>
+
 </body>
 </html>
