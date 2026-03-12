@@ -698,15 +698,40 @@
   }
 
   function restaurarFederais(saved) {
-    if (!saved || !Array.isArray(saved.federais)) return;
+  if (!saved || !Array.isArray(saved.federais)) return;
 
-    const mapaSalvo = {};
-    saved.federais.forEach(f => {
-      const concurso = String(f.concurso || '').trim();
-      const qtd = Number(f.qtdVendida || 0);
-      if (concurso && qtd > 0) {
-        mapaSalvo[concurso] = qtd;
-      }
+  console.log('FEDERAIS BUSCADAS:', federais);
+  console.log('FEDERAIS SALVAS:', saved.federais);
+
+  const mapaSalvo = {};
+  saved.federais.forEach(f => {
+    const concurso = String(f.concurso || '').trim();
+    const qtd = Number(f.qtdVendida || 0);
+    console.log('SALVO -> concurso:', concurso, 'qtd:', qtd, 'sorteio:', f.dtSorteio);
+    if (concurso && qtd > 0) {
+      mapaSalvo[concurso] = qtd;
+    }
+  });
+
+  console.log('MAPA SALVO:', mapaSalvo);
+
+  federais.forEach((f, i) => {
+    const concurso = String(f.concurso || '').trim();
+    const qtd = mapaSalvo[concurso];
+    console.log('BUSCADO -> concurso:', concurso, 'qtd achada:', qtd, 'sorteio:', f.dtSorteio);
+
+    if (!qtd) return;
+
+    const inp = document.getElementById('fed-qtd-' + i);
+    if (!inp) {
+      console.log('INPUT NÃO ENCONTRADO PARA', concurso);
+      return;
+    }
+
+    inp.value = qtd;
+    onFed(i);
+  });
+}
     });
 
     if (!Object.keys(mapaSalvo).length) return;
