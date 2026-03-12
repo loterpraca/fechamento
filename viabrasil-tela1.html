@@ -8,8 +8,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SISLOT">
-
-<!-- Ícones para iOS -->
 <link rel="apple-touch-icon" href="/icons/icon-152.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72.png">
 <link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96.png">
@@ -19,16 +17,12 @@
 <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192.png">
 <link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384.png">
 <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512.png">
-
-<!-- Favicon -->
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png">
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fechamento de Caixa — Lotérica</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -63,584 +57,202 @@
   }
 
   .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 32px;
-    height: 56px;
-    background: rgba(15, 34, 68, 0.95);
-    border-bottom: 1px solid var(--blue-border);
-    backdrop-filter: blur(8px);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; height: 56px;
+    background: rgba(15, 34, 68, 0.95); border-bottom: 1px solid var(--blue-border);
+    backdrop-filter: blur(8px); position: sticky; top: 0; z-index: 100;
   }
-
-  .topbar-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
+  .topbar-brand { display: flex; align-items: center; gap: 12px; }
   .brand-icon {
-    width: 32px;
-    height: 32px;
-    background: var(--accent);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--blue-deep);
+    width: 32px; height: 32px; background: var(--accent); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; color: var(--blue-deep);
   }
+  .brand-name { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-bright); }
+  .brand-sub  { font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
+  .topbar-right { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-mid); letter-spacing: 0.05em; }
 
-  .brand-name {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text-bright);
-  }
-
-  .brand-sub {
-    font-size: 11px;
-    color: var(--text-dim);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .topbar-right {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--text-mid);
-    letter-spacing: 0.05em;
-  }
-
-  .steps-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    padding: 24px 32px 0;
-  }
-
-  .step {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    position: relative;
-  }
-
+  .steps-bar { display: flex; align-items: center; justify-content: center; gap: 0; padding: 24px 32px 0; }
+  .step { display: flex; align-items: center; gap: 8px; position: relative; }
   .step-circle {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; transition: all 0.3s ease;
   }
-
-  .step.active .step-circle {
-    background: var(--accent);
-    color: var(--blue-deep);
-    box-shadow: 0 0 0 4px rgba(0,200,150,0.15);
-  }
-
-  .step.inactive .step-circle {
-    background: var(--blue-panel);
-    color: var(--text-dim);
-    border: 1px solid var(--blue-border);
-  }
-
-  .step-label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .step.active .step-label { color: var(--accent); }
+  .step.active .step-circle  { background: var(--accent); color: var(--blue-deep); box-shadow: 0 0 0 4px rgba(0,200,150,0.15); }
+  .step.inactive .step-circle { background: var(--blue-panel); color: var(--text-dim); border: 1px solid var(--blue-border); }
+  .step-label { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+  .step.active .step-label  { color: var(--accent); }
   .step.inactive .step-label { color: var(--text-dim); }
+  .step-connector { width: 64px; height: 1px; background: var(--blue-border); margin: 0 4px; }
 
-  .step-connector {
-    width: 64px;
-    height: 1px;
-    background: var(--blue-border);
-    margin: 0 4px;
-  }
-
-  .main {
-    flex: 1;
-    padding: 32px;
-    max-width: 900px;
-    width: 100%;
-    margin: 0 auto;
-  }
+  .main { flex: 1; padding: 32px; max-width: 900px; width: 100%; margin: 0 auto; }
 
   .page-header {
-    margin-bottom: 32px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--blue-border);
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
+    margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--blue-border);
+    display: flex; align-items: flex-end; justify-content: space-between;
   }
-
-  .page-title {
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--text-bright);
-    letter-spacing: -0.01em;
-  }
-
-  .page-subtitle {
-    font-size: 13px;
-    color: var(--text-mid);
-    margin-top: 4px;
-    font-weight: 300;
-  }
-
+  .page-title    { font-size: 22px; font-weight: 600; color: var(--text-bright); letter-spacing: -0.01em; }
+  .page-subtitle { font-size: 13px; color: var(--text-mid); margin-top: 4px; font-weight: 300; }
   .step-badge {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--accent);
-    background: rgba(0,200,150,0.08);
-    border: 1px solid rgba(0,200,150,0.2);
-    padding: 4px 12px;
-    border-radius: 20px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent);
+    background: rgba(0,200,150,0.08); border: 1px solid rgba(0,200,150,0.2);
+    padding: 4px 12px; border-radius: 20px; letter-spacing: 0.1em; text-transform: uppercase;
   }
 
-  .section {
-    margin-bottom: 28px;
-  }
-
-  .section-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--blue-border);
-  }
-
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-  .grid-full { display: grid; grid-template-columns: 1fr; gap: 16px; }
-
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .field-label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-mid);
-  }
-
-  .field-required::after {
-    content: ' *';
-    color: var(--accent);
-  }
-
-  .input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-
-  .input-prefix {
-    position: absolute;
-    left: 12px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    color: var(--text-dim);
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  input[type="text"],
-  input[type="number"],
-  input[type="date"],
-  select.field-select {
-    width: 100%;
-    background: var(--input-bg);
-    border: 1px solid var(--input-border);
-    border-radius: 6px;
-    padding: 11px 14px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
-    color: var(--text-bright);
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-    -webkit-appearance: none;
-  }
-
-  select.field-select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234a6491' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-    cursor: pointer;
-  }
-
-  select.field-select:disabled {
-    opacity: 0.9;
-    cursor: not-allowed;
-    background-color: #10213f;
-    color: var(--text-bright);
-  }
-
-  select.field-select:focus {
-    border-color: var(--input-focus);
-    box-shadow: 0 0 0 3px rgba(0,200,150,0.1);
-    background-color: #0e2040;
-  }
-
-  select.field-select option {
-    background: var(--blue-mid);
-    color: var(--text-bright);
-  }
-
-  select.field-select.filled {
-    border-color: rgba(0,200,150,0.4);
-  }
-
-  input[type="text"].has-prefix,
-  input[type="number"].has-prefix {
-    padding-left: 38px;
-  }
-
-  input[type="text"]:focus,
-  input[type="number"]:focus,
-  input[type="date"]:focus {
-    border-color: var(--input-focus);
-    box-shadow: 0 0 0 3px rgba(0,200,150,0.1);
-    background: #0e2040;
-  }
-
-  input[type="text"]::placeholder,
-  input[type="number"]::placeholder {
-    color: var(--text-dim);
-    font-size: 13px;
-  }
-
-  input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(0.5) sepia(1) saturate(0.5) hue-rotate(120deg);
-    cursor: pointer;
-  }
-
-  input.filled {
-    border-color: rgba(0,200,150,0.35);
-  }
-
-  .form-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 24px;
-    border-top: 1px solid var(--blue-border);
-    margin-top: 12px;
-  }
-
-  .required-note {
-    font-size: 11px;
-    color: var(--text-dim);
-    font-style: italic;
-  }
-
-  .required-note span {
-    color: var(--accent);
-  }
-
-  .btn-next {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--accent);
-    color: var(--blue-deep);
-    border: none;
-    border-radius: 8px;
-    padding: 12px 28px;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-transform: uppercase;
-  }
-
-  .btn-next:hover {
-    background: #00e8ad;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 24px rgba(0,200,150,0.25);
-  }
-
-  .btn-next:active {
-    transform: translateY(0);
-  }
-
-  .btn-next svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .btn-secondary {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    background: transparent;
-    color: var(--accent);
-    border: 1px solid rgba(0,200,150,0.35);
-    border-radius: 8px;
-    padding: 12px 18px;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-transform: uppercase;
-    min-height: 44px;
-  }
-
-  .btn-secondary:hover {
-    background: rgba(0,200,150,0.08);
-    border-color: var(--accent);
-    box-shadow: 0 6px 24px rgba(0,200,150,0.12);
-  }
-
-  .btn-secondary:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-    box-shadow: none;
-  }
-
-  .field-error {
-    font-size: 11px;
-    color: var(--error);
-    margin-top: 2px;
+  /* ── NOVO: banner de modo edição ── */
+  .edit-banner {
     display: none;
-  }
-
-  .field.has-error input,
-  .field.has-error select {
-    border-color: var(--error);
-  }
-
-  .field.has-error .field-error {
-    display: block;
-  }
-
-  .summary-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(0,200,150,0.06);
-    border: 1px solid rgba(0,200,150,0.15);
-    border-radius: 4px;
-    padding: 5px 10px;
+    align-items: center; gap: 12px;
+    background: rgba(245,166,35,0.07); border: 1px solid rgba(245,166,35,0.25);
+    border-radius: 8px; padding: 10px 16px; margin-bottom: 20px;
+    font-size: 12px; color: var(--amber);
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--text-mid);
-    margin-top: 8px;
-    transition: all 0.3s;
-    opacity: 0;
-    transform: translateY(4px);
   }
+  .edit-banner.show { display: flex; }
+  .edit-banner svg  { flex-shrink: 0; }
+  .edit-banner strong { color: #ffd080; }
 
-  .summary-chip.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .summary-chip strong { color: var(--accent); }
-
-  .status-chip {
-    display: none;
-    margin-top: 12px;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 12px;
-    line-height: 1.4;
-    border: 1px solid transparent;
-  }
-
-  .status-chip.show {
-    display: block;
-  }
-
-  .status-chip.info {
-    background: rgba(0,200,150,0.08);
-    border-color: rgba(0,200,150,0.2);
-    color: var(--text-bright);
-  }
-
-  .status-chip.error {
-    background: rgba(255,82,82,0.08);
-    border-color: rgba(255,82,82,0.2);
-    color: #ffb3b3;
-  }
-
-  .divida-row {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    gap: 12px;
-    align-items: center;
-    background: var(--blue-panel);
-    border: 1px solid var(--blue-border);
-    border-radius: 8px;
-    padding: 12px 14px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    animation: slideIn 0.25s ease both;
-  }
-
-  .divida-row:hover {
-    border-color: rgba(0,200,150,0.25);
-  }
-
-  .divida-row .divida-fields {
-    display: grid;
-    grid-template-columns: 1fr 160px;
-    gap: 12px;
-    align-items: center;
-  }
-
-  .divida-num {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: var(--text-dim);
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    white-space: nowrap;
-    margin-bottom: 4px;
-  }
-
-  .btn-remove-divida {
-    background: transparent;
-    border: 1px solid rgba(255,82,82,0.25);
-    border-radius: 6px;
-    color: rgba(255,82,82,0.5);
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    flex-shrink: 0;
-  }
-
-  .btn-remove-divida:hover {
-    background: rgba(255,82,82,0.1);
-    border-color: var(--error);
-    color: var(--error);
-  }
-
-  .btn-remove-divida svg { width: 14px; height: 14px; }
-
-  .btn-add-divida {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: transparent;
-    border: 1px dashed var(--blue-border);
-    border-radius: 8px;
-    color: var(--accent);
-    padding: 10px 16px;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    width: 100%;
-    justify-content: center;
-    margin-top: 10px;
-  }
-
-  .btn-add-divida:hover {
-    border-color: var(--accent);
-    background: rgba(0,200,150,0.05);
-  }
-
-  .btn-add-divida:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-    border-color: var(--blue-border);
-    color: var(--text-dim);
-  }
-
-  .btn-add-divida svg { width: 16px; height: 16px; }
-
-  .dividas-list { display: flex; flex-direction: column; gap: 10px; }
-
-  .dividas-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 12px;
-  }
-
-  .divida-counter {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--text-dim);
-  }
-
-  .divida-total-chip {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--amber);
-    background: rgba(245,166,35,0.08);
-    border: 1px solid rgba(245,166,35,0.2);
-    padding: 4px 12px;
-    border-radius: 20px;
-    transition: all 0.3s;
-    opacity: 0;
-  }
-
-  .divida-total-chip.visible { opacity: 1; }
-
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateY(-8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .section { animation: fadeIn 0.4s ease both; }
+  .section { margin-bottom: 28px; animation: fadeIn 0.4s ease both; }
   .section:nth-child(1) { animation-delay: 0.05s; }
   .section:nth-child(2) { animation-delay: 0.10s; }
   .section:nth-child(3) { animation-delay: 0.15s; }
   .section:nth-child(4) { animation-delay: 0.20s; }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
   }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--blue-border); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-mid); }
+  .field-required::after { content: ' *'; color: var(--accent); }
+
+  .input-wrapper { position: relative; display: flex; align-items: center; }
+  .input-prefix {
+    position: absolute; left: 12px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--text-dim);
+    pointer-events: none; z-index: 1;
+  }
+
+  input[type="text"], input[type="number"], input[type="date"], select.field-select {
+    width: 100%; background: var(--input-bg); border: 1px solid var(--input-border);
+    border-radius: 6px; padding: 11px 14px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: var(--text-bright);
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    -webkit-appearance: none;
+  }
+  select.field-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234a6491' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+    padding-right: 36px; cursor: pointer;
+  }
+  select.field-select:disabled { opacity: 0.9; cursor: not-allowed; background-color: #10213f; color: var(--text-bright); }
+  select.field-select:focus    { border-color: var(--input-focus); box-shadow: 0 0 0 3px rgba(0,200,150,0.1); background-color: #0e2040; }
+  select.field-select option   { background: var(--blue-mid); color: var(--text-bright); }
+  select.field-select.filled   { border-color: rgba(0,200,150,0.4); }
+
+  input[type="text"].has-prefix, input[type="number"].has-prefix { padding-left: 38px; }
+  input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus {
+    border-color: var(--input-focus); box-shadow: 0 0 0 3px rgba(0,200,150,0.1); background: #0e2040;
+  }
+  input[type="text"]::placeholder, input[type="number"]::placeholder { color: var(--text-dim); font-size: 13px; }
+  input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5) sepia(1) saturate(0.5) hue-rotate(120deg); cursor: pointer; }
+  input.filled { border-color: rgba(0,200,150,0.35); }
+
+  .form-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 24px; border-top: 1px solid var(--blue-border); margin-top: 12px;
+  }
+  .required-note { font-size: 11px; color: var(--text-dim); font-style: italic; }
+  .required-note span { color: var(--accent); }
+
+  .btn-next {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--accent); color: var(--blue-deep); border: none; border-radius: 8px;
+    padding: 12px 28px; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px;
+    font-weight: 600; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s ease;
+    text-transform: uppercase;
+  }
+  .btn-next:hover  { background: #00e8ad; transform: translateY(-1px); box-shadow: 0 6px 24px rgba(0,200,150,0.25); }
+  .btn-next:active { transform: translateY(0); }
+  .btn-next svg    { width: 16px; height: 16px; }
+
+  .btn-secondary {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; background: transparent; color: var(--accent);
+    border: 1px solid rgba(0,200,150,0.35); border-radius: 8px; padding: 12px 18px;
+    font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; font-weight: 600;
+    letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s ease;
+    text-transform: uppercase; min-height: 44px;
+  }
+  .btn-secondary:hover    { background: rgba(0,200,150,0.08); border-color: var(--accent); box-shadow: 0 6px 24px rgba(0,200,150,0.12); }
+  .btn-secondary:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+
+  .field-error { font-size: 11px; color: var(--error); margin-top: 2px; display: none; }
+  .field.has-error input, .field.has-error select { border-color: var(--error); }
+  .field.has-error .field-error { display: block; }
+
+  .summary-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,200,150,0.06); border: 1px solid rgba(0,200,150,0.15);
+    border-radius: 4px; padding: 5px 10px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-mid);
+    margin-top: 8px; transition: all 0.3s; opacity: 0; transform: translateY(4px);
+  }
+  .summary-chip.visible { opacity: 1; transform: translateY(0); }
+  .summary-chip strong  { color: var(--accent); }
+
+  .status-chip { display: none; margin-top: 12px; padding: 10px 14px; border-radius: 8px; font-size: 12px; line-height: 1.4; border: 1px solid transparent; }
+  .status-chip.show  { display: block; }
+  .status-chip.info  { background: rgba(0,200,150,0.08); border-color: rgba(0,200,150,0.2); color: var(--text-bright); }
+  .status-chip.error { background: rgba(255,82,82,0.08); border-color: rgba(255,82,82,0.2); color: #ffb3b3; }
+
+  .divida-row {
+    display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center;
+    background: var(--blue-panel); border: 1px solid var(--blue-border);
+    border-radius: 8px; padding: 12px 14px; transition: border-color 0.2s, box-shadow 0.2s;
+    animation: slideIn 0.25s ease both;
+  }
+  .divida-row:hover { border-color: rgba(0,200,150,0.25); }
+  .divida-row .divida-fields { display: grid; grid-template-columns: 1fr 160px; gap: 12px; align-items: center; }
+  .divida-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-dim); font-weight: 600; letter-spacing: 0.1em; white-space: nowrap; margin-bottom: 4px; }
+
+  .btn-remove-divida {
+    background: transparent; border: 1px solid rgba(255,82,82,0.25); border-radius: 6px;
+    color: rgba(255,82,82,0.5); width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+  }
+  .btn-remove-divida:hover { background: rgba(255,82,82,0.1); border-color: var(--error); color: var(--error); }
+  .btn-remove-divida svg { width: 14px; height: 14px; }
+
+  .btn-add-divida {
+    display: flex; align-items: center; gap: 8px; background: transparent;
+    border: 1px dashed var(--blue-border); border-radius: 8px; color: var(--accent);
+    padding: 10px 16px; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; width: 100%; justify-content: center; margin-top: 10px;
+  }
+  .btn-add-divida:hover    { border-color: var(--accent); background: rgba(0,200,150,0.05); }
+  .btn-add-divida:disabled { opacity: 0.35; cursor: not-allowed; border-color: var(--blue-border); color: var(--text-dim); }
+  .btn-add-divida svg { width: 16px; height: 16px; }
+
+  .dividas-list { display: flex; flex-direction: column; gap: 10px; }
+  .dividas-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
+  .divida-counter { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-dim); }
+  .divida-total-chip {
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--amber);
+    background: rgba(245,166,35,0.08); border: 1px solid rgba(245,166,35,0.2);
+    padding: 4px 12px; border-radius: 20px; transition: all 0.3s; opacity: 0;
+  }
+  .divida-total-chip.visible { opacity: 1; }
+
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn  { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
   @media (max-width: 640px) {
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
@@ -665,25 +277,13 @@
 </header>
 
 <div class="steps-bar">
-  <div class="step active">
-    <div class="step-circle">1</div>
-    <div class="step-label">Dados Externos</div>
-  </div>
+  <div class="step active"><div class="step-circle">1</div><div class="step-label">Dados Externos</div></div>
   <div class="step-connector"></div>
-  <div class="step inactive">
-    <div class="step-circle">2</div>
-    <div class="step-label">Operações</div>
-  </div>
+  <div class="step inactive"><div class="step-circle">2</div><div class="step-label">Operações</div></div>
   <div class="step-connector"></div>
-  <div class="step inactive">
-    <div class="step-circle">3</div>
-    <div class="step-label">Conferência</div>
-  </div>
+  <div class="step inactive"><div class="step-circle">3</div><div class="step-label">Conferência</div></div>
   <div class="step-connector"></div>
-  <div class="step inactive">
-    <div class="step-circle">4</div>
-    <div class="step-label">Resumo Final</div>
-  </div>
+  <div class="step inactive"><div class="step-circle">4</div><div class="step-label">Resumo Final</div></div>
 </div>
 
 <main class="main">
@@ -695,27 +295,26 @@
     <div class="step-badge">Tela 1 de 4</div>
   </div>
 
+  <!-- Banner de modo edição — visível apenas quando há snapshot salvo -->
+  <div class="edit-banner" id="edit-banner">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+    </svg>
+    <span>Modo <strong>edição</strong> — fechamento carregado da planilha. Qualquer alteração feita nas telas 1, 2 ou 3 será detectada e permitirá sobrescrever o registro.</span>
+  </div>
+
   <form id="form1" novalidate>
 
     <div class="section">
       <div class="section-label">Identificação</div>
 
-      <div id="chip-loteria" style="
-        display:none; align-items:center; gap:8px; margin-bottom:14px;
-        background:rgba(0,200,150,0.07); border:1px solid rgba(0,200,150,0.2);
-        border-radius:7px; padding:8px 14px;
-        font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--accent);
-      ">
+      <div id="chip-loteria" style="display:none; align-items:center; gap:8px; margin-bottom:14px; background:rgba(0,200,150,0.07); border:1px solid rgba(0,200,150,0.2); border-radius:7px; padding:8px 14px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--accent);">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
         Loteria: <strong id="chip-loteria-nome">—</strong>
       </div>
 
-      <div id="chip-loteria-erro" style="
-        display:none; align-items:center; gap:8px; margin-bottom:14px;
-        background:rgba(255,82,82,0.07); border:1px solid rgba(255,82,82,0.2);
-        border-radius:7px; padding:8px 14px;
-        font-size:12px; color:#ff9090;
-      ">
+      <div id="chip-loteria-erro" style="display:none; align-items:center; gap:8px; margin-bottom:14px; background:rgba(255,82,82,0.07); border:1px solid rgba(255,82,82,0.2); border-radius:7px; padding:8px 14px; font-size:12px; color:#ff9090;">
         ⚠️ Loteria não identificada — verifique o nome do arquivo HTML
       </div>
 
@@ -839,14 +438,11 @@
 
     <div class="section">
       <div class="section-label">Dívidas de Clientes</div>
-
       <div class="dividas-list" id="dividas-list"></div>
-
       <div class="dividas-footer">
         <div class="divida-counter" id="divida-counter">0 / 9 clientes</div>
         <div class="divida-total-chip" id="divida-total-chip">Total: R$ 0,00</div>
       </div>
-
       <button type="button" class="btn-add-divida" id="btn-add-divida">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
           <path d="M8 3v10M3 8h10"/>
@@ -871,30 +467,28 @@
 <script>
   const API_URL = sessionStorage.getItem('sislot_api_url') || localStorage.getItem('sislot_api_url') || '';
 
+  // ─── Helpers de sessão ────────────────────────────────────────
   function getUsuarioLogado() {
-    try {
-      return JSON.parse(sessionStorage.getItem('sislot_user') || '{}');
-    } catch {
-      return {};
-    }
+    try { return JSON.parse(sessionStorage.getItem('sislot_user') || '{}'); }
+    catch { return {}; }
   }
-
   function isAdmin(user) {
-    const perfil = String(user?.perfil || '').trim().toUpperCase();
-    return perfil === 'ADMIN' || perfil === 'ADM';
+    return ['ADMIN','ADM'].includes(String(user?.perfil || '').trim().toUpperCase());
   }
 
+  // ─── Relógio ──────────────────────────────────────────────────
   function updateClock() {
     const now = new Date();
     document.getElementById('relogio').textContent =
       now.toLocaleTimeString('pt-BR') + ' — ' +
-      now.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' });
+      now.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'2-digit', year:'numeric' });
   }
   updateClock();
   setInterval(updateClock, 1000);
 
   document.getElementById('data').value = new Date().toISOString().split('T')[0];
 
+  // ─── Input helpers ────────────────────────────────────────────
   document.addEventListener('input', function(e) {
     if (e.target.matches('input')) {
       e.target.classList.toggle('filled', e.target.value.trim() !== '');
@@ -903,12 +497,18 @@
     }
   });
 
+  document.addEventListener('blur', function(e) {
+    if (e.target.matches('input[type="number"]') && e.target.value !== '') {
+      const n = Number(e.target.value);
+      if (!Number.isNaN(n)) e.target.value = n.toFixed(2);
+    }
+  }, true);
+
   function calcTroco() {
     const ini = parseFloat(document.getElementById('troco-inicial').value) || 0;
     const sob = parseFloat(document.getElementById('troco-sobra').value) || 0;
     const chip = document.getElementById('chip-troco');
-    const val = document.getElementById('chip-troco-val');
-
+    const val  = document.getElementById('chip-troco-val');
     if (ini !== 0 || sob !== 0) {
       const diff = sob - ini;
       val.textContent = 'R$ ' + diff.toFixed(2).replace('.', ',');
@@ -918,16 +518,14 @@
       chip.classList.remove('visible');
     }
   }
-
   document.getElementById('troco-inicial').addEventListener('input', calcTroco);
-  document.getElementById('troco-sobra').addEventListener('input', calcTroco);
+  document.getElementById('troco-sobra').addEventListener('input',   calcTroco);
 
   function calcPix() {
-    const rec = parseFloat(document.getElementById('pix').value) || 0;
-    const sis = parseFloat(document.getElementById('pix-sistema').value) || 0;
+    const rec  = parseFloat(document.getElementById('pix').value) || 0;
+    const sis  = parseFloat(document.getElementById('pix-sistema').value) || 0;
     const chip = document.getElementById('chip-pix');
-    const val = document.getElementById('chip-pix-val');
-
+    const val  = document.getElementById('chip-pix-val');
     if (rec !== 0 || sis !== 0) {
       const diff = rec - sis;
       val.textContent = 'R$ ' + diff.toFixed(2).replace('.', ',');
@@ -937,17 +535,10 @@
       chip.classList.remove('visible');
     }
   }
-
-  document.getElementById('pix').addEventListener('input', calcPix);
+  document.getElementById('pix').addEventListener('input',         calcPix);
   document.getElementById('pix-sistema').addEventListener('input', calcPix);
 
-  document.addEventListener('blur', function(e) {
-    if (e.target.matches('input[type="number"]') && e.target.value !== '') {
-      const n = Number(e.target.value);
-      if (!Number.isNaN(n)) e.target.value = n.toFixed(2);
-    }
-  }, true);
-
+  // ─── Dívidas ──────────────────────────────────────────────────
   const MAX_DIVIDAS = 9;
   let dividaCount = 0;
 
@@ -958,10 +549,7 @@
 
   function calcTotalDividas() {
     let total = 0;
-    document.querySelectorAll('.divida-valor').forEach(inp => {
-      total += parseFloat(inp.value) || 0;
-    });
-
+    document.querySelectorAll('.divida-valor').forEach(inp => { total += parseFloat(inp.value) || 0; });
     const chip = document.getElementById('divida-total-chip');
     if (dividaCount > 0) {
       chip.textContent = 'Total dívidas: R$ ' + total.toFixed(2).replace('.', ',');
@@ -976,15 +564,12 @@
     row.style.transition = 'opacity 0.2s, transform 0.2s';
     row.style.opacity = '0';
     row.style.transform = 'translateX(12px)';
-
     setTimeout(() => {
       row.remove();
       dividaCount--;
-
       document.querySelectorAll('.divida-num').forEach((el, i) => {
         el.textContent = `CLIENTE ${String(i + 1).padStart(2, '0')}`;
       });
-
       renderDividaCounter();
       calcTotalDividas();
     }, 200);
@@ -992,12 +577,10 @@
 
   function addDivida() {
     if (dividaCount >= MAX_DIVIDAS) return;
-
     dividaCount++;
     const list = document.getElementById('dividas-list');
-    const idx = dividaCount;
-
-    const row = document.createElement('div');
+    const idx  = dividaCount;
+    const row  = document.createElement('div');
     row.className = 'divida-row';
     row.innerHTML = `
       <div>
@@ -1020,10 +603,8 @@
         </svg>
       </button>
     `;
-
     list.appendChild(row);
     row.querySelector('.divida-valor').addEventListener('input', calcTotalDividas);
-
     renderDividaCounter();
     calcTotalDividas();
     row.querySelector('.divida-nome').focus();
@@ -1031,11 +612,11 @@
 
   document.getElementById('btn-add-divida').addEventListener('click', addDivida);
 
+  // ─── Helpers de formulário ────────────────────────────────────
   function formatDateToBR(isoDate) {
     if (!isoDate) return '';
     const m = String(isoDate).match(/^(\d{4})-(\d{2})-(\d{2})$/);
-    if (!m) return isoDate;
-    return `${m[3]}/${m[2]}/${m[1]}`;
+    return m ? `${m[3]}/${m[2]}/${m[1]}` : isoDate;
   }
 
   function showBuscaStatus(msg, type = 'info') {
@@ -1043,7 +624,6 @@
     el.textContent = msg;
     el.className = `status-chip show ${type}`;
   }
-
   function hideBuscaStatus() {
     const el = document.getElementById('status-busca-fechamento');
     el.textContent = '';
@@ -1063,179 +643,168 @@
     const list = document.getElementById('dividas-list');
     list.innerHTML = '';
     dividaCount = 0;
-
     (dividas || []).forEach(d => {
       addDivida();
       const rows = document.querySelectorAll('.divida-row');
-      const row = rows[rows.length - 1];
+      const row  = rows[rows.length - 1];
       row.querySelector('.divida-nome').value = d.nome || '';
       row.querySelector('.divida-valor').value =
         d.valor !== undefined && d.valor !== null && d.valor !== ''
-          ? Number(d.valor).toFixed(2)
-          : '';
+          ? Number(d.valor).toFixed(2) : '';
     });
-
     calcTotalDividas();
   }
 
-  function preencherTela1ComFechamento(fechamento) {
-  if (!fechamento || !fechamento.grl) {
-    throw new Error('Dados do fechamento não encontrados.');
+  // ─── ★ SNAPSHOT ──────────────────────────────────────────────
+  // Salva o objeto bruto retornado pela API para que a tela 4
+  // possa comparar com o estado atual e decidir se houve edição.
+  function salvarSnapshot(fechamento) {
+    sessionStorage.setItem('fechamento_original', JSON.stringify(fechamento));
   }
 
-  const grl = fechamento.grl;
+  // Limpa o snapshot quando o usuário inicia um fechamento NOVO
+  // (avança sem ter feito busca — não é edição).
+  function limparSnapshot() {
+    sessionStorage.removeItem('fechamento_original');
+  }
 
-  setValue('relatorio', Number(grl['Relatório'] || 0).toFixed(2));
-  setValue('deposito', Number(grl['Depósito'] || 0).toFixed(2));
-  setValue('troco-inicial', Number(grl['Troco_Inicial'] || 0).toFixed(2));
-  setValue('troco-sobra', Number(grl['Troco_Sobra'] || 0).toFixed(2));
-  setValue('pix', Number(grl['PIX_CNPJ'] || 0).toFixed(2));
-  setValue('pix-sistema', Number(grl['Diferença_PIX'] || 0).toFixed(2));
-  setValue('raspadinha', Number(grl['Premio_Raspadinha'] || 0).toFixed(2));
-  setValue('telesena', Number(grl['Resgate_Telesena'] || 0).toFixed(2));
+  // Exibe o banner de modo edição se já existir snapshot na sessão
+  function atualizarBannerEdicao() {
+    const temSnapshot = !!sessionStorage.getItem('fechamento_original');
+    document.getElementById('edit-banner').classList.toggle('show', temSnapshot);
+  }
 
-  const dividas = (fechamento.dividas || []).map(d => ({
-    nome: d.Cliente || '',
-    valor: Number(d.Valor || 0)
-  }));
-
-  preencherDividas(dividas);
-
-  const tela1 = {
-    funcionario: document.getElementById('funcionario').value,
-    data: document.getElementById('data').value,
-    relatorio: document.getElementById('relatorio').value,
-    deposito: document.getElementById('deposito').value,
-    'troco-inicial': document.getElementById('troco-inicial').value,
-    'troco-sobra': document.getElementById('troco-sobra').value,
-    pix: document.getElementById('pix').value,
-    'pix-sistema': document.getElementById('pix-sistema').value,
-    raspadinha: document.getElementById('raspadinha').value,
-    telesena: document.getElementById('telesena').value,
-    dividas: dividas
-  };
-
-  const tela2 = {
-    raspadinha: [],
-    telesena: null,
-    federais: []
-  };
-
-  (fechamento.produtos || []).forEach(p => {
-    const modalidade = String(p.Modalidade || '').trim().toUpperCase();
-
-    if (modalidade === 'RASPADINHA') {
-      tela2.raspadinha.push({
-        qtd: Number(p.Qtd_Vendida || 0),
-        preco: Number(p.Valor_Cota || 0),
-        sub: Number(p.Valor_Total || 0)
-      });
+  // ─── Preencher telas com fechamento buscado ───────────────────
+  function preencherTela1ComFechamento(fechamento) {
+    if (!fechamento || !fechamento.grl) {
+      throw new Error('Dados do fechamento não encontrados.');
     }
 
-    if (modalidade === 'TELESENA') {
-      tela2.telesena = {
-        qtd: Number(p.Qtd_Vendida || 0),
-        preco: Number(p.Valor_Cota || 0),
-        sub: Number(p.Valor_Total || 0)
-      };
-    }
-  });
+    const grl = fechamento.grl;
 
-  (fechamento.federais || []).forEach(f => {
-    tela2.federais.push({
-      modalidade: f.Modalidade || '',
-      concurso: f.Concurso || '',
-      dtSorteio: f.Dt_Concurso || '',
-      valorUnit: Number(f.Valor_Cota || 0),
-      qtdVendida: Number(f.Qtd_Vendida || 0),
-      subtotal: Number(f.Valor_Total || 0)
+    setValue('relatorio',    Number(grl['Relatório']        || 0).toFixed(2));
+    setValue('deposito',     Number(grl['Depósito']         || 0).toFixed(2));
+    setValue('troco-inicial',Number(grl['Troco_Inicial']    || 0).toFixed(2));
+    setValue('troco-sobra',  Number(grl['Troco_Sobra']      || 0).toFixed(2));
+    setValue('pix',          Number(grl['PIX_CNPJ']         || 0).toFixed(2));
+    setValue('pix-sistema',  Number(grl['Diferença_PIX']    || 0).toFixed(2));
+    setValue('raspadinha',   Number(grl['Premio_Raspadinha']|| 0).toFixed(2));
+    setValue('telesena',     Number(grl['Resgate_Telesena'] || 0).toFixed(2));
+
+    const dividas = (fechamento.dividas || []).map(d => ({
+      nome:  d.Cliente || '',
+      valor: Number(d.Valor || 0)
+    }));
+    preencherDividas(dividas);
+
+    // ── tela1 ──
+    const tela1 = {
+      funcionario:     document.getElementById('funcionario').value,
+      data:            document.getElementById('data').value,
+      relatorio:       document.getElementById('relatorio').value,
+      deposito:        document.getElementById('deposito').value,
+      'troco-inicial': document.getElementById('troco-inicial').value,
+      'troco-sobra':   document.getElementById('troco-sobra').value,
+      pix:             document.getElementById('pix').value,
+      'pix-sistema':   document.getElementById('pix-sistema').value,
+      raspadinha:      document.getElementById('raspadinha').value,
+      telesena:        document.getElementById('telesena').value,
+      dividas
+    };
+
+    // ── tela2 ──
+    const tela2 = { raspadinha: [], telesena: null, federais: [] };
+
+    (fechamento.produtos || []).forEach(p => {
+      const mod = String(p.Modalidade || '').trim().toUpperCase();
+      if (mod === 'RASPADINHA') {
+        tela2.raspadinha.push({
+          qtd:   Number(p.Qtd_Vendida || 0),
+          preco: Number(p.Valor_Cota  || 0),
+          sub:   Number(p.Valor_Total || 0)
+        });
+      }
+      if (mod === 'TELESENA') {
+        tela2.telesena = {
+          qtd:   Number(p.Qtd_Vendida || 0),
+          preco: Number(p.Valor_Cota  || 0),
+          sub:   Number(p.Valor_Total || 0)
+        };
+      }
     });
-  });
 
-  const tela3 = {
-    internosComuns: [],
-    internosEspeciais: [],
-    externosComuns: [],
-    externosEspeciais: []
-  };
+    (fechamento.federais || []).forEach(f => {
+      tela2.federais.push({
+        modalidade: f.Modalidade  || '',
+        concurso:   f.Concurso    || '',
+        dtSorteio:  f.Dt_Concurso || '',
+        valorUnit:  Number(f.Valor_Cota  || 0),
+        qtdVendida: Number(f.Qtd_Vendida || 0),
+        subtotal:   Number(f.Valor_Total || 0)
+      });
+    });
 
-  const especiaisRegex = /(virada|independ|s[aã]o jo[aã]o|p[aá]scoa)/i;
+    // ── tela3 ──
+    const tela3 = { internosComuns: [], internosEspeciais: [], externosComuns: [], externosEspeciais: [] };
+    const especiaisRegex = /(virada|independ|s[aã]o jo[aã]o|p[aá]scoa)/i;
 
-  (fechamento.internos || []).forEach(b => {
-    const item = {
-      key: b.KEY || '',
-      dtInicial: b.Dt_Inicial || '',
+    const mapBolao = b => ({
+      key:        b.KEY         || '',
+      dtInicial:  b.Dt_Inicial  || '',
       dtConcurso: b.Dt_Concurso || '',
-      modalidade: b.Modalidade || '',
-      concurso: b.Concurso || '',
-      qtdJogos: b.Qtd_de_Jogos || '',
+      modalidade: b.Modalidade  || '',
+      concurso:   b.Concurso    || '',
+      qtdJogos:   b.Qtd_de_Jogos|| '',
       qtdDezenas: b.Qtd_Dezenas || '',
-      valorCota: Number(b.Valor_Cota || 0),
-      qtdVendida: Number(b.Qtd_Cotas || 0),
-      origem: b.Origem || '',
-      destino: b.Destino || ''
-    };
+      valorCota:  Number(b.Valor_Cota || 0),
+      qtdVendida: Number(b.Qtd_Cotas  || 0),
+      origem:     b.Origem  || '',
+      destino:    b.Destino || ''
+    });
 
-    if (especiaisRegex.test(String(item.modalidade))) {
-      tela3.internosEspeciais.push(item);
-    } else {
-      tela3.internosComuns.push(item);
-    }
-  });
+    (fechamento.internos || []).forEach(b => {
+      const item = mapBolao(b);
+      especiaisRegex.test(item.modalidade)
+        ? tela3.internosEspeciais.push(item)
+        : tela3.internosComuns.push(item);
+    });
+    (fechamento.externos || []).forEach(b => {
+      const item = mapBolao(b);
+      especiaisRegex.test(item.modalidade)
+        ? tela3.externosEspeciais.push(item)
+        : tela3.externosComuns.push(item);
+    });
 
-  (fechamento.externos || []).forEach(b => {
-    const item = {
-      key: b.KEY || '',
-      dtInicial: b.Dt_Inicial || '',
-      dtConcurso: b.Dt_Concurso || '',
-      modalidade: b.Modalidade || '',
-      concurso: b.Concurso || '',
-      qtdJogos: b.Qtd_de_Jogos || '',
-      qtdDezenas: b.Qtd_Dezenas || '',
-      valorCota: Number(b.Valor_Cota || 0),
-      qtdVendida: Number(b.Qtd_Cotas || 0),
-      origem: b.Origem || '',
-      destino: b.Destino || ''
-    };
+    // Persiste as três telas
+    sessionStorage.setItem('tela1', JSON.stringify(tela1));
+    sessionStorage.setItem('tela2', JSON.stringify(tela2));
+    sessionStorage.setItem('tela3', JSON.stringify(tela3));
 
-    if (especiaisRegex.test(String(item.modalidade))) {
-      tela3.externosEspeciais.push(item);
-    } else {
-      tela3.externosComuns.push(item);
-    }
-  });
+    // ★ Salva snapshot do fechamento original para detecção de edição
+    salvarSnapshot(fechamento);
 
-  sessionStorage.setItem('tela1', JSON.stringify(tela1));
-  sessionStorage.setItem('tela2', JSON.stringify(tela2));
-  sessionStorage.setItem('tela3', JSON.stringify(tela3));
+    // Atualiza banner de modo edição
+    atualizarBannerEdicao();
 
-  calcTroco();
-  calcPix();
-}
+    calcTroco();
+    calcPix();
+  }
 
+  // ─── Buscar fechamento ────────────────────────────────────────
   async function buscarFechamentoTela1() {
     hideBuscaStatus();
 
-    const token = sessionStorage.getItem('sislot_token') || '';
+    const token       = sessionStorage.getItem('sislot_token') || '';
     const funcionario = String(document.getElementById('funcionario').value || '').trim();
-    const dataIso = String(document.getElementById('data').value || '').trim();
+    const dataIso     = String(document.getElementById('data').value || '').trim();
 
-    if (!API_URL) {
-      showBuscaStatus('API não configurada no navegador.', 'error');
-      return;
-    }
-
-    if (!token) {
-      showBuscaStatus('Sessão não encontrada. Faça login novamente.', 'error');
-      return;
-    }
-
+    if (!API_URL)     { showBuscaStatus('API não configurada no navegador.', 'error'); return; }
+    if (!token)       { showBuscaStatus('Sessão não encontrada. Faça login novamente.', 'error'); return; }
     if (!funcionario) {
       showBuscaStatus('Selecione o funcionário antes de buscar.', 'error');
       document.getElementById('field-funcionario')?.classList.add('has-error');
       return;
     }
-
     if (!dataIso) {
       showBuscaStatus('Informe a data antes de buscar.', 'error');
       document.getElementById('field-data')?.classList.add('has-error');
@@ -1255,10 +824,7 @@
         body: JSON.stringify({
           action: 'buscarFechamento',
           token,
-          payload: {
-            funcionario,
-            data: formatDateToBR(dataIso)
-          }
+          payload: { funcionario, data: formatDateToBR(dataIso) }
         })
       });
 
@@ -1270,7 +836,7 @@
       }
 
       preencherTela1ComFechamento(data.fechamento);
-      showBuscaStatus('Fechamento carregado com sucesso.', 'info');
+      showBuscaStatus('✓ Fechamento carregado — modo edição ativo.', 'info');
 
     } catch (err) {
       showBuscaStatus('Erro ao buscar fechamento: ' + (err.message || err), 'error');
@@ -1280,17 +846,18 @@
     }
   }
 
+  // ─── Validação e avanço ───────────────────────────────────────
   const requiredFields = [
-    { id: 'funcionario', msg: 'Informe o nome do funcionário' },
-    { id: 'data', msg: 'Informe a data' },
-    { id: 'relatorio', msg: 'Informe o valor do relatório' },
-    { id: 'deposito', msg: 'Informe o valor do depósito' },
-    { id: 'troco-inicial', msg: 'Informe o troco inicial' },
-    { id: 'troco-sobra', msg: 'Informe o troco sobra' },
-    { id: 'pix', msg: 'Informe o PIX CNPJ recebido' },
-    { id: 'pix-sistema', msg: 'Informe a diferença de PIX' },
-    { id: 'raspadinha', msg: 'Informe o prêmio raspadinha' },
-    { id: 'telesena', msg: 'Informe o resgate telesena' },
+    { id: 'funcionario',  msg: 'Informe o nome do funcionário' },
+    { id: 'data',         msg: 'Informe a data' },
+    { id: 'relatorio',    msg: 'Informe o valor do relatório' },
+    { id: 'deposito',     msg: 'Informe o valor do depósito' },
+    { id: 'troco-inicial',msg: 'Informe o troco inicial' },
+    { id: 'troco-sobra',  msg: 'Informe o troco sobra' },
+    { id: 'pix',          msg: 'Informe o PIX CNPJ recebido' },
+    { id: 'pix-sistema',  msg: 'Informe a diferença de PIX' },
+    { id: 'raspadinha',   msg: 'Informe o prêmio raspadinha' },
+    { id: 'telesena',     msg: 'Informe o resgate telesena' },
   ];
 
   document.getElementById('form1').addEventListener('submit', function(e) {
@@ -1298,10 +865,9 @@
     let valid = true;
 
     requiredFields.forEach(f => {
-      const inp = document.getElementById(f.id);
+      const inp   = document.getElementById(f.id);
       const field = document.getElementById('field-' + f.id) || inp.closest('.field');
       const errEl = field ? field.querySelector('.field-error') : null;
-
       if (!inp.value.trim()) {
         valid = false;
         if (field) field.classList.add('has-error');
@@ -1311,69 +877,59 @@
 
     document.querySelectorAll('.divida-row').forEach(row => {
       const nome = row.querySelector('.divida-nome');
-      const val = row.querySelector('.divida-valor');
-
-      if (nome.value.trim() && !val.value.trim()) {
-        valid = false;
-        val.closest('.field').classList.add('has-error');
-      }
-
-      if (!nome.value.trim() && val.value.trim()) {
-        valid = false;
-        nome.closest('.field').classList.add('has-error');
-      }
+      const val  = row.querySelector('.divida-valor');
+      if (nome.value.trim() && !val.value.trim()) { valid = false; val.closest('.field').classList.add('has-error'); }
+      if (!nome.value.trim() && val.value.trim()) { valid = false; nome.closest('.field').classList.add('has-error'); }
     });
 
-    if (valid) {
-      const user = getUsuarioLogado();
-
-      if (!isAdmin(user)) {
-        document.getElementById('funcionario').value = String(user?.nome || '').trim();
-      }
-
-      const dados = {};
-      requiredFields.forEach(f => {
-        dados[f.id] = document.getElementById(f.id).value;
-      });
-
-      dados.dividas = [];
-      document.querySelectorAll('.divida-row').forEach(row => {
-        const nome = row.querySelector('.divida-nome').value.trim();
-        const val = row.querySelector('.divida-valor').value;
-        if (nome) {
-          dados.dividas.push({ nome, valor: parseFloat(val) || 0 });
-        }
-      });
-
-      sessionStorage.setItem('tela1', JSON.stringify(dados));
-
-      const btn = document.querySelector('.btn-next');
-      btn.innerHTML = '✓ Dados salvos! Carregando...';
-      btn.style.background = '#00e8ad';
-
-      setTimeout(() => {
-        window.location.href = 'viabrasil-tela2.html';
-      }, 800);
-    } else {
+    if (!valid) {
       const firstError = document.querySelector('.field.has-error input, .field.has-error select');
       if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
     }
+
+    const user = getUsuarioLogado();
+    if (!isAdmin(user)) {
+      document.getElementById('funcionario').value = String(user?.nome || '').trim();
+    }
+
+    const dados = {};
+    requiredFields.forEach(f => { dados[f.id] = document.getElementById(f.id).value; });
+
+    dados.dividas = [];
+    document.querySelectorAll('.divida-row').forEach(row => {
+      const nome = row.querySelector('.divida-nome').value.trim();
+      const val  = row.querySelector('.divida-valor').value;
+      if (nome) dados.dividas.push({ nome, valor: parseFloat(val) || 0 });
+    });
+
+    sessionStorage.setItem('tela1', JSON.stringify(dados));
+
+    // ★ Se o usuário avança SEM ter buscado (fechamento novo),
+    //    garante que não existe snapshot de uma busca anterior.
+    //    Isso sinaliza para a tela 4 que é um registro NOVO.
+    if (!sessionStorage.getItem('fechamento_original')) {
+      limparSnapshot(); // já está limpo, mas garante explicitamente
+    }
+
+    const btn = document.querySelector('.btn-next');
+    btn.innerHTML = '✓ Dados salvos! Carregando...';
+    btn.style.background = '#00e8ad';
+
+    setTimeout(() => { window.location.href = 'viabrasil-tela2.html'; }, 800);
   });
 
+  // ─── Select funcionário ───────────────────────────────────────
   function onSelectFunc() {
     const sel = document.getElementById('funcionario');
     const fld = document.getElementById('field-funcionario');
-    if (sel.value) {
-      sel.classList.add('filled');
-      fld.classList.remove('has-error');
-    } else {
-      sel.classList.remove('filled');
-    }
+    sel.classList.toggle('filled', !!sel.value);
+    if (sel.value) fld.classList.remove('has-error');
   }
 
   function aplicarFuncionarioPorPerfil(sel, funcionarios) {
-    const user = getUsuarioLogado();
-    const admin = isAdmin(user);
+    const user        = getUsuarioLogado();
+    const admin       = isAdmin(user);
     const nomeUsuario = String(user?.nome || '').trim();
 
     sel.innerHTML = '<option value="">Selecione o funcionário...</option>';
@@ -1381,11 +937,9 @@
     if (admin) {
       (funcionarios || []).forEach(nome => {
         const opt = document.createElement('option');
-        opt.value = nome;
-        opt.textContent = nome;
+        opt.value = nome; opt.textContent = nome;
         sel.appendChild(opt);
       });
-
       sel.disabled = false;
       sel.removeAttribute('data-fixed-user');
       return;
@@ -1399,31 +953,28 @@
     sel.disabled = true;
     sel.classList.add('filled');
     sel.setAttribute('data-fixed-user', '1');
-
-    const fld = document.getElementById('field-funcionario');
-    if (fld) fld.classList.remove('has-error');
+    document.getElementById('field-funcionario')?.classList.remove('has-error');
   }
 </script>
 
 <script src="config-loterias.js"></script>
 <script>
   (function() {
-    const user = getUsuarioLogado();
+    const user          = getUsuarioLogado();
     const loteriaConfig = getLoteria();
-    const sel = document.getElementById('funcionario');
-    const prev = JSON.parse(sessionStorage.getItem('tela1') || '{}');
+    const sel           = document.getElementById('funcionario');
+    const prev          = JSON.parse(sessionStorage.getItem('tela1') || '{}');
 
-    const nomeLoteriaSessao = String(user?.loteria || '').trim();
-    const nomeLoteriaConfig = String(loteriaConfig?.nome || '').trim();
-    const nomeLoteriaFinal = nomeLoteriaSessao || nomeLoteriaConfig;
-
-    if (nomeLoteriaFinal) {
+    // Chip da loteria
+    const nomeLoteria = String(user?.loteria || loteriaConfig?.nome || '').trim();
+    if (nomeLoteria) {
       document.getElementById('chip-loteria').style.display = 'flex';
-      document.getElementById('chip-loteria-nome').textContent = nomeLoteriaFinal;
+      document.getElementById('chip-loteria-nome').textContent = nomeLoteria;
     } else {
       document.getElementById('chip-loteria-erro').style.display = 'flex';
     }
 
+    // Funcionário
     const funcionarios = loteriaConfig?.funcionarios || [];
     aplicarFuncionarioPorPerfil(sel, funcionarios);
 
@@ -1431,45 +982,41 @@
       sel.value = prev.funcionario;
       if (sel.value) sel.classList.add('filled');
     }
-
     if (!isAdmin(user)) {
       sel.value = String(user?.nome || '').trim();
       sel.classList.add('filled');
     }
 
-    if (prev.data) setValue('data', prev.data);
-    if (prev.relatorio) setValue('relatorio', prev.relatorio);
-    if (prev.deposito) setValue('deposito', prev.deposito);
-    if (prev['troco-inicial']) setValue('troco-inicial', prev['troco-inicial']);
-    if (prev['troco-sobra']) setValue('troco-sobra', prev['troco-sobra']);
-    if (prev.pix) setValue('pix', prev.pix);
-    if (prev['pix-sistema']) setValue('pix-sistema', prev['pix-sistema']);
-    if (prev.raspadinha) setValue('raspadinha', prev.raspadinha);
-    if (prev.telesena) setValue('telesena', prev.telesena);
-
-    if (Array.isArray(prev.dividas)) {
-      preencherDividas(prev.dividas);
-    }
+    // Restaurar campos da sessão anterior
+    if (prev.data)            setValue('data',          prev.data);
+    if (prev.relatorio)       setValue('relatorio',     prev.relatorio);
+    if (prev.deposito)        setValue('deposito',      prev.deposito);
+    if (prev['troco-inicial'])setValue('troco-inicial', prev['troco-inicial']);
+    if (prev['troco-sobra'])  setValue('troco-sobra',   prev['troco-sobra']);
+    if (prev.pix)             setValue('pix',           prev.pix);
+    if (prev['pix-sistema'])  setValue('pix-sistema',   prev['pix-sistema']);
+    if (prev.raspadinha)      setValue('raspadinha',    prev.raspadinha);
+    if (prev.telesena)        setValue('telesena',      prev.telesena);
+    if (Array.isArray(prev.dividas)) preencherDividas(prev.dividas);
 
     calcTroco();
     calcPix();
+
+    // ★ Exibe banner se já existe snapshot (ex: voltou da tela 2)
+    atualizarBannerEdicao();
   })();
 
   document.getElementById('btn-buscar-fechamento').addEventListener('click', buscarFechamentoTela1);
 </script>
 
 <script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then((registration) => {
-        console.log('✅ Service Worker registrado:', registration.scope);
-      })
-      .catch((error) => {
-        console.log('❌ Falha ao registrar Service Worker:', error);
-      });
-  });
-}
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(r  => console.log('✅ Service Worker registrado:', r.scope))
+        .catch(e => console.log('❌ Falha ao registrar Service Worker:', e));
+    });
+  }
 </script>
 
 </body>
